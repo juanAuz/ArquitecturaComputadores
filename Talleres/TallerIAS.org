@@ -4,8 +4,8 @@
 #+options: inline:t num:t p:nil pri:nil prop:nil stat:t tags:t
 #+options: tasks:t tex:t timestamp:t title:t toc:t todo:t |:t
 #+title: TallerIAS
-#+author: Lenin G. Falconí
-#+email: lenin.falconi@epn.edu.ec
+#+author: Auz Juan Diego, Lanchimba Danny, Palomeque Matías, Quillupangui Ana María
+#+email: Juan , Danny , Maty, anamaria.quillupangui@epn.edu.ec
 #+language: es
 #+select_tags: export
 #+exclude_tags: noexport
@@ -37,7 +37,7 @@
 
 
 #+begin_export latex
-\fancyhead[C]{\includegraphics[scale=0.05]{.././FormatoTareas/logoEPN.jpg}\\
+\fancyhead[C]{\includegraphics[scale=0.05]{../images/logoEPN.jpg}\\
 ESCUELA POLITÉCNICA NACIONAL\\FACULTAD DE INGENIERÍA DE SISTEMAS\\
 ARQUITECTURA DE COMPUTADORES}
 \thispagestyle{fancy}
@@ -91,12 +91,23 @@ sobre las palabras clave.
   \begin{tabular}{|cccc|}
     \hline
     Opcode   & Opcode Hex &  Simbolo          & RTL \\ \hline
-    00001010 & 0x0A        &  LOAD MQ          & $[AC]\leftarrow[MQ]$\\
-    00001001 & 0x09        &  LOAD MQ, M(X)    & $[MQ]\leftarrow[X]$\\
+    00001010 & 0x0A       &  LOAD MQ          & $[AC]\leftarrow[MQ]$\\
+    00001001 & 0x09       &  LOAD MQ, M(X)    & $[MQ]\leftarrow[X]$\\
     00100001 & 0x21       &  STOR M(X)        & $[X]\leftarrow[AC]$\\
-    00000010 & 0x02       &  LOAD M(X)        & $[AC]\leftarrow[X]$\\
+    00000001 & 0x01       &  LOAD M(X)        & $[AC]\leftarrow[X]$\\
+    00000010 & 0x02       &  LOAD -M(X)       & $[AC]\leftarrow[X]$\\
     00000011 & 0x03       &  LOAD |M(X)|      & $[AC]\leftarrow|[X]|$\\
     00000100 & 0x04       &  LOAD -|M(X)|     & $[AC]\leftarrow-|[X]|$\\
+    00000101 & 0x05       &  ADD M(X)         & $[AC]\leftarrow[AC]+[X]$\\
+    00000111 & 0x07       &  ADD |M(X)|       & $[AC]\leftarrow[AC]+|[X]|$\\
+    00000110 & 0x06       &  SUB M(X)         & $[AC]\leftarrow[AC]-[X]$\\
+    00001000 & 0x08       &  SUB |M(X)|       & $[AC]\leftarrow[AC]-|[X]|$\\
+    00001100 & 0x0B       &  MUL M(X)         & $[AC] $\\
+    00001100 & 0x0C       &  DIV M(X)         & $[AC] $\\
+    00010100 & 0x14       &  LSH              & $[AC]\leftarrow[AC]x2$\\
+    00010101 & 0x15       &  RSH              & $[AC]\leftarrow[AC]/2$\\
+    00010010 & 0x12       &  STOR M(X,8:19)   & $[AC]$\\
+    00010011 & 0x13       &  STOR M(X,28:39)  & $[AC]$\\
     \hline
     
   \end{tabular}

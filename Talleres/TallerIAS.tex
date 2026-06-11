@@ -1,0 +1,191 @@
+% Created 2026-06-10 Wed 20:36
+% Intended LaTeX compiler: pdflatex
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+
+\usepackage{fancyhdr}
+\usepackage[top=25mm, left=25mm, right=25mm]{geometry}
+\usepackage{longtable}
+\fancyhead[R]{}
+\setlength\headheight{43.0pt}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage[backend=biber, style=apa]{biblatex}
+\addbibresource{/home/ani_quillu/ArquitecturaComputadores/FormatoTareas/bibliography.bib}
+\author{Auz Juan Diego, Lanchimba Danny, Palomeque Matías, Quillupangui Ana María}
+\date{\today}
+\title{TallerIAS}
+\hypersetup{
+ pdfauthor={Auz Juan Diego, Lanchimba Danny, Palomeque Matías, Quillupangui Ana María},
+ pdftitle={TallerIAS},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 27.1 (Org mode 9.3)}, 
+ pdflang={Spanish}}
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\fancyhead[C]{\includegraphics[scale=0.05]{../images/logoEPN.jpg}\\
+ESCUELA POLITÉCNICA NACIONAL\\FACULTAD DE INGENIERÍA DE SISTEMAS\\
+ARQUITECTURA DE COMPUTADORES}
+\thispagestyle{fancy}
+
+
+\section{Recursos}
+\label{sec:orge149df2}
+Para este taller consulte el libro \citetitle{stallings2006}
+disponible en \href{https://epnecuador-my.sharepoint.com/:f:/g/personal/lenin\_falconi\_epn\_edu\_ec/EgjH2RoedD5NuswqpOt8ExsB\_DE052v9Rlrg0QpEtbimDg?e=WoqexR}{EPN-SHAREPOINT(Clic Me)} y use su WSL con Emacs para editar el archivo.
+\subsection{Observaciones y Recomendaciones}
+\label{sec:org0623f79}
+\begin{itemize}
+\item Tenga en cuenta la ruta a las imágenes y a la bibliografía. Se le
+\end{itemize}
+recomienda que realice una clonación o un fork del repositorio de la
+clase a fin de que no tenga problemas generando el documento.
+\begin{itemize}
+\item Instale \LaTeX completo en el computador que generará el archivo pdf.
+\end{itemize}
+\section{Instrucciones}
+\label{sec:org5a1b060}
+Complete las solicitudes del taller y suba el archivo \texttt{.ORG} y \texttt{.PDF}
+al aula virtual. Cuando trabaje en Emacs trate de utilizar las
+combinaciones de teclas para navegar por el documento.
+
+\section{Taller Máquina de Von Neuman}
+\label{sec:org28f2196}
+
+La máquina de Von Neuman realiza operaciones en un ciclo repetitivo de
+captación y ejecución. Para esto, el computador IAS usa una memoria de
+40 bits. Cuando la memoria se usa numéricamente, se representa el
+número en complemento a 2, reservando el bit inicial para el
+signo. Cuando la memoria se usa para el registro de instrucciones, se
+divide en dos partes de 20 bits. Los 8 primeros bits de cada parte
+corresponden al \emph{opcode} y los restantes 12 bits de cada parte a la
+dirección (operando) desde la que se debe leer o a la que se debe
+escribir.
+
+\subsection{Conjunto de Instrucciones IAS}
+\label{sec:org6f570e7}
+Complete la Tabla 2.1 de instrucciones del computador IAS
+\autocite[p.47]{stallings2006} usando la notación RTL\footnote{Register Transfer Language o Lenguaje de Transferencia de Registros}. Se suministra
+la Tabla en código \LaTeX para tal efecto. Edite el archivo en Emacs
+usando el modo principal ORG y cambie al modo \LaTeX para editar la
+Tabla. El cambio de modo se realiza usando \texttt{M-x Latex-mode RET} y para
+retornar al modo \texttt{ORG} haga \texttt{M-x org-mode RET}
+
+\begin{itemize}
+\item \texttt{M} equivale a \emph{Alt}
+\item \texttt{x} es la tecla \emph{x}
+\item \texttt{RET} es presionar \emph{enter}
+\end{itemize}
+
+Una vez activado el modo \LaTeX el siguiente código recibe colores
+sobre las palabras clave.
+
+\begin{table}[htbp]
+  \caption{Instrucciones Maquina IAS}
+  \label{tab:tablaISA-IAS}
+  \centering
+  \begin{tabular}{|cccc|}
+    \hline
+    Opcode   & Opcode Hex &  Simbolo          & RTL \\ \hline
+    00001010 & 0x0A       &  LOAD MQ          & $[AC]\leftarrow[MQ]$\\
+    00001001 & 0x09       &  LOAD MQ, M(X)    & $[MQ]\leftarrow[X]$\\
+    00100001 & 0x21       &  STOR M(X)        & $[X]\leftarrow[AC]$\\
+    00000001 & 0x01       &  LOAD M(X)        & $[AC]\leftarrow[X]$\\
+    00000010 & 0x02       &  LOAD -M(X)       & $[AC]\leftarrow[X]$\\
+    00000011 & 0x03       &  LOAD |M(X)|      & $[AC]\leftarrow|[X]|$\\
+    00000100 & 0x04       &  LOAD -|M(X)|     & $[AC]\leftarrow-|[X]|$\\
+    00000101 & 0x05       &  ADD M(X)         & $[AC]\leftarrow[AC]+[X]$\\
+    00000111 & 0x07       &  ADD |M(X)|       & $[AC]\leftarrow[AC]+|[X]|$\\
+    00000110 & 0x06       &  SUB M(X)         & $[AC]\leftarrow[AC]-[X]$\\
+    00001000 & 0x08       &  SUB |M(X)|       & $[AC]\leftarrow[AC]-|[X]|$\\
+    00001100 & 0x0B       &  MUL M(X)         & $[AC] $\\
+    00001100 & 0x0C       &  DIV M(X)         & $[AC] $\\
+    00010100 & 0x14       &  LSH              & $[AC]\leftarrow[AC]x2$\\
+    00010101 & 0x15       &  RSH              & $[AC]\leftarrow[AC]/2$\\
+    00010010 & 0x12       &  STOR M(X,8:19)   & $[AC]$\\
+    00010011 & 0x13       &  STOR M(X,28:39)  & $[AC]$\\
+    \hline
+    
+  \end{tabular}
+\end{table}
+
+\newpage
+
+\subsection{Ejercicio}
+\label{sec:orgf19fbba}
+
+En la máquina IAS, las instrucciones se dividen en dos segmentos:
+i) izquierdo, desde el bit 0 a 19, y ii) derecho, desde el bit 20 al 39. Primero
+se ejecuta el lado izquierdo y  luego el derecho. El
+contador de programa inicia en la posición 300. El set de
+instrucciones del computador o ISA\footnote{Instruction Set Architecture: los códigos de programación} está definido en la Tabla
+\ref{tab:tablaISA-IAS}. A fin de terminar el programa se agrega la
+instrucción \texttt{0x99} que lleva al computador al estado de HALT. Conteste las
+siguientes preguntas considerando la Tabla \ref{tab:org28be260} como el
+mapa de Memoria de la máquina y obtenga el programa en lenguaje ensamblador y en
+RTL. 
+
+\begin{table}[htbp]
+\caption{\label{tab:org28be260}Mapa de Memoria}
+\centering
+\begin{tabular}{rrrrr}
+\hline
+Dirección & \(Opcode_1\) & \(X_1\) & \(Opcode_2\) & \(X_2\)\\[0pt]
+\hline
+0x300 & 01 & 940 & 06 & 941\\[0pt]
+0x301 & 21 & 940 & 14 & 000\\[0pt]
+0x302 & 21 & 941 & 99 & 000\\[0pt]
+\ldots{} & \ldots{} & \ldots{} & \ldots{} & \ldots{}\\[0pt]
+0x940 & 00 & 000 & 00 & 005\\[0pt]
+0x941 & 00 & 000 & 00 & 002\\[0pt]
+\hline
+\end{tabular}
+\end{table}
+
+
+\subsubsection{Preguntas}
+\label{sec:org377ac42}
+
+\begin{enumerate}
+\item ¿Qué resultado se tiene al final en el registro del acumulador?
+
+\item ¿Se sobrescribe algún registro como resultado de la ejecución? Si
+verdadero, indique qué registro y con qué valor.
+
+\item ¿Cuál es el valor del bit del Carry?¿Qué operación modifica el bit?
+\end{enumerate}
+
+\subsubsection{Código Assembler:}
+\label{sec:org8609dc0}
+Escriba el código Assembler del programa que ejecuta el computador IAS.
+
+\begin{verbatim}
+LOAD M(940)
+
+\end{verbatim}
+
+\subsubsection{Código RTL}
+\label{sec:orgd0cfdd0}
+Escriba en notación de transferencia de registros el programa que
+ejecuta el computador IAS
+
+\([AC] \leftarrow [940]\)
+
+
+\printbibliography
+\end{document}
