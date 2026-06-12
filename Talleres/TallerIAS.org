@@ -161,6 +161,7 @@ RTL.
 
 
 *** Preguntas
+SCHEDULED: <2026-06-12 Fri>
 
 1. ¿Qué resultado se tiene al final en el registro del acumulador?
 El registro del acumulador [AC], tiene como valor final 0x0000000006
@@ -190,7 +191,67 @@ LOAD M(940)
 Escriba en notación de transferencia de registros el programa que
 ejecuta el computador IAS
 
+RTL
+
+#+begin_verse
+$[PC] \leftarrow 0x300$
+$[IR] \leftarrow [PC]$
+$[IR] \leftarrow 01\ 940$
+#+end_verse
+
+** 0x01 \to [AC] \leftarrow [X]
+
+#+begin_verse
 $[AC] \leftarrow [940]$
+$[AC] \leftarrow 000000005$
+$[PC] \leftarrow 0x300\ (der)$
+$[IR] \leftarrow [PC]$
+$[IR] \leftarrow 06\ 941$
+#+end_verse
+
+** 0x06 \to [AC] \leftarrow [AC] - [X]
+
+#+begin_verse
+$[AC] \leftarrow [AC] - [941]$
+$[AC] \leftarrow 000000005 - 000000002$
+$[AC] \leftarrow 000000003$
+$Carry = 1$
+$[PC] \leftarrow 0x301$
+$[IR] \leftarrow [PC]$
+$[IR] \leftarrow 21\ 940$
+#+end_verse
+
+** 0x21 [X] \leftarrow [AC]
+
+#+begin_verse
+$[940] \leftarrow [AC]$
+$[940] \leftarrow 000000003$
+$[PC] \leftarrow 0x301\ (der)$
+$[IR] \leftarrow [PC]$
+$[IR] \leftarrow 14\ 000$
+#+end_verse
+
+** 0x14 [AC] \leftarrow [AC] \times 2
+
+#+begin_verse
+$[AC] \leftarrow [AC] \times 2$
+$[AC] \leftarrow 000000006$
+$[PC] \leftarrow 0x302$
+$[IR] \leftarrow [PC]$
+$[IR] \leftarrow 21\ 941$
+#+end_verse
+
+** 0x21 [X] \leftarrow [AC]
+
+#+begin_verse
+$[941] \leftarrow [AC]$
+$[941] \leftarrow 000000006$
+$[PC] \leftarrow 0x302\ (der)$
+$[IR] \leftarrow [PC]$
+$[IR] \leftarrow 99\ 000$
+$Fin \to Estado\ Halt$
+#+end_verse
+
 
 
 #+print_bibliography: 
