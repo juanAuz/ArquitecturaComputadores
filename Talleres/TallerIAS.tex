@@ -1,4 +1,4 @@
-% Created 2026-06-10 Wed 20:36
+% Created 2026-06-11 jue 20:22
 % Intended LaTeX compiler: pdflatex
 \documentclass{article}
 \usepackage[utf8]{inputenc}
@@ -22,7 +22,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[spanish]{babel}
 \usepackage[backend=biber, style=apa]{biblatex}
-\addbibresource{/home/ani_quillu/ArquitecturaComputadores/FormatoTareas/bibliography.bib}
+\addbibresource{.././FormatoTareas/bibliography.bib}
 \author{Auz Juan Diego, Lanchimba Danny, Palomeque Matías, Quillupangui Ana María}
 \date{\today}
 \title{TallerIAS}
@@ -42,14 +42,12 @@
 ESCUELA POLITÉCNICA NACIONAL\\FACULTAD DE INGENIERÍA DE SISTEMAS\\
 ARQUITECTURA DE COMPUTADORES}
 \thispagestyle{fancy}
-
-
 \section{Recursos}
-\label{sec:orge149df2}
+\label{sec:orgb24dd72}
 Para este taller consulte el libro \citetitle{stallings2006}
 disponible en \href{https://epnecuador-my.sharepoint.com/:f:/g/personal/lenin\_falconi\_epn\_edu\_ec/EgjH2RoedD5NuswqpOt8ExsB\_DE052v9Rlrg0QpEtbimDg?e=WoqexR}{EPN-SHAREPOINT(Clic Me)} y use su WSL con Emacs para editar el archivo.
 \subsection{Observaciones y Recomendaciones}
-\label{sec:org0623f79}
+\label{sec:org08a5e7e}
 \begin{itemize}
 \item Tenga en cuenta la ruta a las imágenes y a la bibliografía. Se le
 \end{itemize}
@@ -59,13 +57,12 @@ clase a fin de que no tenga problemas generando el documento.
 \item Instale \LaTeX completo en el computador que generará el archivo pdf.
 \end{itemize}
 \section{Instrucciones}
-\label{sec:org5a1b060}
+\label{sec:org46624a4}
 Complete las solicitudes del taller y suba el archivo \texttt{.ORG} y \texttt{.PDF}
 al aula virtual. Cuando trabaje en Emacs trate de utilizar las
 combinaciones de teclas para navegar por el documento.
-
 \section{Taller Máquina de Von Neuman}
-\label{sec:org28f2196}
+\label{sec:orgdffe039}
 
 La máquina de Von Neuman realiza operaciones en un ciclo repetitivo de
 captación y ejecución. Para esto, el computador IAS usa una memoria de
@@ -76,9 +73,8 @@ divide en dos partes de 20 bits. Los 8 primeros bits de cada parte
 corresponden al \emph{opcode} y los restantes 12 bits de cada parte a la
 dirección (operando) desde la que se debe leer o a la que se debe
 escribir.
-
 \subsection{Conjunto de Instrucciones IAS}
-\label{sec:org6f570e7}
+\label{sec:org8c08e37}
 Complete la Tabla 2.1 de instrucciones del computador IAS
 \autocite[p.47]{stallings2006} usando la notación RTL\footnote{Register Transfer Language o Lenguaje de Transferencia de Registros}. Se suministra
 la Tabla en código \LaTeX para tal efecto. Edite el archivo en Emacs
@@ -125,9 +121,8 @@ sobre las palabras clave.
 \end{table}
 
 \newpage
-
 \subsection{Ejercicio}
-\label{sec:orgf19fbba}
+\label{sec:org3825ad6}
 
 En la máquina IAS, las instrucciones se dividen en dos segmentos:
 i) izquierdo, desde el bit 0 a 19, y ii) derecho, desde el bit 20 al 39. Primero
@@ -136,30 +131,28 @@ contador de programa inicia en la posición 300. El set de
 instrucciones del computador o ISA\footnote{Instruction Set Architecture: los códigos de programación} está definido en la Tabla
 \ref{tab:tablaISA-IAS}. A fin de terminar el programa se agrega la
 instrucción \texttt{0x99} que lleva al computador al estado de HALT. Conteste las
-siguientes preguntas considerando la Tabla \ref{tab:org28be260} como el
+siguientes preguntas considerando la Tabla \ref{tab:orga04d360} como el
 mapa de Memoria de la máquina y obtenga el programa en lenguaje ensamblador y en
 RTL. 
 
 \begin{table}[htbp]
-\caption{\label{tab:org28be260}Mapa de Memoria}
+\caption{\label{tab:orga04d360}Mapa de Memoria}
 \centering
 \begin{tabular}{rrrrr}
 \hline
-Dirección & \(Opcode_1\) & \(X_1\) & \(Opcode_2\) & \(X_2\)\\[0pt]
+Dirección & \(Opcode_1\) & \(X_1\) & \(Opcode_2\) & \(X_2\)\\
 \hline
-0x300 & 01 & 940 & 06 & 941\\[0pt]
-0x301 & 21 & 940 & 14 & 000\\[0pt]
-0x302 & 21 & 941 & 99 & 000\\[0pt]
-\ldots{} & \ldots{} & \ldots{} & \ldots{} & \ldots{}\\[0pt]
-0x940 & 00 & 000 & 00 & 005\\[0pt]
-0x941 & 00 & 000 & 00 & 002\\[0pt]
+0x300 & 01 & 940 & 06 & 941\\
+0x301 & 21 & 940 & 14 & 000\\
+0x302 & 21 & 941 & 99 & 000\\
+\ldots{} & \ldots{} & \ldots{} & \ldots{} & \ldots{}\\
+0x940 & 00 & 000 & 00 & 005\\
+0x941 & 00 & 000 & 00 & 002\\
 \hline
 \end{tabular}
 \end{table}
-
-
 \subsubsection{Preguntas}
-\label{sec:org377ac42}
+\label{sec:org333ed05}
 
 \begin{enumerate}
 \item ¿Qué resultado se tiene al final en el registro del acumulador?
@@ -169,18 +162,16 @@ verdadero, indique qué registro y con qué valor.
 
 \item ¿Cuál es el valor del bit del Carry?¿Qué operación modifica el bit?
 \end{enumerate}
-
 \subsubsection{Código Assembler:}
-\label{sec:org8609dc0}
+\label{sec:org944a2cc}
 Escriba el código Assembler del programa que ejecuta el computador IAS.
 
 \begin{verbatim}
 LOAD M(940)
 
 \end{verbatim}
-
 \subsubsection{Código RTL}
-\label{sec:orgd0cfdd0}
+\label{sec:org51c62ae}
 Escriba en notación de transferencia de registros el programa que
 ejecuta el computador IAS
 

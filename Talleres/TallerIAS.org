@@ -163,11 +163,20 @@ RTL.
 *** Preguntas
 
 1. ¿Qué resultado se tiene al final en el registro del acumulador?
-
+El registro del acumulador [AC], tiene como valor final 0x0000000006
 2. ¿Se sobrescribe algún registro como resultado de la ejecución? Si
    verdadero, indique qué registro y con qué valor.
+Verdadero, se sobrescriben tres registros: [AC], [940],
+   [941]. Quedando con valores finales de:
+   [AC] = 0000000006
+   [940] = 0000000003
+   [941] = 0000000006
 
 3. ¿Cuál es el valor del bit del Carry?¿Qué operación modifica el bit?
+El valor del bit del carry es de 1 y es modificado en la operación
+0x06 correspondiente a [AC] <- [AC] - [X], que a su vez corresponde al
+[PC] = 0x300 (derecha). En especifico la operación que modifica el
+carry es [AC] <- [AC]-[941], [AC] <- 0000000005 - 0000000002
 
 *** Código Assembler:
 Escriba el código Assembler del programa que ejecuta el computador IAS.
