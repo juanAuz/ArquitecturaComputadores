@@ -95,7 +95,7 @@ sobre las palabras clave.
     00001001 & 0x09       &  LOAD MQ, M(X)    & $[MQ]\leftarrow[X]$\\
     00100001 & 0x21       &  STOR M(X)        & $[X]\leftarrow[AC]$\\
     00000001 & 0x01       &  LOAD M(X)        & $[AC]\leftarrow[X]$\\
-    00000010 & 0x02       &  LOAD -M(X)       & $[AC]\leftarrow[X]$\\
+    00000010 & 0x02       &  LOAD -M(X)       & $[AC]\leftarrow-[X]$\\
     00000011 & 0x03       &  LOAD |M(X)|      & $[AC]\leftarrow|[X]|$\\
     00000100 & 0x04       &  LOAD -|M(X)|     & $[AC]\leftarrow-|[X]|$\\
     00000101 & 0x05       &  ADD M(X)         & $[AC]\leftarrow[AC]+[X]$\\
