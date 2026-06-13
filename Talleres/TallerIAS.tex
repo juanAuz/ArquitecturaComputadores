@@ -1,4 +1,4 @@
-% Created 2026-06-12 Fri 15:41
+% Created 2026-06-12 vie 19:35
 % Intended LaTeX compiler: pdflatex
 \documentclass{article}
 \usepackage[utf8]{inputenc}
@@ -43,11 +43,11 @@ ESCUELA POLITÉCNICA NACIONAL\\FACULTAD DE INGENIERÍA DE SISTEMAS\\
 ARQUITECTURA DE COMPUTADORES}
 \thispagestyle{fancy}
 \section{Recursos}
-\label{sec:orgbe5a8ef}
+\label{sec:org9898aa3}
 Para este taller consulte el libro \citetitle{stallings2006}
 disponible en \href{https://epnecuador-my.sharepoint.com/:f:/g/personal/lenin\_falconi\_epn\_edu\_ec/EgjH2RoedD5NuswqpOt8ExsB\_DE052v9Rlrg0QpEtbimDg?e=WoqexR}{EPN-SHAREPOINT(Clic Me)} y use su WSL con Emacs para editar el archivo.
 \subsection{Observaciones y Recomendaciones}
-\label{sec:org85c3c6c}
+\label{sec:org5775665}
 \begin{itemize}
 \item Tenga en cuenta la ruta a las imágenes y a la bibliografía. Se le
 \end{itemize}
@@ -57,12 +57,12 @@ clase a fin de que no tenga problemas generando el documento.
 \item Instale \LaTeX completo en el computador que generará el archivo pdf.
 \end{itemize}
 \section{Instrucciones}
-\label{sec:orgbf47e12}
+\label{sec:orgae1ac66}
 Complete las solicitudes del taller y suba el archivo \texttt{.ORG} y \texttt{.PDF}
 al aula virtual. Cuando trabaje en Emacs trate de utilizar las
 combinaciones de teclas para navegar por el documento.
 \section{Taller Máquina de Von Neuman}
-\label{sec:orgf2ff0aa}
+\label{sec:orge881097}
 
 La máquina de Von Neuman realiza operaciones en un ciclo repetitivo de
 captación y ejecución. Para esto, el computador IAS usa una memoria de
@@ -74,7 +74,7 @@ corresponden al \emph{opcode} y los restantes 12 bits de cada parte a la
 dirección (operando) desde la que se debe leer o a la que se debe
 escribir.
 \subsection{Conjunto de Instrucciones IAS}
-\label{sec:org2363cf9}
+\label{sec:org33c1a68}
 Complete la Tabla 2.1 de instrucciones del computador IAS
 \autocite[p.47]{stallings2006} usando la notación RTL\footnote{Register Transfer Language o Lenguaje de Transferencia de Registros}. Se suministra
 la Tabla en código \LaTeX para tal efecto. Edite el archivo en Emacs
@@ -122,7 +122,7 @@ sobre las palabras clave.
 
 \newpage
 \subsection{Ejercicio}
-\label{sec:orgde2af31}
+\label{sec:org3b033f7}
 
 En la máquina IAS, las instrucciones se dividen en dos segmentos:
 i) izquierdo, desde el bit 0 a 19, y ii) derecho, desde el bit 20 al 39. Primero
@@ -131,12 +131,12 @@ contador de programa inicia en la posición 300. El set de
 instrucciones del computador o ISA\footnote{Instruction Set Architecture: los códigos de programación} está definido en la Tabla
 \ref{tab:tablaISA-IAS}. A fin de terminar el programa se agrega la
 instrucción \texttt{0x99} que lleva al computador al estado de HALT. Conteste las
-siguientes preguntas considerando la Tabla \ref{tab:orgd4e5da7} como el
+siguientes preguntas considerando la Tabla \ref{tab:orgd40bb1c} como el
 mapa de Memoria de la máquina y obtenga el programa en lenguaje ensamblador y en
 RTL. 
 
 \begin{table}[htbp]
-\caption{\label{tab:orgd4e5da7}Mapa de Memoria}
+\caption{\label{tab:orgd40bb1c}Mapa de Memoria}
 \centering
 \begin{tabular}{rrrrr}
 \hline
@@ -152,7 +152,7 @@ Dirección & \(Opcode_1\) & \(X_1\) & \(Opcode_2\) & \(X_2\)\\
 \end{tabular}
 \end{table}
 \subsubsection{Preguntas}
-\label{sec:org2f57dc4}
+\label{sec:org8b3e985}
 \begin{enumerate}
 \item ¿Qué resultado se tiene al final en el registro del acumulador?
 \end{enumerate}
@@ -175,15 +175,19 @@ El valor del bit del carry es de 1 y es modificado en la operación
 {[}PC] = 0x300 (derecha). En especifico la operación que modifica el
 carry es [AC] <- [AC]-[941], [AC] <- 0000000005 - 0000000002
 \subsubsection{Código Assembler:}
-\label{sec:org7cd49f3}
+\label{sec:orgac8f21b}
 Escriba el código Assembler del programa que ejecuta el computador IAS.
 
 \begin{verbatim}
 LOAD M(940)
-
+SUB M(941)
+STOR M(940)
+LSH
+STOR M(941)
+HALT
 \end{verbatim}
 \subsubsection{Código RTL}
-\label{sec:org1d872fa}
+\label{sec:org1a231bf}
 Escriba en notación de transferencia de registros el programa que
 ejecuta el computador IAS
 
@@ -193,21 +197,11 @@ RTL
 \([PC] \leftarrow 0x300\)\\
 \([IR] \leftarrow [PC]\)\\
 \([IR] \leftarrow 01\ 940\)\\
-\end{verse}
-\subsection{0x01 \(\to\) {[}AC] \(\leftarrow\) {[}X]}
-\label{sec:org454752c}
-
-\begin{verse}
 \([AC] \leftarrow [940]\)\\
 \([AC] \leftarrow 000000005\)\\
 \([PC] \leftarrow 0x300\ (der)\)\\
 \([IR] \leftarrow [PC]\)\\
 \([IR] \leftarrow 06\ 941\)\\
-\end{verse}
-\subsection{0x06 \(\to\) {[}AC] \(\leftarrow\) {[}AC] - [X]}
-\label{sec:orgb4418d2}
-
-\begin{verse}
 \([AC] \leftarrow [AC] - [941]\)\\
 \([AC] \leftarrow 000000005 - 000000002\)\\
 \([AC] \leftarrow 000000003\)\\
@@ -215,31 +209,16 @@ RTL
 \([PC] \leftarrow 0x301\)\\
 \([IR] \leftarrow [PC]\)\\
 \([IR] \leftarrow 21\ 940\)\\
-\end{verse}
-\subsection{0x21 [X] \(\leftarrow\) {[}AC]}
-\label{sec:org2679b63}
-
-\begin{verse}
 \([940] \leftarrow [AC]\)\\
 \([940] \leftarrow 000000003\)\\
 \([PC] \leftarrow 0x301\ (der)\)\\
 \([IR] \leftarrow [PC]\)\\
 \([IR] \leftarrow 14\ 000\)\\
-\end{verse}
-\subsection{0x14 [AC] \(\leftarrow\) {[}AC] \texttimes{} 2}
-\label{sec:orgef42f62}
-
-\begin{verse}
 \([AC] \leftarrow [AC] \times 2\)\\
 \([AC] \leftarrow 000000006\)\\
 \([PC] \leftarrow 0x302\)\\
 \([IR] \leftarrow [PC]\)\\
 \([IR] \leftarrow 21\ 941\)\\
-\end{verse}
-\subsection{0x21 [X] \(\leftarrow\) {[}AC]}
-\label{sec:org545b5e6}
-
-\begin{verse}
 \([941] \leftarrow [AC]\)\\
 \([941] \leftarrow 000000006\)\\
 \([PC] \leftarrow 0x302\ (der)\)\\
