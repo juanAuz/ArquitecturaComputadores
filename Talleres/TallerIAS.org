@@ -5,7 +5,7 @@
 #+options: tasks:t tex:t timestamp:t title:t toc:t todo:t |:t
 #+title: TallerIAS
 #+author: Auz Juan Diego, Lanchimba Danny, Palomeque Matías, Quillupangui Ana María
-#+email: Juan , Danny , Maty, anamaria.quillupangui@epn.edu.ec
+#+email: juan.auzmontezuma@epn.edu.ec , danny.lanchimba@epn.edu.ec ,matias.palomeque@epn.edu.ec, anamaria.quillupangui@epn.edu.ec
 #+language: es
 #+select_tags: export
 #+exclude_tags: noexport
@@ -102,12 +102,10 @@ sobre las palabras clave.
     00000111 & 0x07       &  ADD |M(X)|       & $[AC]\leftarrow[AC]+|[X]|$\\
     00000110 & 0x06       &  SUB M(X)         & $[AC]\leftarrow[AC]-[X]$\\
     00001000 & 0x08       &  SUB |M(X)|       & $[AC]\leftarrow[AC]-|[X]|$\\
-    00001100 & 0x0B       &  MUL M(X)         & $[AC] $\\
-    00001100 & 0x0C       &  DIV M(X)         & $[AC] $\\
-    00010100 & 0x14       &  LSH              & $[AC]\leftarrow[AC]x2$\\
+    00001011 & 0x0B       & MUL M(X)          & $[AC]\leftarrow[MQ]\times[X]$\\
+    00001100 & 0x0C       & DIV M(X)          & $[MQ]\leftarrow[AC]/[X],\;[AC]\leftarrow[AC]\bmod[X]$\\
+    00010100 & 0x14       &  LSH              & $[AC]\leftarrow[AC]\times2$\\
     00010101 & 0x15       &  RSH              & $[AC]\leftarrow[AC]/2$\\
-    00010010 & 0x12       &  STOR M(X,8:19)   & $[AC]$\\
-    00010011 & 0x13       &  STOR M(X,28:39)  & $[AC]$\\
     \hline
     
   \end{tabular}
