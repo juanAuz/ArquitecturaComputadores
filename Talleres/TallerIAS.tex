@@ -1,4 +1,4 @@
-% Created 2026-06-12 Fri 20:25
+% Created 2026-06-12 vie 20:28
 % Intended LaTeX compiler: pdflatex
 \documentclass{article}
 \usepackage[utf8]{inputenc}
@@ -22,7 +22,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[spanish]{babel}
 \usepackage[backend=biber, style=apa]{biblatex}
-\addbibresource{/home/ani_quillu/ArquitecturaComputadores/FormatoTareas/bibliography.bib}
+\addbibresource{.././FormatoTareas/bibliography.bib}
 \author{Auz Juan Diego, Lanchimba Danny, Palomeque Matías, Quillupangui Ana María}
 \date{\today}
 \title{TallerIAS}
@@ -42,14 +42,12 @@
 ESCUELA POLITÉCNICA NACIONAL\\FACULTAD DE INGENIERÍA DE SISTEMAS\\
 ARQUITECTURA DE COMPUTADORES}
 \thispagestyle{fancy}
-
-
 \section{Recursos}
-\label{sec:org455adbc}
+\label{sec:orgfa41ca5}
 Para este taller consulte el libro \citetitle{stallings2006}
 disponible en \href{https://epnecuador-my.sharepoint.com/:f:/g/personal/lenin\_falconi\_epn\_edu\_ec/EgjH2RoedD5NuswqpOt8ExsB\_DE052v9Rlrg0QpEtbimDg?e=WoqexR}{EPN-SHAREPOINT(Clic Me)} y use su WSL con Emacs para editar el archivo.
 \subsection{Observaciones y Recomendaciones}
-\label{sec:orgb0aee7d}
+\label{sec:orgf1a3b11}
 \begin{itemize}
 \item Tenga en cuenta la ruta a las imágenes y a la bibliografía. Se le
 \end{itemize}
@@ -59,13 +57,12 @@ clase a fin de que no tenga problemas generando el documento.
 \item Instale \LaTeX completo en el computador que generará el archivo pdf.
 \end{itemize}
 \section{Instrucciones}
-\label{sec:orgd4e8ff5}
+\label{sec:org397b37f}
 Complete las solicitudes del taller y suba el archivo \texttt{.ORG} y \texttt{.PDF}
 al aula virtual. Cuando trabaje en Emacs trate de utilizar las
 combinaciones de teclas para navegar por el documento.
-
 \section{Taller Máquina de Von Neuman}
-\label{sec:orgb082f05}
+\label{sec:org4e2cc61}
 
 La máquina de Von Neuman realiza operaciones en un ciclo repetitivo de
 captación y ejecución. Para esto, el computador IAS usa una memoria de
@@ -76,9 +73,8 @@ divide en dos partes de 20 bits. Los 8 primeros bits de cada parte
 corresponden al \emph{opcode} y los restantes 12 bits de cada parte a la
 dirección (operando) desde la que se debe leer o a la que se debe
 escribir.
-
 \subsection{Conjunto de Instrucciones IAS}
-\label{sec:orgc72c80b}
+\label{sec:org4ea543a}
 Complete la Tabla 2.1 de instrucciones del computador IAS
 \autocite[p.47]{stallings2006} usando la notación RTL\footnote{Register Transfer Language o Lenguaje de Transferencia de Registros}. Se suministra
 la Tabla en código \LaTeX para tal efecto. Edite el archivo en Emacs
@@ -123,9 +119,8 @@ sobre las palabras clave.
 \end{table}
 
 \newpage
-
 \subsection{Ejercicio}
-\label{sec:org5412a9c}
+\label{sec:org5c948bc}
 
 En la máquina IAS, las instrucciones se dividen en dos segmentos:
 i) izquierdo, desde el bit 0 a 19, y ii) derecho, desde el bit 20 al 39. Primero
@@ -134,30 +129,28 @@ contador de programa inicia en la posición 300. El set de
 instrucciones del computador o ISA\footnote{Instruction Set Architecture: los códigos de programación} está definido en la Tabla
 \ref{tab:tablaISA-IAS}. A fin de terminar el programa se agrega la
 instrucción \texttt{0x99} que lleva al computador al estado de HALT. Conteste las
-siguientes preguntas considerando la Tabla \ref{tab:orgc59172f} como el
+siguientes preguntas considerando la Tabla \ref{tab:org91fa3c3} como el
 mapa de Memoria de la máquina y obtenga el programa en lenguaje ensamblador y en
 RTL. 
 
 \begin{table}[htbp]
-\caption{\label{tab:orgc59172f}Mapa de Memoria}
+\caption{\label{tab:org91fa3c3}Mapa de Memoria}
 \centering
 \begin{tabular}{rrrrr}
 \hline
-Dirección & \(Opcode_1\) & \(X_1\) & \(Opcode_2\) & \(X_2\)\\[0pt]
+Dirección & \(Opcode_1\) & \(X_1\) & \(Opcode_2\) & \(X_2\)\\
 \hline
-0x300 & 01 & 940 & 06 & 941\\[0pt]
-0x301 & 21 & 940 & 14 & 000\\[0pt]
-0x302 & 21 & 941 & 99 & 000\\[0pt]
-\ldots{} & \ldots{} & \ldots{} & \ldots{} & \ldots{}\\[0pt]
-0x940 & 00 & 000 & 00 & 005\\[0pt]
-0x941 & 00 & 000 & 00 & 002\\[0pt]
+0x300 & 01 & 940 & 06 & 941\\
+0x301 & 21 & 940 & 14 & 000\\
+0x302 & 21 & 941 & 99 & 000\\
+\ldots{} & \ldots{} & \ldots{} & \ldots{} & \ldots{}\\
+0x940 & 00 & 000 & 00 & 005\\
+0x941 & 00 & 000 & 00 & 002\\
 \hline
 \end{tabular}
 \end{table}
-
-
 \subsubsection{Preguntas}
-\label{sec:org2cb6667}
+\label{sec:org3976f72}
 \begin{enumerate}
 \item ¿Qué resultado se tiene al final en el registro del acumulador?
 \end{enumerate}
@@ -167,21 +160,20 @@ El registro del acumulador [AC], tiene como valor final 0x0000000006
 verdadero, indique qué registro y con qué valor.
 \end{enumerate}
 Verdadero, se sobrescriben tres registros: [AC], [940],
-   [941]. Quedando con valores finales de:
-   [AC] = 0000000006
-   [940] = 0000000003
-   [941] = 0000000006
+   {[}941]. Quedando con valores finales de:
+   {[}AC] = 0000000006
+   {[}940] = 0000000003
+   {[}941] = 0000000006
 
 \begin{enumerate}
 \item ¿Cuál es el valor del bit del Carry?¿Qué operación modifica el bit?
 \end{enumerate}
 El valor del bit del carry es de 1 y es modificado en la operación
 0x06 correspondiente a [AC] <- [AC] - [X], que a su vez corresponde al
-[PC] = 0x300 (derecha). En especifico la operación que modifica el
+{[}PC] = 0x300 (derecha). En especifico la operación que modifica el
 carry es [AC] <- [AC]-[941], [AC] <- 0000000005 - 0000000002
-
 \subsubsection{Código Assembler:}
-\label{sec:org59ef1b2}
+\label{sec:org234973a}
 Escriba el código Assembler del programa que ejecuta el computador IAS.
 
 \begin{verbatim}
@@ -192,46 +184,45 @@ LSH
 STOR M(941)
 HALT
 \end{verbatim}
-
 \subsubsection{Código RTL}
-\label{sec:org5312f0c}
+\label{sec:org428f856}
 Escriba en notación de transferencia de registros el programa que
 ejecuta el computador IAS
 
 RTL
 
 \begin{verse}
-\([PC] \leftarrow 0x300\)\\[0pt]
-\([IR] \leftarrow [PC]\)\\[0pt]
-\([IR] \leftarrow 01\ 940\)\\[0pt]
-\([AC] \leftarrow [940]\)\\[0pt]
-\([AC] \leftarrow 000000005\)\\[0pt]
-\([PC] \leftarrow 0x300\ (der)\)\\[0pt]
-\([IR] \leftarrow [PC]\)\\[0pt]
-\([IR] \leftarrow 06\ 941\)\\[0pt]
-\([AC] \leftarrow [AC] - [941]\)\\[0pt]
-\([AC] \leftarrow 000000005 - 000000002\)\\[0pt]
-\([AC] \leftarrow 000000003\)\\[0pt]
-\(Carry = 1\)\\[0pt]
-\([PC] \leftarrow 0x301\)\\[0pt]
-\([IR] \leftarrow [PC]\)\\[0pt]
-\([IR] \leftarrow 21\ 940\)\\[0pt]
-\([940] \leftarrow [AC]\)\\[0pt]
-\([940] \leftarrow 000000003\)\\[0pt]
-\([PC] \leftarrow 0x301\ (der)\)\\[0pt]
-\([IR] \leftarrow [PC]\)\\[0pt]
-\([IR] \leftarrow 14\ 000\)\\[0pt]
-\([AC] \leftarrow [AC] \times 2\)\\[0pt]
-\([AC] \leftarrow 000000006\)\\[0pt]
-\([PC] \leftarrow 0x302\)\\[0pt]
-\([IR] \leftarrow [PC]\)\\[0pt]
-\([IR] \leftarrow 21\ 941\)\\[0pt]
-\([941] \leftarrow [AC]\)\\[0pt]
-\([941] \leftarrow 000000006\)\\[0pt]
-\([PC] \leftarrow 0x302\ (der)\)\\[0pt]
-\([IR] \leftarrow [PC]\)\\[0pt]
-\([IR] \leftarrow 99\ 000\)\\[0pt]
-\(Fin \to Estado\ Halt\)\\[0pt]
+\([PC] \leftarrow 0x300\)\\
+\([IR] \leftarrow [PC]\)\\
+\([IR] \leftarrow 01\ 940\)\\
+\([AC] \leftarrow [940]\)\\
+\([AC] \leftarrow 000000005\)\\
+\([PC] \leftarrow 0x300\ (der)\)\\
+\([IR] \leftarrow [PC]\)\\
+\([IR] \leftarrow 06\ 941\)\\
+\([AC] \leftarrow [AC] - [941]\)\\
+\([AC] \leftarrow 000000005 - 000000002\)\\
+\([AC] \leftarrow 000000003\)\\
+\(Carry = 1\)\\
+\([PC] \leftarrow 0x301\)\\
+\([IR] \leftarrow [PC]\)\\
+\([IR] \leftarrow 21\ 940\)\\
+\([940] \leftarrow [AC]\)\\
+\([940] \leftarrow 000000003\)\\
+\([PC] \leftarrow 0x301\ (der)\)\\
+\([IR] \leftarrow [PC]\)\\
+\([IR] \leftarrow 14\ 000\)\\
+\([AC] \leftarrow [AC] \times 2\)\\
+\([AC] \leftarrow 000000006\)\\
+\([PC] \leftarrow 0x302\)\\
+\([IR] \leftarrow [PC]\)\\
+\([IR] \leftarrow 21\ 941\)\\
+\([941] \leftarrow [AC]\)\\
+\([941] \leftarrow 000000006\)\\
+\([PC] \leftarrow 0x302\ (der)\)\\
+\([IR] \leftarrow [PC]\)\\
+\([IR] \leftarrow 99\ 000\)\\
+\(Fin \to Estado\ Halt\)\\
 \end{verse}
 
 
