@@ -1,3 +1,4 @@
+
 #+options: ':nil *:t -:t ::t <:t H:3 \n:nil ^:t arch:headline
 #+options: author:t broken-links:nil c:nil creator:nil
 #+options: d:(not "LOGBOOK") date:t e:t email:nil expand-links:t f:t
@@ -87,51 +88,26 @@ entrenar un modelo.
    #+end_src
 
    #+RESULTS:
-   : /home/juand
+   : /home/ani_quillu
 
 2. Cree tres directorios denominados FashionData, Train y
    Test. Verifique usando el comando ~ls~
    #+begin_src shell :exports both
-     cd
-     ls
+    cd ..
+    mkdir FashionData
+    mkdir Train
+    mkdir Test
+    ls
    #+end_src
 
    #+RESULTS:
-   | atomic_arch_check.sh |           |
-   | Claude-Council-Skill |           |
-   | Descargas            |           |
-   | Desktop              |           |
-   | Documentos           |           |
-   | eclipse              |           |
-   | eclipse-workspace    |           |
-   | Games                |           |
-   | GamesInGeneral       |           |
-   | GOG                  | Games     |
-   | Graphite-gtk-theme   |           |
-   | Imágenes             |           |
-   | miniforge3           |           |
-   | Música               |           |
-   | NetBeansProjects     |           |
-   | onlyoffice-bin       |           |
-   | packettracer         |           |
-   | Plantillas           |           |
-   | Proyectos            |           |
-   | pt                   |           |
-   | Público              |           |
-   | rice_backup          |           |
-   | sketchbook           |           |
-   | snap                 |           |
-   | steam-22330.log      |           |
-   | temp                 |           |
-   | token                |           |
-   | #Tutorial            | durisimo# |
-   | Tutorial             | durisimo  |
-   | Tutorial             | durisimo~ |
-   | Vídeos               |           |
-   | VirtualBox           | VMs       |
-   | VsCode               |           |
-   | zsh-autocomplete     |           |
-   | zshrc                |           |
+   | FashionData   |
+   | FormatoTareas |
+   | Proyecto      |
+   | Talleres      |
+   | Test          |
+   | Train         |
+   | images        |
 
 3. Investigue sobre el comando ~wget~ y utilícelo para descargar en
    ~/FashionData los datos de train y test del /Fashion-Mnist desde el
@@ -149,40 +125,116 @@ entrenar un modelo.
 
       http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/t10k-labels-idx1-ubyte.gz
    #+begin_src shell :exports both
-
+   cd ..
+   cd FashionData
+   wget http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/train-images-idx3-ubyte.gz
+   wget http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/train-labels-idx1-ubyte.gz
+   wget http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/t10k-images-idx3-ubyte.gz
+   wget  http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/t10k-labels-idx1-ubyte.gz
+   pwd
+   ls 
    #+end_src
+
+   #+RESULTS:
+   | /home/ani_quillu/ArquitecturaComputadores/FashionData |
+   | t10k-images-idx3-ubyte.gz                             |
+   | t10k-labels-idx1-ubyte.gz                             |
+   | train-images-idx3-ubyte.gz                            |
+   | train-labels-idx1-ubyte.gz                            |
+
 4. Utilice el comando ~mv~ de manera recursiva para pasar los datos de
    entrenamiento a la carpeta ~/Train
    #+begin_src shell :exports both
+    cd .. 
+    mv FashionData/train*  Train/
+    cd Train
+    ls
+    
 
    #+end_src
+
+   #+RESULTS:
+   | train-images-idx3-ubyte.gz |
+   | train-labels-idx1-ubyte.gz |
+
 5. Utilice el comando ~mv~ de manera recursiva para pasar los datos de
    prueba a la carpeta ~/Test
    #+begin_src shell :exports both
+   cd ..
+   mv FashionData/t10k* Test/
+   cd Test
+   ls
 
    #+end_src
+
+   #+RESULTS:
+   | t10k-images-idx3-ubyte.gz |
+   | t10k-labels-idx1-ubyte.gz |
+
 6. Verifique que la carpeta FashionData está vacía
    #+begin_src shell :exports both
-
+    cd ..
+    cd FashionData
+    ls 
    #+end_src
+
+   #+RESULTS:
+
 7. Los archivos anteriores están comprimidos. Investigue como
    descomprimir usando el comando ~gunzip~. Si es necesario realice la
    instalación del comando. Descomprima los archivos en sus
    respectivas carpetas. Apunte el comando utilizado para la descompresión.
    #+begin_src shell :exports both
+   cd ..
+   gunzip -r Test/
+   gunzip -r Train/
+   cd Test/
+   ls
+   cd ..
+   cd Train/
+   ls
 
    #+end_src
+
+   #+RESULTS:
+   | t10k-images-idx3-ubyte  |
+   | t10k-labels-idx1-ubyte  |
+   | train-images-idx3-ubyte |
+   | train-labels-idx1-ubyte |
 
 8. Mueva recursivamente las carpetas ~/Train y ~/Test dentro de ~/FashionData
    #+begin_src shell :exports both
-
+   cd ..
+   mv Test/ FashionData/
+   mv Train/ FashionData/
+   cd FashionData/
+   pwd
+   ls
    #+end_src
+
+   #+RESULTS:
+   | /home/ani_quillu/ArquitecturaComputadores/FashionData |
+   | Test                                                  |
+   | Train                                                 |
 
 9. Verifique la estructura de la carpeta ~/FashionData usando el
    comando ~tree~
    #+begin_src shell :exports both
-
+   cd ..
+   cd FashionData
+   tree
    #+end_src
+
+   #+RESULTS:
+   | .   |                         |                        |       |
+   | ├── | Test                    |                        |       |
+   | │   | ├──                     | t10k-images-idx3-ubyte |       |
+   | │   | └──                     | t10k-labels-idx1-ubyte |       |
+   | └── | Train                   |                        |       |
+   | ├── | train-images-idx3-ubyte |                        |       |
+   | └── | train-labels-idx1-ubyte |                        |       |
+   |     |                         |                        |       |
+   | 3   | directories,            | 4                      | files |
 
 
 

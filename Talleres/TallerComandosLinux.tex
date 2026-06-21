@@ -1,0 +1,349 @@
+% Created 2026-06-21 Sun 18:30
+% Intended LaTeX compiler: pdflatex
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+
+\usepackage{fancyhdr}
+\usepackage[top=25mm, left=25mm, right=25mm]{geometry}
+\usepackage{longtable}
+\fancyhead[R]{}
+\setlength\headheight{43.0pt}
+\author{Juan Auz, Quillupangui Ana María, Palomeque Matías, Lanchimba Danny}
+\date{2026-06-19}
+\title{Taller de Comandos Linux}
+\hypersetup{
+ pdfauthor={Juan Auz, Quillupangui Ana María, Palomeque Matías, Lanchimba Danny},
+ pdftitle={Taller de Comandos Linux},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 27.1 (Org mode 9.7.5)}, 
+ pdflang={Español}}
+\begin{document}
+
+\maketitle
+\fancyhead[C]{\includegraphics[scale=0.05]{../images/logoEPN.jpg}\\
+ESCUELA POLITÉCNICA NACIONAL\\FACULTAD DE INGENIERÍA DE SISTEMAS\\
+ARQUITECTURA DE COMPUTADORES}
+\thispagestyle{fancy}
+
+
+\section{Objetivos}
+\label{sec:orgc653ac6}
+
+\begin{itemize}
+\item Conocer el funcionamiento del terminal de \emph{Linux}
+\item Aprender a manejar comandos del terminal de \emph{Linux}
+\end{itemize}
+
+\section{Instrucciones}
+\label{sec:orgc916775}
+Este taller/tutorial de comandos de Linux tiene por objetivo ejercitar
+en la aplicación de comandos estudiados en clase. Para esto siga las
+Instrucciones indicadas en cada uno de los numerales. Ejecute los
+ejercicios llenando los comandos adecuados dentro de los bloques de
+código de Emacs Org. Los resultados de la ejecución se obtienen
+haciendo \texttt{C-c C-c}
+
+Para todos los ejercicios se sugiere usar directamente un
+distro de \emph{Linux} o el \emph{WSL} configurado para la clase de
+\emph{Arquitectura de Computadores}. Ejecute los comandos en la terminal de
+Linux. Copie los comandos usados a este archivo.
+
+Si se ha utilizado IA para consultar temas referentes al desarrollo de
+código en el punto \ref{sec:org0556048}, adjunte el archivo \texttt{.md} con el
+reporte de los diferentes prompts y respuestas dadas por la IA.
+
+\subsection{Ejecución desde Emacs}
+\label{sec:orgcf15dac}
+
+Si desea ejecutar los comandos desde Emacs debe observar que los
+comandos del \texttt{shell} de Linux se ejecutarán desde la ubicación del
+archivo \texttt{.org}. Por tanto, controle la ubicación de \texttt{home} en los
+bloques de código. Para ejecutar los bloques de código ejecute: \texttt{C-c C-c}. 
+
+\section{Comandos de Linux}
+\label{sec:org77c0ee4}
+Para este taller descargaremos los datos del \emph{Fashion-Mnist}, un
+dataset popular para la prueba de algoritmos de machine learning. Al
+final, el dataset quedará organizado para ser aprovechado para
+entrenar un modelo.
+
+\begin{enumerate}
+\item Utilice \texttt{cd} para localizarse en la posición de home de su usuario y
+verifique ejecutando el comando \texttt{pwd}
+
+\begin{verbatim}
+     cd
+     pwd
+\end{verbatim}
+
+\begin{verbatim}
+/home/ani_quillu
+\end{verbatim}
+
+\item Cree tres directorios denominados FashionData, Train y
+Test. Verifique usando el comando \texttt{ls}
+\begin{verbatim}
+    cd ..
+    mkdir FashionData
+    mkdir Train
+    mkdir Test
+    ls
+\end{verbatim}
+
+\begin{center}
+\begin{tabular}{l}
+FashionData\\[0pt]
+FormatoTareas\\[0pt]
+Proyecto\\[0pt]
+Talleres\\[0pt]
+Test\\[0pt]
+Train\\[0pt]
+images\\[0pt]
+\end{tabular}
+\end{center}
+
+\item Investigue sobre el comando \texttt{wget} y utilícelo para descargar en
+\textasciitilde{}/FashionData los datos de train y test del /Fashion-Mnist desde el
+siguiente enlace: \href{https://github.com/zalandoresearch/fashion-mnist}{fashion-mnist}
+\begin{enumerate}
+\item Imágenes de entrenamiento:
+
+\url{http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/train-images-idx3-ubyte.gz}
+\item Etiquetas de entrenamiento:
+
+\url{http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/train-labels-idx1-ubyte.gz}
+\item Imágenes de prueba:
+
+\url{http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/t10k-images-idx3-ubyte.gz}
+\item Etiquetas de prueba:
+
+\url{http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/t10k-labels-idx1-ubyte.gz}
+\end{enumerate}
+\begin{verbatim}
+   cd ..
+   cd FashionData
+   wget http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/train-images-idx3-ubyte.gz
+   wget http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/train-labels-idx1-ubyte.gz
+   wget http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/t10k-images-idx3-ubyte.gz
+   wget  http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/t10k-labels-idx1-ubyte.gz
+   pwd
+   ls 
+\end{verbatim}
+
+\begin{center}
+\begin{tabular}{l}
+/home/ani\textsubscript{quillu}/ArquitecturaComputadores/FashionData\\[0pt]
+Test\\[0pt]
+Train\\[0pt]
+t10k-images-idx3-ubyte.gz\\[0pt]
+t10k-labels-idx1-ubyte.gz\\[0pt]
+train-images-idx3-ubyte.gz\\[0pt]
+train-labels-idx1-ubyte.gz\\[0pt]
+\end{tabular}
+\end{center}
+
+\item Utilice el comando \texttt{mv} de manera recursiva para pasar los datos de
+entrenamiento a la carpeta \textasciitilde{}/Train
+\begin{verbatim}
+    cd .. 
+    mv FashionData/train*  Train/
+    cd Train
+    ls
+    
+
+\end{verbatim}
+
+\begin{center}
+\begin{tabular}{l}
+train-images-idx3-ubyte.gz\\[0pt]
+train-labels-idx1-ubyte.gz\\[0pt]
+\end{tabular}
+\end{center}
+
+\item Utilice el comando \texttt{mv} de manera recursiva para pasar los datos de
+prueba a la carpeta \textasciitilde{}/Test
+\begin{verbatim}
+   cd ..
+   mv FashionData/t10k* Test/
+   cd Test
+   ls
+
+\end{verbatim}
+
+\begin{center}
+\begin{tabular}{l}
+t10k-images-idx3-ubyte.gz\\[0pt]
+t10k-labels-idx1-ubyte.gz\\[0pt]
+\end{tabular}
+\end{center}
+
+\item Verifique que la carpeta FashionData está vacía
+\begin{verbatim}
+    cd ..
+    cd FashionData
+    ls 
+\end{verbatim}
+
+\begin{center}
+\begin{tabular}{l}
+Test\\[0pt]
+Train\\[0pt]
+\end{tabular}
+\end{center}
+
+\item Los archivos anteriores están comprimidos. Investigue como
+descomprimir usando el comando \texttt{gunzip}. Si es necesario realice la
+instalación del comando. Descomprima los archivos en sus
+respectivas carpetas. Apunte el comando utilizado para la descompresión.
+\begin{verbatim}
+   cd ..
+   gunzip -r Test/
+   gunzip -r Train/
+   cd Test/
+   ls
+   cd ..
+   cd Train/
+   ls
+
+\end{verbatim}
+
+\begin{center}
+\begin{tabular}{l}
+t10k-images-idx3-ubyte\\[0pt]
+t10k-labels-idx1-ubyte\\[0pt]
+train-images-idx3-ubyte\\[0pt]
+train-labels-idx1-ubyte\\[0pt]
+\end{tabular}
+\end{center}
+
+\item Mueva recursivamente las carpetas \textasciitilde{}/Train y \textasciitilde{}/Test dentro de \textasciitilde{}/FashionData
+\begin{verbatim}
+   cd ..
+   mv Test/ FashionData/
+   mv Train/ FashionData/
+   cd FashionData/
+   pwd
+   ls
+\end{verbatim}
+
+\begin{center}
+\begin{tabular}{l}
+/home/ani\textsubscript{quillu}/ArquitecturaComputadores/FashionData\\[0pt]
+Test\\[0pt]
+Train\\[0pt]
+\end{tabular}
+\end{center}
+
+\item Verifique la estructura de la carpeta \texttt{/FashionData usando el
+   comando \textasciitilde{}tree}
+\begin{verbatim}
+   cd ..
+   cd FashionData
+   tree
+\end{verbatim}
+
+\begin{center}
+\begin{tabular}{llll}
+. &  &  & \\[0pt]
+├── & Test &  & \\[0pt]
+│   & ├── & t10k-images-idx3-ubyte & \\[0pt]
+│   & └── & t10k-labels-idx1-ubyte & \\[0pt]
+└── & Train &  & \\[0pt]
+├── & train-images-idx3-ubyte &  & \\[0pt]
+└── & train-labels-idx1-ubyte &  & \\[0pt]
+ &  &  & \\[0pt]
+3 & directories, & 4 & files\\[0pt]
+\end{tabular}
+\end{center}
+\end{enumerate}
+
+
+
+\section{Problema}
+\label{sec:org0556048}
+1
+Se desea realizar un registro climatológico de la ciudad de
+Quito. Para esto, escriba un script de Python/Java que permita obtener datos climatológicos desde el API de
+\href{https://openweathermap.org/current\#one}{openweathermap}. Considere la latitud y la longitud de Quito como
+(-0.2299, -78.5249), respectivamente. Los resultados obtenidos de
+la consulta al API se escriben en un archivo
+\emph{clima-quito-hoy.csv}. Cada ejecución del script debe almacenar
+nuevos datos en el archivo. Investigue sobre \textbf{crontab} y utilícelo
+para obtener datos del API de \emph{openweathermap} cada 5 minutos
+mediante la ejecución de un archivo ejecutable denominado
+\emph{get-weather.sh}. Verifique los resultados. Todas las operaciones
+se realizan en Linux o en el WSL. Las etapas del problema se
+subdividen en:
+
+\begin{enumerate}
+\item Crear su API gratuito en \href{https://openweathermap.org/current\#one}{openweathermap}
+\item Escribir un script en Python/Java que realice la consulta al API y
+escriba los resultados en \emph{clima-quito-hoy.csv}
+
+\begin{verbatim}
+import requests
+import json
+import csv
+import os
+import pathlib
+from datetime import datetime
+
+API_KEY = 'b794b9218f841b4d649bce12eacc5aed'
+LAT = -0.2299
+LON = -78.5249
+URL = f"https://api.openweathermap.org/data/2.5/weather?lat={LAT}&lon={LON}&appid={API_KEY}&units=metric"
+OUTPUT_FILE = pathlib.Path(__file__).parent / 'clima-quito-hoy.csv'
+
+def main():
+    response = requests.get(URL)
+    data = response.json()
+    timestamp = datetime.now().isoformat()
+
+    existe = os.path.isfile(OUTPUT_FILE)
+
+    with open(OUTPUT_FILE, 'a', newline='', encoding='utf-8') as f:
+        writer = csv.writer(f)
+        if not existe:
+            writer.writerow(['timestamp', 'data'])
+        writer.writerow([timestamp, json.dumps(data)])
+
+    print(f"[{timestamp}] Guardado - temp: {data['main']['temp']}°C")
+
+if __name__ == '__main__':
+    main()
+
+\end{verbatim}
+
+\begin{verbatim}
+None
+\end{verbatim}
+
+\item Desarrollar un ejecutable \emph{get-weather.sh} para ejecutar el
+programa Python/Java.
+
+\begin{verbatim}
+   sudo nano get-weather.sh
+   
+   #!/bin/bash
+   /home/juand/miniforge3/envs/iccd332/bin/python /home/juand/Documentos/ArquitecturaComp/ArquitecturaComputadores/Proyecto/get-weather.py
+   
+   chmod +x get-weather.sh
+   ./get-weather.sh
+\end{verbatim}
+
+\item Configurar Crontab para la adquisición de datos. Escriba el comando
+configurado.
+*/5 * * * * /home/juand/Documentos/ArquitecturaComp/ArquitecturaComputadores/Proyecto/get-weather.sh >> /home/juand/Documentos/ArquitecturaComp/ArquitecturaComputadores/Proyecto/cron.log 2>\&1
+\end{enumerate}
+\end{document}
