@@ -1,4 +1,4 @@
-% Created 2026-06-21 Sun 18:30
+% Created 2026-06-21 dom 20:42
 % Intended LaTeX compiler: pdflatex
 \documentclass{article}
 \usepackage[utf8]{inputenc}
@@ -35,18 +35,15 @@
 ESCUELA POLITÉCNICA NACIONAL\\FACULTAD DE INGENIERÍA DE SISTEMAS\\
 ARQUITECTURA DE COMPUTADORES}
 \thispagestyle{fancy}
-
-
 \section{Objetivos}
-\label{sec:orgc653ac6}
+\label{sec:org6dbe163}
 
 \begin{itemize}
 \item Conocer el funcionamiento del terminal de \emph{Linux}
 \item Aprender a manejar comandos del terminal de \emph{Linux}
 \end{itemize}
-
 \section{Instrucciones}
-\label{sec:orgc916775}
+\label{sec:org5d58db0}
 Este taller/tutorial de comandos de Linux tiene por objetivo ejercitar
 en la aplicación de comandos estudiados en clase. Para esto siga las
 Instrucciones indicadas en cada uno de los numerales. Ejecute los
@@ -60,19 +57,17 @@ distro de \emph{Linux} o el \emph{WSL} configurado para la clase de
 Linux. Copie los comandos usados a este archivo.
 
 Si se ha utilizado IA para consultar temas referentes al desarrollo de
-código en el punto \ref{sec:org0556048}, adjunte el archivo \texttt{.md} con el
+código en el punto \ref{sec:orgc7b3b1c}, adjunte el archivo \texttt{.md} con el
 reporte de los diferentes prompts y respuestas dadas por la IA.
-
 \subsection{Ejecución desde Emacs}
-\label{sec:orgcf15dac}
+\label{sec:orgc31157b}
 
 Si desea ejecutar los comandos desde Emacs debe observar que los
 comandos del \texttt{shell} de Linux se ejecutarán desde la ubicación del
 archivo \texttt{.org}. Por tanto, controle la ubicación de \texttt{home} en los
 bloques de código. Para ejecutar los bloques de código ejecute: \texttt{C-c C-c}. 
-
 \section{Comandos de Linux}
-\label{sec:org77c0ee4}
+\label{sec:org7d800b5}
 Para este taller descargaremos los datos del \emph{Fashion-Mnist}, un
 dataset popular para la prueba de algoritmos de machine learning. Al
 final, el dataset quedará organizado para ser aprovechado para
@@ -87,8 +82,10 @@ verifique ejecutando el comando \texttt{pwd}
      pwd
 \end{verbatim}
 
+\phantomsection
+\label{org6b4ae11}
 \begin{verbatim}
-/home/ani_quillu
+/home/juand
 \end{verbatim}
 
 \item Cree tres directorios denominados FashionData, Train y
@@ -101,17 +98,19 @@ Test. Verifique usando el comando \texttt{ls}
     ls
 \end{verbatim}
 
-\begin{center}
+\begin{table}[htbp]
+\label{tab:org4a6f48f}
+\centering
 \begin{tabular}{l}
-FashionData\\[0pt]
-FormatoTareas\\[0pt]
-Proyecto\\[0pt]
-Talleres\\[0pt]
-Test\\[0pt]
-Train\\[0pt]
-images\\[0pt]
+FashionData\\
+FormatoTareas\\
+images\\
+Proyecto\\
+Talleres\\
+Test\\
+Train\\
 \end{tabular}
-\end{center}
+\end{table}
 
 \item Investigue sobre el comando \texttt{wget} y utilícelo para descargar en
 \textasciitilde{}/FashionData los datos de train y test del /Fashion-Mnist desde el
@@ -141,17 +140,19 @@ siguiente enlace: \href{https://github.com/zalandoresearch/fashion-mnist}{fashio
    ls 
 \end{verbatim}
 
-\begin{center}
+\begin{table}[htbp]
+\label{tab:org0de98f2}
+\centering
 \begin{tabular}{l}
-/home/ani\textsubscript{quillu}/ArquitecturaComputadores/FashionData\\[0pt]
-Test\\[0pt]
-Train\\[0pt]
-t10k-images-idx3-ubyte.gz\\[0pt]
-t10k-labels-idx1-ubyte.gz\\[0pt]
-train-images-idx3-ubyte.gz\\[0pt]
-train-labels-idx1-ubyte.gz\\[0pt]
+/home/juand/Documentos/ArquitecturaComp/ArquitecturaComputadores/FashionData\\
+t10k-images-idx3-ubyte.gz\\
+t10k-labels-idx1-ubyte.gz\\
+Test\\
+Train\\
+train-images-idx3-ubyte.gz\\
+train-labels-idx1-ubyte.gz\\
 \end{tabular}
-\end{center}
+\end{table}
 
 \item Utilice el comando \texttt{mv} de manera recursiva para pasar los datos de
 entrenamiento a la carpeta \textasciitilde{}/Train
@@ -164,12 +165,16 @@ entrenamiento a la carpeta \textasciitilde{}/Train
 
 \end{verbatim}
 
-\begin{center}
+\begin{table}[htbp]
+\label{tab:org407d623}
+\centering
 \begin{tabular}{l}
-train-images-idx3-ubyte.gz\\[0pt]
-train-labels-idx1-ubyte.gz\\[0pt]
+train-images-idx3-ubyte\\
+train-images-idx3-ubyte.gz\\
+train-labels-idx1-ubyte\\
+train-labels-idx1-ubyte.gz\\
 \end{tabular}
-\end{center}
+\end{table}
 
 \item Utilice el comando \texttt{mv} de manera recursiva para pasar los datos de
 prueba a la carpeta \textasciitilde{}/Test
@@ -181,12 +186,16 @@ prueba a la carpeta \textasciitilde{}/Test
 
 \end{verbatim}
 
-\begin{center}
+\begin{table}[htbp]
+\label{tab:orgbd0b6e0}
+\centering
 \begin{tabular}{l}
-t10k-images-idx3-ubyte.gz\\[0pt]
-t10k-labels-idx1-ubyte.gz\\[0pt]
+t10k-images-idx3-ubyte\\
+t10k-images-idx3-ubyte.gz\\
+t10k-labels-idx1-ubyte\\
+t10k-labels-idx1-ubyte.gz\\
 \end{tabular}
-\end{center}
+\end{table}
 
 \item Verifique que la carpeta FashionData está vacía
 \begin{verbatim}
@@ -195,12 +204,14 @@ t10k-labels-idx1-ubyte.gz\\[0pt]
     ls 
 \end{verbatim}
 
-\begin{center}
+\begin{table}[htbp]
+\label{tab:org85ac1be}
+\centering
 \begin{tabular}{l}
-Test\\[0pt]
-Train\\[0pt]
+Test\\
+Train\\
 \end{tabular}
-\end{center}
+\end{table}
 
 \item Los archivos anteriores están comprimidos. Investigue como
 descomprimir usando el comando \texttt{gunzip}. Si es necesario realice la
@@ -218,14 +229,20 @@ respectivas carpetas. Apunte el comando utilizado para la descompresión.
 
 \end{verbatim}
 
-\begin{center}
+\begin{table}[htbp]
+\label{tab:org1d18902}
+\centering
 \begin{tabular}{l}
-t10k-images-idx3-ubyte\\[0pt]
-t10k-labels-idx1-ubyte\\[0pt]
-train-images-idx3-ubyte\\[0pt]
-train-labels-idx1-ubyte\\[0pt]
+t10k-images-idx3-ubyte\\
+t10k-images-idx3-ubyte.gz\\
+t10k-labels-idx1-ubyte\\
+t10k-labels-idx1-ubyte.gz\\
+train-images-idx3-ubyte\\
+train-images-idx3-ubyte.gz\\
+train-labels-idx1-ubyte\\
+train-labels-idx1-ubyte.gz\\
 \end{tabular}
-\end{center}
+\end{table}
 
 \item Mueva recursivamente las carpetas \textasciitilde{}/Train y \textasciitilde{}/Test dentro de \textasciitilde{}/FashionData
 \begin{verbatim}
@@ -237,13 +254,15 @@ train-labels-idx1-ubyte\\[0pt]
    ls
 \end{verbatim}
 
-\begin{center}
+\begin{table}[htbp]
+\label{tab:org85d011f}
+\centering
 \begin{tabular}{l}
-/home/ani\textsubscript{quillu}/ArquitecturaComputadores/FashionData\\[0pt]
-Test\\[0pt]
-Train\\[0pt]
+/home/juand/Documentos/ArquitecturaComp/ArquitecturaComputadores/FashionData\\
+Test\\
+Train\\
 \end{tabular}
-\end{center}
+\end{table}
 
 \item Verifique la estructura de la carpeta \texttt{/FashionData usando el
    comando \textasciitilde{}tree}
@@ -253,25 +272,24 @@ Train\\[0pt]
    tree
 \end{verbatim}
 
-\begin{center}
+\begin{table}[htbp]
+\label{tab:orgca4e6cf}
+\centering
 \begin{tabular}{llll}
-. &  &  & \\[0pt]
-├── & Test &  & \\[0pt]
-│   & ├── & t10k-images-idx3-ubyte & \\[0pt]
-│   & └── & t10k-labels-idx1-ubyte & \\[0pt]
-└── & Train &  & \\[0pt]
-├── & train-images-idx3-ubyte &  & \\[0pt]
-└── & train-labels-idx1-ubyte &  & \\[0pt]
- &  &  & \\[0pt]
-3 & directories, & 4 & files\\[0pt]
+. &  &  & \\
+├── & Test &  & \\
+│   & ├── & t10k-images-idx3-ubyte & \\
+│   & └── & t10k-labels-idx1-ubyte & \\
+└── & Train &  & \\
+├── & train-images-idx3-ubyte &  & \\
+└── & train-labels-idx1-ubyte &  & \\
+ &  &  & \\
+3 & directories, & 4 & files\\
 \end{tabular}
-\end{center}
+\end{table}
 \end{enumerate}
-
-
-
 \section{Problema}
-\label{sec:org0556048}
+\label{sec:orgc7b3b1c}
 1
 Se desea realizar un registro climatológico de la ciudad de
 Quito. Para esto, escriba un script de Python/Java que permita obtener datos climatológicos desde el API de
@@ -325,6 +343,8 @@ if __name__ == '__main__':
 
 \end{verbatim}
 
+\phantomsection
+\label{org0aa7755}
 \begin{verbatim}
 None
 \end{verbatim}
@@ -340,6 +360,12 @@ programa Python/Java.
    
    chmod +x get-weather.sh
    ./get-weather.sh
+\end{verbatim}
+
+\phantomsection
+\label{orgbdd3f96}
+\begin{verbatim}
+[2026-06-21T20:42:30.553918] Guardado - temp: 10.64°C
 \end{verbatim}
 
 \item Configurar Crontab para la adquisición de datos. Escriba el comando
