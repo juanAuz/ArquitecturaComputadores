@@ -4,7 +4,7 @@
 #+options: inline:t num:t p:nil pri:nil prop:nil stat:t tags:t
 #+options: tasks:t tex:t timestamp:t title:t toc:nil todo:t |:t
 #+title: Taller Script Python
-#+date: 2025-01-19
+#+date: 2026-08-07
 #+author: Auz Juan, Palomeque Matías, Lanchimba Danny, Quillupangui Ana María
 #+email: juan.auzmontezuma@epn.edu.ec
 #+language: Español

@@ -1,6 +1,7 @@
 import argparse
 from utils.projectile_functions import dSdt
 from utils.projectile_functions import resolverEDO
+import matplotlib.pyplot as plt
 
 def main(resAire,velInicial,tiempoVuelo,angulos):
     #resAire = B
@@ -8,22 +9,23 @@ def main(resAire,velInicial,tiempoVuelo,angulos):
     #tiempoVuelo = t
     #angulos = angulos 
 
+    # Resolver la trayectoria para cada ángulo y graficarla
+    for angulo in angulos:
+        solucion = resolverEDO(resAire, velInicial, tiempoVuelo, angulo)
 
+        plt.plot(
+            solucion.y[0],
+            solucion.y[2],
+            label=fr'$\theta_0={angulo}^\circ$'
+        )
 
-
-
-    # --- PRUEBA DE QUE LOS ARGS LLEGAN BIEN ---
-    print("\n" + "="*40)
-    print("¡DATOS RECIBIDOS CORRECTAMENTE EN EL MAIN!")
-    print("="*40)
-    print(f"Resistencia del aire (B): {resAire} (Tipo: {type(resAire).__name__})")
-    print(f"Velocidad inicial (V):    {velInicial} (Tipo: {type(velInicial).__name__})")
-    print(f"Tiempo de vuelo (t):      {tiempoVuelo} (Tipo: {type(tiempoVuelo).__name__})")
-    print(f"Lista de ángulos:         {angulos} (Tipo: {type(angulos).__name__})")
-    print("="*40 + "\n")
-
-
-
+    plt.ylim(bottom=0)
+    plt.xlabel("$x/g$", fontsize=14)
+    plt.ylabel("$y/g$", fontsize=14)
+    plt.title("Trayectoria del cohete")
+    plt.legend()
+    plt.grid(True)
+    plt.show()
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Lanzamiento de un cohete')
