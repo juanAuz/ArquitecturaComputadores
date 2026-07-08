@@ -1,4 +1,4 @@
-#+options: ':nil *:t -:t ::t <:t H:3 \n:nil ^:t arch:headline
+x#+options: ':nil *:t -:t ::t <:t H:3 \n:nil ^:t arch:headline
 #+options: author:t broken-links:nil c:nil creator:nil
 #+options: d:(not "LOGBOOK") date:t e:t email:nil expand-links:t f:t
 #+options: inline:t num:t p:nil pri:nil prop:nil stat:t tags:t
@@ -245,6 +245,21 @@ plt.show()
 
 * Descripción librerías usadas
 ** SOLVE_IVP
+~solve_ivp~ es una función del paquete ~scipy.integrate~ que resuelve
+sistemas de ecuaciones diferenciales ordinarias con condiciones iniciales.
+Recibe la función del sistema, el intervalo de tiempo, las condiciones
+iniciales, argumentos adicionales. En este taller lo usamos para integrar
+numéricamente las ecuaciones de movimiento del cohete con resistencia al
+viento para cada ángulo de lanzamiento.
 ** ARGPARSE
+~argparse~ es un módulo estandar de Python para gestionar argumentos desde
+la línea de comandos. Permite definir parámetros con sus tipos, valores
+por defecto y mensajes de ayuda. En este taller lo hemos implementado para
+poder ingresar la resistencia del aire ~B~, velocidad inicial ~V~, tiempo
+de vuelo ~t~ y los ángulos de lanzamiento.
 ** NUMPY
+~numpy~ es una librería Python para el cálculo numérico. Lo hemos implementado
+para el apartado de calculos como: ~cos~ y ~sin~ de los ángulos, la raíz
+cuadrada ~sqrt~ de la velocidad, el valor de ~pi~ oara convertir grados a
+radianes, y ~linspace~ para generar el vector de tiempos.
        
