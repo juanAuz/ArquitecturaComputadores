@@ -1,4 +1,4 @@
-% Created 2026-07-07 Tue 20:13
+% Created 2026-07-08 mié 21:15
 % Intended LaTeX compiler: pdflatex
 \documentclass{article}
 \usepackage[utf8]{inputenc}
@@ -37,20 +37,18 @@
 \begin{document}
 
 \maketitle
+x\#+options: ':nil *:t -:t ::t <:t H:3 \n:nil \^{}:t arch:headline
 \fancyhead[C]{\includegraphics[scale=0.05]{../images/logoEPN.jpg}\\
 ESCUELA POLITÉCNICA NACIONAL\\FACULTAD DE INGENIERÍA DE SISTEMAS\\
 ARQUITECTURA DE COMPUTADORES}
 \thispagestyle{fancy}
-
-
 \section{Objetivos}
-\label{sec:orga41afbe}
+\label{sec:org115d644}
 \begin{itemize}
 \item Desarrollar un script de Python con paradigma estructurado
 \end{itemize}
-
 \section{Problema}
-\label{sec:org20b5121}
+\label{sec:orgb3181bf}
 Usted es el científico de datos para un sistema de lanzamiento de
 cohetes. Para esto, se le solicita que determine gráficamente el
 alcance del cohete según al menos tres ángulos de entrada, un tiempo
@@ -61,22 +59,21 @@ gráficamente, mediante la resolución de ecuaciones diferenciales
 ordinarias. Los parámetros como Velocidad inicial \texttt{V}, coeficiente de
 resistencia \texttt{B}, tiempo máximo \texttt{tmax} y ángulos de lanzamiento se
 ingresan desde la línea de comando. Siga las instrucciones
-proporcionadas en  la Sección \ref{sec:org0f8c63d} para
+proporcionadas en  la Sección \ref{sec:org4f26edb} para
 completar el taller.
-
 \section{Instrucciones}
-\label{sec:org0f8c63d}
+\label{sec:org4f26edb}
 
 \begin{enumerate}
 \item Obtener las expresiones matemáticas para las ecuaciones
-diferenciales ordinarias. Vea la Sección \ref{sec:org9998fc1}
+diferenciales ordinarias. Vea la Sección \ref{sec:orga738af4}
 \item Investigar cómo funciona la librería \texttt{solve\_ivp} del paquete
 \texttt{scipy.integrate}
 \item Investigar cómo funciona la librearía \texttt{argparse} para controlar el
 ingreso de valores y opciones desde la línea de comandos.
 \item Cree una carpeta con los archivos del proyecto denominada \texttt{cohete}.
 \item Dentro de la carpeta cree un archivo \texttt{main.py} con el código
-proporcionado en la Sección \ref{sec:org20f88f3}
+proporcionado en la Sección \ref{sec:orgc0252c7}
 \item Reorganizar el código proporcionado de ejemplo para conformar un
 proyecto de código estructurado. Las funciones estarán dentro de
 una carpeta \texttt{utils} en el archivo \texttt{projectile\_functions.py}. El
@@ -106,7 +103,7 @@ librería \texttt{argparse}
  .3 projectile\_functions.py. 
  }
 \section{Entregables del taller}
-\label{sec:orga364912}
+\label{sec:org9ce9924}
 \begin{enumerate}
 \item Archivo .zip con el archivo \texttt{main.py} y la librería desarrollada
 \texttt{projectile\_functions.py} y el gráfico obtenido de una carrera.
@@ -115,11 +112,10 @@ descripción de lo que hacen las librerías revisadas en este taller.
 \item Una vez redactado el punto anterior suba el archivo .ORG y el .PDF
 \end{enumerate}
 \section{Recursos}
-\label{sec:orga9af9ef}
+\label{sec:orgcc1ce59}
 Puede consultar más información en el siguiente \href{https://www.youtube.com/watch?v=b9S\_L1AaJNw}{vídeo} y en \href{https://github.com/lukepolson/youtube\_channel/blob/main/Python\%20Metaphysics\%20Series/vid22.ipynb}{GitHub}
-
 \subsection{Desarrollo Matemático}
-\label{sec:org9998fc1}
+\label{sec:orga738af4}
 
 
 La fuerza de resistencia del viento se puede considerar que es
@@ -192,11 +188,8 @@ ecuaciones de primer orden ODE siguiente:
   \dot{y} &= v_y\\
   \dot{v_y} &= - B\sqrt{\dot{x}^2 + \dot{y}^2}\dot{y}
 \end{align}
-
-
-
 \subsection{Código Inicial Python}
-\label{sec:org20f88f3}
+\label{sec:orgc0252c7}
 
 
 \begin{verbatim}
@@ -252,13 +245,119 @@ plt.ylabel('$y/g$', fontsize=20)
 plt.show()
 
 \end{verbatim}
+\subsection{Solución Planteada}
+\label{sec:org2419dcf}
+\subsubsection{Archivo de funciones projectile\textsubscript{functions.py}}
+\label{sec:orgbc13258}
 
+\begin{verbatim}
+import numpy as np
+from scipy.integrate import solve_ivp
+
+def dSdt(t,S,B):
+    """
+    Use fd seguido de C-TAB para generar la funcion con docstrings
+    Define el sistema de ecuaciones diferenciales para el movimien    to del proyectil
+    con resistencia al aire
+    Parametros:
+        t (float): Tiempo
+        S (list): Estado actual [x, vx, y, vy]
+        B (float): Coeficiente de resistencia del aire. Varía desd        e 0.0 a 1.0
+    Retorna:
+        list: Derivadas [dx/dt, dvx/dt, dy/dt, dvy/dt]
+    """
+    x, vx, y, vy = S
+    return [vx,
+            -B*np.sqrt(vx**2+vy**2)*vx,
+            vy,
+            -1-B*np.sqrt(vx**2+vy**2)*vy]
+def resolverEDO(B,V,t,angulo):
+    """
+    Esta función resuelve la EDO utilizando la libreria ivp
+    param: recibe los parametros de B: resitencia del aire, V: velocidad , t: tiempo y angulo: angulo de lanzamiento
+
+    retorna: la función retorna la solución lista para añadirla al gráfico
+    """
+    #transformamos el ángulo recibido de grados a radianes
+
+    anguloRadianes = angulo*np.pi/180
+
+    #usando la libreria ivp calculamos la solución de la EDO y la retornamos
+
+    return solve_ivp(dSdt, [0, t],
+                 y0=[0,V*np.cos(anguloRadianes),0,V*np.sin(anguloRadianes)],
+                 t_eval=np.linspace(0,t,1000),
+                 args=(B,)) #atol=1e-7, rtol=1e-4)
+
+\end{verbatim}
+\subsubsection{Archivo Principal main.py}
+\label{sec:org37e3c6e}
+
+\begin{verbatim}
+import argparse
+from utils.projectile_functions import dSdt
+from utils.projectile_functions import resolverEDO
+import matplotlib.pyplot as plt
+
+def main(resAire,velInicial,tiempoVuelo,angulos):
+    #resAire = B
+    #velInicial = V
+    #tiempoVuelo = t
+    #angulos = angulos 
+
+    # Resolver la trayectoria para cada ángulo y graficarla
+    for angulo in angulos:
+        solucion = resolverEDO(resAire, velInicial, tiempoVuelo, angulo)
+
+        plt.plot(
+            solucion.y[0],
+            solucion.y[2],
+            label=fr'$\theta_0={angulo}^\circ$'
+        )
+
+    plt.ylim(bottom=0)
+    plt.xlabel("$x/g$", fontsize=14)
+    plt.ylabel("$y/g$", fontsize=14)
+    plt.title("Trayectoria del cohete")
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Lanzamiento de un cohete')
+    parser.add_argument('-B', '--resAire',type = float, default = 0.1, help = "Se declara la variable para la resistencia del aire, ej. 0.1"
+                        )
+    parser.add_argument('-V','--velInicial',type=float, default = 1, help = "Se declara la variable para la velocidad inicial del lanzamiento"
+                        )
+    parser.add_argument('-t','--tiempoVuelo' ,type=float,default = 2, help = "tiempo de vuelo"
+                        )
+    parser.add_argument('-a', '--angulos',type=float,nargs='+', default = [40,45,50,60], help = "Se declaran n angulos de lanzamiento para el cohete"
+                        )
+    args = parser.parse_args()
+    main(args.resAire, args.velInicial, args.tiempoVuelo, args.angulos)
+
+\end{verbatim}
 \section{Descripción librerías usadas}
-\label{sec:org05952c2}
+\label{sec:orgad7fb03}
 \subsection{SOLVE\textsubscript{IVP}}
-\label{sec:orgb44ee0d}
+\label{sec:org0563e75}
+\texttt{solve\_ivp} es una función del paquete \texttt{scipy.integrate} que resuelve
+sistemas de ecuaciones diferenciales ordinarias con condiciones iniciales.
+Recibe la función del sistema, el intervalo de tiempo, las condiciones
+iniciales, argumentos adicionales. En este taller lo usamos para integrar
+numéricamente las ecuaciones de movimiento del cohete con resistencia al
+viento para cada ángulo de lanzamiento.
 \subsection{ARGPARSE}
-\label{sec:orgf50f203}
+\label{sec:org2c9ad05}
+\texttt{argparse} es un módulo estandar de Python para gestionar argumentos desde
+la línea de comandos. Permite definir parámetros con sus tipos, valores
+por defecto y mensajes de ayuda. En este taller lo hemos implementado para
+poder ingresar la resistencia del aire \texttt{B}, velocidad inicial \texttt{V}, tiempo
+de vuelo \texttt{t} y los ángulos de lanzamiento.
 \subsection{NUMPY}
-\label{sec:org838e398}
+\label{sec:orgd2a0e8b}
+\texttt{numpy} es una librería Python para el cálculo numérico. Lo hemos implementado
+para el apartado de calculos como: \texttt{cos} y \texttt{sin} de los ángulos, la raíz
+cuadrada \texttt{sqrt} de la velocidad, el valor de \texttt{pi} oara convertir grados a
+radianes, y \texttt{linspace} para generar el vector de tiempos.
 \end{document}

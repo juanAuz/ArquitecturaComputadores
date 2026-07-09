@@ -243,6 +243,95 @@ plt.show()
 
 #+end_src
 
+** Solución Planteada
+*** Archivo de funciones projectile_functions.py
+
+#+begin_src python :session :results output :exports both
+import numpy as np
+from scipy.integrate import solve_ivp
+
+def dSdt(t,S,B):
+    """
+    Use fd seguido de C-TAB para generar la funcion con docstrings
+    Define el sistema de ecuaciones diferenciales para el movimien    to del proyectil
+    con resistencia al aire
+    Parametros:
+        t (float): Tiempo
+        S (list): Estado actual [x, vx, y, vy]
+        B (float): Coeficiente de resistencia del aire. Varía desd        e 0.0 a 1.0
+    Retorna:
+        list: Derivadas [dx/dt, dvx/dt, dy/dt, dvy/dt]
+    """
+    x, vx, y, vy = S
+    return [vx,
+            -B*np.sqrt(vx**2+vy**2)*vx,
+            vy,
+            -1-B*np.sqrt(vx**2+vy**2)*vy]
+def resolverEDO(B,V,t,angulo):
+    """
+    Esta función resuelve la EDO utilizando la libreria ivp
+    param: recibe los parametros de B: resitencia del aire, V: velocidad , t: tiempo y angulo: angulo de lanzamiento
+
+    retorna: la función retorna la solución lista para añadirla al gráfico
+    """
+    #transformamos el ángulo recibido de grados a radianes
+
+    anguloRadianes = angulo*np.pi/180
+
+    #usando la libreria ivp calculamos la solución de la EDO y la retornamos
+
+    return solve_ivp(dSdt, [0, t],
+                 y0=[0,V*np.cos(anguloRadianes),0,V*np.sin(anguloRadianes)],
+                 t_eval=np.linspace(0,t,1000),
+                 args=(B,)) #atol=1e-7, rtol=1e-4)
+
+#+end_src
+*** Archivo Principal main.py
+
+#+begin_src python :session :results output :exports both
+import argparse
+from utils.projectile_functions import dSdt
+from utils.projectile_functions import resolverEDO
+import matplotlib.pyplot as plt
+
+def main(resAire,velInicial,tiempoVuelo,angulos):
+    #resAire = B
+    #velInicial = V
+    #tiempoVuelo = t
+    #angulos = angulos 
+
+    # Resolver la trayectoria para cada ángulo y graficarla
+    for angulo in angulos:
+        solucion = resolverEDO(resAire, velInicial, tiempoVuelo, angulo)
+
+        plt.plot(
+            solucion.y[0],
+            solucion.y[2],
+            label=fr'$\theta_0={angulo}^\circ$'
+        )
+
+    plt.ylim(bottom=0)
+    plt.xlabel("$x/g$", fontsize=14)
+    plt.ylabel("$y/g$", fontsize=14)
+    plt.title("Trayectoria del cohete")
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Lanzamiento de un cohete')
+    parser.add_argument('-B', '--resAire',type = float, default = 0.1, help = "Se declara la variable para la resistencia del aire, ej. 0.1"
+                        )
+    parser.add_argument('-V','--velInicial',type=float, default = 1, help = "Se declara la variable para la velocidad inicial del lanzamiento"
+                        )
+    parser.add_argument('-t','--tiempoVuelo' ,type=float,default = 2, help = "tiempo de vuelo"
+                        )
+    parser.add_argument('-a', '--angulos',type=float,nargs='+', default = [40,45,50,60], help = "Se declaran n angulos de lanzamiento para el cohete"
+                        )
+    args = parser.parse_args()
+    main(args.resAire, args.velInicial, args.tiempoVuelo, args.angulos)
+
+#+end_src
 * Descripción librerías usadas
 ** SOLVE_IVP
 ~solve_ivp~ es una función del paquete ~scipy.integrate~ que resuelve
