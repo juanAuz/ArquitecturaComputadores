@@ -1,0 +1,232 @@
+#+options: ':nil *:t -:t ::t <:t H:3 \n:nil ^:t arch:headline
+#+options: author:t broken-links:nil c:nil creator:nil
+#+options: d:(not "LOGBOOK") date:t e:t email:nil expand-links:t f:t
+#+options: inline:t num:t p:nil pri:nil prop:nil stat:t tags:t
+#+options: tasks:t tex:t timestamp:t title:t toc:nil todo:t |:t
+#+title: Booteo de Sistema Operativo Linux
+#+date: 2025-XX-XX
+#+author: Juan Auz, Lanchimba Danny, Palomeque Matías, Quillupangui Ana María
+#+email: juan.auzmontezuma@epn.edu.ec
+#+language: Español
+#+select_tags: export
+#+exclude_tags: noexport
+#+creator: Emacs 27.1 (Org mode 9.7.5)
+#+cite_export: biblatex
+
+#+latex_class: article
+#+latex_class_options:
+#+latex_header:
+#+latex_header_extra:
+#+description:
+#+keywords:
+#+subtitle:
+#+latex_footnote_command: \footnote{%s%s}
+#+latex_engraved_theme:
+#+latex_compiler: pdflatex
+
+#+latex_header: \usepackage{fancyhdr}
+#+latex_header: \usepackage[top=25mm, left=25mm, right=25mm]{geometry}
+#+latex_header: \usepackage{longtable}
+#+latex_header: \fancyhead[R]{}
+#+latex_header: \setlength\headheight{43.0pt}
+
+#+LATEX_HEADER: \usepackage[T1]{fontenc}
+#+LATEX_HEADER: \usepackage[utf8]{inputenc}
+#+LATEX_HEADER: \usepackage[spanish]{babel}
+#+LATEX_HEADER: \usepackage[backend=biber,style=ieee]{biblatex}
+
+
+
+#+begin_export latex
+\fancyhead[C]{\includegraphics[scale=0.05]{../images/logoEPN.jpg}\\
+ESCUELA POLITÉCNICA NACIONAL\\FACULTAD DE INGENIERÍA DE SISTEMAS\\
+ARQUITECTURA DE COMPUTADORES}
+\thispagestyle{fancy}
+#+end_export
+
+
+
+
+* Objetivos
+
+- Aprender a  bootear un sistema operativo Linux
+
+- Aprender sobre la secuencia de arranque de un computador como la
+  BIOS y la UEFI
+
+* Instrucciones
+1. Siga el tutorial para la creación de un booteable de Ubuntu como se
+   indica en la unidad 9 en el archivo Arranque Ubuntu[fn:2].
+
+2. Realice un respaldo del código de /BitLocker/ utilizando un command
+   prompt de Windows con permisos de administrador[fn:1]:
+
+   #+begin_src shell
+    manage-bde-protectors C:-get
+   #+end_src
+
+   #+RESULTS:
+   
+3. Utilizando su computador o el del laboratorio, siga los pasos
+   indicados para obtener el booteo desde el USB con el Sistema
+   Operativo de Ubuntu
+
+4. Realice el boot de Ubuntu desde la memoria USB externa y
+   seleccione la opción de /Probar Sistema Operativo/.
+5. Una vez ingresado active un terminal de Ubuntu: ~Ctrl+ALT+T~ y
+   obtenga las características del computador mediante la ejecución de
+   los comandos: ~lscpu~, ~lsb_release -a~ y ~lspci~. Obtenga capturas
+   de la ejecución de los comandos. Luego abra este archivo en WSL y
+   ejecute los comandos desde los bloques shell. Para insertar un
+   bloque puede usar la combinación ~C-c C-,~, escoja la opción ~src~
+   e indique que es del tipo shell.
+
+* Desarrollo Emacs
+Se sugiere utilizar la opción ~:fontsize
+scriptsize~ para dar formato a la ejecución del comando. Por ejemplo,
+considere:
+
+#+begin_src shell
+whoami
+#+end_src
+
+#+RESULTS:
+: leningfe-epn
+
+** Comando ~lsb_release~
+   #+begin_src shell :no export
+    lsb_release -a
+   #+end_src
+
+   #+RESULTS:
+   | Distributor ID: | Ubuntu             |
+   | Description:    | Ubuntu 24.04.4 LTS |
+   | Release:        | 24.04              |
+   | Codename:       | noble              |
+
+
+** Comando ~lspci~
+   #+begin_src shell :no export
+    lspci
+   #+end_src
+
+   #+RESULTS:
+   | 1ba7:00:00.0 | System | peripheral: | Red         | Hat,        | Inc.  | Virtio | file   | system | (rev    |  01) |     |
+   | 5582:00:00.0 | SCSI   | storage     | controller: | Red         | Hat,  | Inc.   | Virtio |    1.0 | console | (rev | 01) |
+   | af90:00:00.0 | 3D     | controller: | Microsoft   | Corporation | Basic | Render | Driver |        |         |      |     |
+
+** Comando ~lscpu~   
+ #+begin_src shell :no export
+    lscpu
+   #+end_src
+
+   #+RESULTS:
+   | Architecture:   | x86_64      |              |             |                 |             |           |          |          |              |       |          |             |     |           |      |           |       |         |     |      |     |      |    |    |         |    |         |        |    |              |          |      |           |              |             |       |                |     |           |     |       |     |      |      |        |        |        |       |        |                    |     |       |     |      |        |            |         |     |               |      |      |      |       |               |            |     |      |        |          |            |      |      |      |      |      |         |        |     |      |            |      |        |          |        |         |        |          |      |      |         |      |      |            |       |         |           |      |          |           |           |                   |
+   | CPU             | op-mode(s): | 32-bit,      | 64-bit      |                 |             |           |          |          |              |       |          |             |     |           |      |           |       |         |     |      |     |      |    |    |         |    |         |        |    |              |          |      |           |              |             |       |                |     |           |     |       |     |      |      |        |        |        |       |        |                    |     |       |     |      |        |            |         |     |               |      |      |      |       |               |            |     |      |        |          |            |      |      |      |      |      |         |        |     |      |            |      |        |          |        |         |        |          |      |      |         |      |      |            |       |         |           |      |          |           |           |                   |
+   | Address         | sizes:      | 46           | bits        | physical,       | 48          | bits      | virtual  |          |              |       |          |             |     |           |      |           |       |         |     |      |     |      |    |    |         |    |         |        |    |              |          |      |           |              |             |       |                |     |           |     |       |     |      |      |        |        |        |       |        |                    |     |       |     |      |        |            |         |     |               |      |      |      |       |               |            |     |      |        |          |            |      |      |      |      |      |         |        |     |      |            |      |        |          |        |         |        |          |      |      |         |      |      |            |       |         |           |      |          |           |           |                   |
+   | Byte            | Order:      | Little       | Endian      |                 |             |           |          |          |              |       |          |             |     |           |      |           |       |         |     |      |     |      |    |    |         |    |         |        |    |              |          |      |           |              |             |       |                |     |           |     |       |     |      |      |        |        |        |       |        |                    |     |       |     |      |        |            |         |     |               |      |      |      |       |               |            |     |      |        |          |            |      |      |      |      |      |         |        |     |      |            |      |        |          |        |         |        |          |      |      |         |      |      |            |       |         |           |      |          |           |           |                   |
+   | CPU(s):         | 24          |              |             |                 |             |           |          |          |              |       |          |             |     |           |      |           |       |         |     |      |     |      |    |    |         |    |         |        |    |              |          |      |           |              |             |       |                |     |           |     |       |     |      |      |        |        |        |       |        |                    |     |       |     |      |        |            |         |     |               |      |      |      |       |               |            |     |      |        |          |            |      |      |      |      |      |         |        |     |      |            |      |        |          |        |         |        |          |      |      |         |      |      |            |       |         |           |      |          |           |           |                   |
+   | On-line         | CPU(s)      | list:        | 0-23        |                 |             |           |          |          |              |       |          |             |     |           |      |           |       |         |     |      |     |      |    |    |         |    |         |        |    |              |          |      |           |              |             |       |                |     |           |     |       |     |      |      |        |        |        |       |        |                    |     |       |     |      |        |            |         |     |               |      |      |      |       |               |            |     |      |        |          |            |      |      |      |      |      |         |        |     |      |            |      |        |          |        |         |        |          |      |      |         |      |      |            |       |         |           |      |          |           |           |                   |
+   | Vendor          | ID:         | GenuineIntel |             |                 |             |           |          |          |              |       |          |             |     |           |      |           |       |         |     |      |     |      |    |    |         |    |         |        |    |              |          |      |           |              |             |       |                |     |           |     |       |     |      |      |        |        |        |       |        |                    |     |       |     |      |        |            |         |     |               |      |      |      |       |               |            |     |      |        |          |            |      |      |      |      |      |         |        |     |      |            |      |        |          |        |         |        |          |      |      |         |      |      |            |       |         |           |      |          |           |           |                   |
+   | Model           | name:       | 13th         | Gen         | Intel(R)        | Core(TM)    | i7-13700  |          |          |              |       |          |             |     |           |      |           |       |         |     |      |     |      |    |    |         |    |         |        |    |              |          |      |           |              |             |       |                |     |           |     |       |     |      |      |        |        |        |       |        |                    |     |       |     |      |        |            |         |     |               |      |      |      |       |               |            |     |      |        |          |            |      |      |      |      |      |         |        |     |      |            |      |        |          |        |         |        |          |      |      |         |      |      |            |       |         |           |      |          |           |           |                   |
+   | CPU             | family:     | 6            |             |                 |             |           |          |          |              |       |          |             |     |           |      |           |       |         |     |      |     |      |    |    |         |    |         |        |    |              |          |      |           |              |             |       |                |     |           |     |       |     |      |      |        |        |        |       |        |                    |     |       |     |      |        |            |         |     |               |      |      |      |       |               |            |     |      |        |          |            |      |      |      |      |      |         |        |     |      |            |      |        |          |        |         |        |          |      |      |         |      |      |            |       |         |           |      |          |           |           |                   |
+   | Model:          | 183         |              |             |                 |             |           |          |          |              |       |          |             |     |           |      |           |       |         |     |      |     |      |    |    |         |    |         |        |    |              |          |      |           |              |             |       |                |     |           |     |       |     |      |      |        |        |        |       |        |                    |     |       |     |      |        |            |         |     |               |      |      |      |       |               |            |     |      |        |          |            |      |      |      |      |      |         |        |     |      |            |      |        |          |        |         |        |          |      |      |         |      |      |            |       |         |           |      |          |           |           |                   |
+   | Thread(s)       | per         | core:        | 2           |                 |             |           |          |          |              |       |          |             |     |           |      |           |       |         |     |      |     |      |    |    |         |    |         |        |    |              |          |      |           |              |             |       |                |     |           |     |       |     |      |      |        |        |        |       |        |                    |     |       |     |      |        |            |         |     |               |      |      |      |       |               |            |     |      |        |          |            |      |      |      |      |      |         |        |     |      |            |      |        |          |        |         |        |          |      |      |         |      |      |            |       |         |           |      |          |           |           |                   |
+   | Core(s)         | per         | socket:      | 12          |                 |             |           |          |          |              |       |          |             |     |           |      |           |       |         |     |      |     |      |    |    |         |    |         |        |    |              |          |      |           |              |             |       |                |     |           |     |       |     |      |      |        |        |        |       |        |                    |     |       |     |      |        |            |         |     |               |      |      |      |       |               |            |     |      |        |          |            |      |      |      |      |      |         |        |     |      |            |      |        |          |        |         |        |          |      |      |         |      |      |            |       |         |           |      |          |           |           |                   |
+   | Socket(s):      | 1           |              |             |                 |             |           |          |          |              |       |          |             |     |           |      |           |       |         |     |      |     |      |    |    |         |    |         |        |    |              |          |      |           |              |             |       |                |     |           |     |       |     |      |      |        |        |        |       |        |                    |     |       |     |      |        |            |         |     |               |      |      |      |       |               |            |     |      |        |          |            |      |      |      |      |      |         |        |     |      |            |      |        |          |        |         |        |          |      |      |         |      |      |            |       |         |           |      |          |           |           |                   |
+   | Stepping:       | 1           |              |             |                 |             |           |          |          |              |       |          |             |     |           |      |           |       |         |     |      |     |      |    |    |         |    |         |        |    |              |          |      |           |              |             |       |                |     |           |     |       |     |      |      |        |        |        |       |        |                    |     |       |     |      |        |            |         |     |               |      |      |      |       |               |            |     |      |        |          |            |      |      |      |      |      |         |        |     |      |            |      |        |          |        |         |        |          |      |      |         |      |      |            |       |         |           |      |          |           |           |                   |
+   | BogoMIPS:       | 4224.0      |              |             |                 |             |           |          |          |              |       |          |             |     |           |      |           |       |         |     |      |     |      |    |    |         |    |         |        |    |              |          |      |           |              |             |       |                |     |           |     |       |     |      |      |        |        |        |       |        |                    |     |       |     |      |        |            |         |     |               |      |      |      |       |               |            |     |      |        |          |            |      |      |      |      |      |         |        |     |      |            |      |        |          |        |         |        |          |      |      |         |      |      |            |       |         |           |      |          |           |           |                   |
+   | Flags:          | fpu         | vme          | de          | pse             | tsc         | msr       | pae      | mce      | cx8          | apic  | sep      | mtrr        | pge | mca       | cmov | pat       | pse36 | clflush | mmx | fxsr | sse | sse2 | ss | ht | syscall | nx | pdpe1gb | rdtscp | lm | constant_tsc | rep_good | nopl | xtopology | tsc_reliable | nonstop_tsc | cpuid | tsc_known_freq | pni | pclmulqdq | vmx | ssse3 | fma | cx16 | pcid | sse4_1 | sse4_2 | x2apic | movbe | popcnt | tsc_deadline_timer | aes | xsave | avx | f16c | rdrand | hypervisor | lahf_lm | abm | 3dnowprefetch | ssbd | ibrs | ibpb | stibp | ibrs_enhanced | tpr_shadow | ept | vpid | ept_ad | fsgsbase | tsc_adjust | bmi1 | avx2 | smep | bmi2 | erms | invpcid | rdseed | adx | smap | clflushopt | clwb | sha_ni | xsaveopt | xsavec | xgetbv1 | xsaves | avx_vnni | vnmi | umip | waitpkg | gfni | vaes | vpclmulqdq | rdpid | movdiri | movdir64b | fsrm | md_clear | serialize | flush_l1d | arch_capabilities |
+   | Virtualization: | VT-x        |              |             |                 |             |           |          |          |              |       |          |             |     |           |      |           |       |         |     |      |     |      |    |    |         |    |         |        |    |              |          |      |           |              |             |       |                |     |           |     |       |     |      |      |        |        |        |       |        |                    |     |       |     |      |        |            |         |     |               |      |      |      |       |               |            |     |      |        |          |            |      |      |      |      |      |         |        |     |      |            |      |        |          |        |         |        |          |      |      |         |      |      |            |       |         |           |      |          |           |           |                   |
+   | Hypervisor      | vendor:     | Microsoft    |             |                 |             |           |          |          |              |       |          |             |     |           |      |           |       |         |     |      |     |      |    |    |         |    |         |        |    |              |          |      |           |              |             |       |                |     |           |     |       |     |      |      |        |        |        |       |        |                    |     |       |     |      |        |            |         |     |               |      |      |      |       |               |            |     |      |        |          |            |      |      |      |      |      |         |        |     |      |            |      |        |          |        |         |        |          |      |      |         |      |      |            |       |         |           |      |          |           |           |                   |
+   | Virtualization  | type:       | full         |             |                 |             |           |          |          |              |       |          |             |     |           |      |           |       |         |     |      |     |      |    |    |         |    |         |        |    |              |          |      |           |              |             |       |                |     |           |     |       |     |      |      |        |        |        |       |        |                    |     |       |     |      |        |            |         |     |               |      |      |      |       |               |            |     |      |        |          |            |      |      |      |      |      |         |        |     |      |            |      |        |          |        |         |        |          |      |      |         |      |      |            |       |         |           |      |          |           |           |                   |
+   | L1d             | cache:      | 576          | KiB         | (12             | instances)  |           |          |          |              |       |          |             |     |           |      |           |       |         |     |      |     |      |    |    |         |    |         |        |    |              |          |      |           |              |             |       |                |     |           |     |       |     |      |      |        |        |        |       |        |                    |     |       |     |      |        |            |         |     |               |      |      |      |       |               |            |     |      |        |          |            |      |      |      |      |      |         |        |     |      |            |      |        |          |        |         |        |          |      |      |         |      |      |            |       |         |           |      |          |           |           |                   |
+   | L1i             | cache:      | 384          | KiB         | (12             | instances)  |           |          |          |              |       |          |             |     |           |      |           |       |         |     |      |     |      |    |    |         |    |         |        |    |              |          |      |           |              |             |       |                |     |           |     |       |     |      |      |        |        |        |       |        |                    |     |       |     |      |        |            |         |     |               |      |      |      |       |               |            |     |      |        |          |            |      |      |      |      |      |         |        |     |      |            |      |        |          |        |         |        |          |      |      |         |      |      |            |       |         |           |      |          |           |           |                   |
+   | L2              | cache:      | 24           | MiB         | (12             | instances)  |           |          |          |              |       |          |             |     |           |      |           |       |         |     |      |     |      |    |    |         |    |         |        |    |              |          |      |           |              |             |       |                |     |           |     |       |     |      |      |        |        |        |       |        |                    |     |       |     |      |        |            |         |     |               |      |      |      |       |               |            |     |      |        |          |            |      |      |      |      |      |         |        |     |      |            |      |        |          |        |         |        |          |      |      |         |      |      |            |       |         |           |      |          |           |           |                   |
+   | L3              | cache:      | 30           | MiB         | (1              | instance)   |           |          |          |              |       |          |             |     |           |      |           |       |         |     |      |     |      |    |    |         |    |         |        |    |              |          |      |           |              |             |       |                |     |           |     |       |     |      |      |        |        |        |       |        |                    |     |       |     |      |        |            |         |     |               |      |      |      |       |               |            |     |      |        |          |            |      |      |      |      |      |         |        |     |      |            |      |        |          |        |         |        |          |      |      |         |      |      |            |       |         |           |      |          |           |           |                   |
+   | NUMA            | node(s):    | 1            |             |                 |             |           |          |          |              |       |          |             |     |           |      |           |       |         |     |      |     |      |    |    |         |    |         |        |    |              |          |      |           |              |             |       |                |     |           |     |       |     |      |      |        |        |        |       |        |                    |     |       |     |      |        |            |         |     |               |      |      |      |       |               |            |     |      |        |          |            |      |      |      |      |      |         |        |     |      |            |      |        |          |        |         |        |          |      |      |         |      |      |            |       |         |           |      |          |           |           |                   |
+   | NUMA            | node0       | CPU(s):      | 0-23        |                 |             |           |          |          |              |       |          |             |     |           |      |           |       |         |     |      |     |      |    |    |         |    |         |        |    |              |          |      |           |              |             |       |                |     |           |     |       |     |      |      |        |        |        |       |        |                    |     |       |     |      |        |            |         |     |               |      |      |      |       |               |            |     |      |        |          |            |      |      |      |      |      |         |        |     |      |            |      |        |          |        |         |        |          |      |      |         |      |      |            |       |         |           |      |          |           |           |                   |
+   | Vulnerability   | Gather      | data         | sampling:   | Not             | affected    |           |          |          |              |       |          |             |     |           |      |           |       |         |     |      |     |      |    |    |         |    |         |        |    |              |          |      |           |              |             |       |                |     |           |     |       |     |      |      |        |        |        |       |        |                    |     |       |     |      |        |            |         |     |               |      |      |      |       |               |            |     |      |        |          |            |      |      |      |      |      |         |        |     |      |            |      |        |          |        |         |        |          |      |      |         |      |      |            |       |         |           |      |          |           |           |                   |
+   | Vulnerability   | Itlb        | multihit:    | Not         | affected        |             |           |          |          |              |       |          |             |     |           |      |           |       |         |     |      |     |      |    |    |         |    |         |        |    |              |          |      |           |              |             |       |                |     |           |     |       |     |      |      |        |        |        |       |        |                    |     |       |     |      |        |            |         |     |               |      |      |      |       |               |            |     |      |        |          |            |      |      |      |      |      |         |        |     |      |            |      |        |          |        |         |        |          |      |      |         |      |      |            |       |         |           |      |          |           |           |                   |
+   | Vulnerability   | L1tf:       | Not          | affected    |                 |             |           |          |          |              |       |          |             |     |           |      |           |       |         |     |      |     |      |    |    |         |    |         |        |    |              |          |      |           |              |             |       |                |     |           |     |       |     |      |      |        |        |        |       |        |                    |     |       |     |      |        |            |         |     |               |      |      |      |       |               |            |     |      |        |          |            |      |      |      |      |      |         |        |     |      |            |      |        |          |        |         |        |          |      |      |         |      |      |            |       |         |           |      |          |           |           |                   |
+   | Vulnerability   | Mds:        | Not          | affected    |                 |             |           |          |          |              |       |          |             |     |           |      |           |       |         |     |      |     |      |    |    |         |    |         |        |    |              |          |      |           |              |             |       |                |     |           |     |       |     |      |      |        |        |        |       |        |                    |     |       |     |      |        |            |         |     |               |      |      |      |       |               |            |     |      |        |          |            |      |      |      |      |      |         |        |     |      |            |      |        |          |        |         |        |          |      |      |         |      |      |            |       |         |           |      |          |           |           |                   |
+   | Vulnerability   | Meltdown:   | Not          | affected    |                 |             |           |          |          |              |       |          |             |     |           |      |           |       |         |     |      |     |      |    |    |         |    |         |        |    |              |          |      |           |              |             |       |                |     |           |     |       |     |      |      |        |        |        |       |        |                    |     |       |     |      |        |            |         |     |               |      |      |      |       |               |            |     |      |        |          |            |      |      |      |      |      |         |        |     |      |            |      |        |          |        |         |        |          |      |      |         |      |      |            |       |         |           |      |          |           |           |                   |
+   | Vulnerability   | Mmio        | stale        | data:       | Not             | affected    |           |          |          |              |       |          |             |     |           |      |           |       |         |     |      |     |      |    |    |         |    |         |        |    |              |          |      |           |              |             |       |                |     |           |     |       |     |      |      |        |        |        |       |        |                    |     |       |     |      |        |            |         |     |               |      |      |      |       |               |            |     |      |        |          |            |      |      |      |      |      |         |        |     |      |            |      |        |          |        |         |        |          |      |      |         |      |      |            |       |         |           |      |          |           |           |                   |
+   | Vulnerability   | Reg         | file         | data        | sampling:       | Mitigation; | Clear     | Register | File     |              |       |          |             |     |           |      |           |       |         |     |      |     |      |    |    |         |    |         |        |    |              |          |      |           |              |             |       |                |     |           |     |       |     |      |      |        |        |        |       |        |                    |     |       |     |      |        |            |         |     |               |      |      |      |       |               |            |     |      |        |          |            |      |      |      |      |      |         |        |     |      |            |      |        |          |        |         |        |          |      |      |         |      |      |            |       |         |           |      |          |           |           |                   |
+   | Vulnerability   | Retbleed:   | Mitigation;  | Enhanced    | IBRS            |             |           |          |          |              |       |          |             |     |           |      |           |       |         |     |      |     |      |    |    |         |    |         |        |    |              |          |      |           |              |             |       |                |     |           |     |       |     |      |      |        |        |        |       |        |                    |     |       |     |      |        |            |         |     |               |      |      |      |       |               |            |     |      |        |          |            |      |      |      |      |      |         |        |     |      |            |      |        |          |        |         |        |          |      |      |         |      |      |            |       |         |           |      |          |           |           |                   |
+   | Vulnerability   | Spec        | rstack       | overflow:   | Not             | affected    |           |          |          |              |       |          |             |     |           |      |           |       |         |     |      |     |      |    |    |         |    |         |        |    |              |          |      |           |              |             |       |                |     |           |     |       |     |      |      |        |        |        |       |        |                    |     |       |     |      |        |            |         |     |               |      |      |      |       |               |            |     |      |        |          |            |      |      |      |      |      |         |        |     |      |            |      |        |          |        |         |        |          |      |      |         |      |      |            |       |         |           |      |          |           |           |                   |
+   | Vulnerability   | Spec        | store        | bypass:     | Mitigation;     | Speculative | Store     | Bypass   | disabled | via          | prctl |          |             |     |           |      |           |       |         |     |      |     |      |    |    |         |    |         |        |    |              |          |      |           |              |             |       |                |     |           |     |       |     |      |      |        |        |        |       |        |                    |     |       |     |      |        |            |         |     |               |      |      |      |       |               |            |     |      |        |          |            |      |      |      |      |      |         |        |     |      |            |      |        |          |        |         |        |          |      |      |         |      |      |            |       |         |           |      |          |           |           |                   |
+   | Vulnerability   | Spectre     | v1:          | Mitigation; | usercopy/swapgs | barriers    | and       | __user   | pointer  | sanitization |       |          |             |     |           |      |           |       |         |     |      |     |      |    |    |         |    |         |        |    |              |          |      |           |              |             |       |                |     |           |     |       |     |      |      |        |        |        |       |        |                    |     |       |     |      |        |            |         |     |               |      |      |      |       |               |            |     |      |        |          |            |      |      |      |      |      |         |        |     |      |            |      |        |          |        |         |        |          |      |      |         |      |      |            |       |         |           |      |          |           |           |                   |
+   | Vulnerability   | Spectre     | v2:          | Mitigation; | Enhanced        | /           | Automatic | IBRS;    | IBPB     | conditional; | RSB   | filling; | PBRSB-eIBRS | SW  | sequence; | BHI  | BHI_DIS_S |       |         |     |      |     |      |    |    |         |    |         |        |    |              |          |      |           |              |             |       |                |     |           |     |       |     |      |      |        |        |        |       |        |                    |     |       |     |      |        |            |         |     |               |      |      |      |       |               |            |     |      |        |          |            |      |      |      |      |      |         |        |     |      |            |      |        |          |        |         |        |          |      |      |         |      |      |            |       |         |           |      |          |           |           |                   |
+   | Vulnerability   | Srbds:      | Not          | affected    |                 |             |           |          |          |              |       |          |             |     |           |      |           |       |         |     |      |     |      |    |    |         |    |         |        |    |              |          |      |           |              |             |       |                |     |           |     |       |     |      |      |        |        |        |       |        |                    |     |       |     |      |        |            |         |     |               |      |      |      |       |               |            |     |      |        |          |            |      |      |      |      |      |         |        |     |      |            |      |        |          |        |         |        |          |      |      |         |      |      |            |       |         |           |      |          |           |           |                   |
+   | Vulnerability   | Tsx         | async        | abort:      | Not             | affected    |           |          |          |              |       |          |             |     |           |      |           |       |         |     |      |     |      |    |    |         |    |         |        |    |              |          |      |           |              |             |       |                |     |           |     |       |     |      |      |        |        |        |       |        |                    |     |       |     |      |        |            |         |     |               |      |      |      |       |               |            |     |      |        |          |            |      |      |      |      |      |         |        |     |      |            |      |        |          |        |         |        |          |      |      |         |      |      |            |       |         |           |      |          |           |           |                   |
+
+* Desarrollo Capturas
+Coloque las capturas de los resultados obtenidos en los
+terminales. Para esto recuerde utilizar dobles corchetes y escribir el
+/path/ hacia la imagen. Pruebe a utilizar YASnipet para generar el
+siguiente código para descripción de la figura. Para esto puede
+escriba ~fig_~ seguido de la combinación de teclas ~C-TAB~, finalmente
+coloque la dirección de la imagen.
+
+#+caption: caption
+#+attr_latex: scale=0.75
+#+label: fig:label
+a[[file:~/images/lscpu1.png]]
+#+caption: caption
+#+attr_latex: scale=0.75
+#+label: fig:label
+[[file:~/images/lscpu2.png]]
+
+#+caption: caption
+#+attr_latex: scale=0.75
+#+label: fig:label
+[[file:~/images/lscpi.png]]
+
+#+caption: caption
+#+attr_latex: scale=0.75
+#+label: fig:label
+[[file:~/images/lsb_release.png]]
+
+#+caption: caption
+#+attr_latex: scale=0.75
+#+label: fig:label
+[[file:~/images/whoami.png]]
+* Consulta
+Describa que hacen y para qué sirven los comandos utilizados en la práctica
+
+- lscpu ::
+  ~lscpu~ Muestra la información detallada acerca la arquitectura y el
+  procesador del sistema. Se lo utiliza para conocer las
+  características del procesador, como:
+  - Arquitectura (34 o 64 bits).
+  - Modelo y fabricante de la CPU.
+  - Número de núcelos e hilos.
+  - Frecuencia delprocesador.
+  - Memoria caché.
+  - Teconologías soportadas (virtualización, entre otras).
+       
+- lsb\_release -a ::
+  ~lsb_release -a~ Muestra la información acerca de la distribución de
+  linux instalada. Nos permite identificar la versión y los datos de
+  la distribución del sistema operativo, incluyendo:
+  - Nombre de la distribución.
+  - Descripción acerca de la versión que posee.
+  - Descripción del sistema.
+       
+- lspci ::
+  ~lspci~ Lista todos los dispositivos al bus PCI del equipo. Sirve
+  para identificar el hardware conectado al sistema, por ejemplo:
+  - Tarjeta Gráfica.
+  - Tarjeta de red.
+  - Controladores SATA o NVMe.
+  - Dispositivos de audio.
+  - Controladores USB.
+* Footnotes
+[fn:2]Dependiendo de las características de su computador debe
+verificar si al crear el medio booteable para Ubuntu, su sistema
+reconoce o acepta para el /Target System/
+
+[fn:1]Si no respalda el código, no podrá arrancar el disco luego de
+reiniciar. Más información en: [[https://www.partitionwizard.com/disk-recovery/bitlocker-recovery-key-bypass.html
+ ][https://www.partitionwizard.com/disk-recovery/bitlocker-recovery-key-bypass.html]]
