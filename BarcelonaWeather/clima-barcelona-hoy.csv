@@ -1,0 +1,2 @@
+base,visibility,dt,timezone,id,name,cod,weather_description,coord_lon,coord_lat,main_temp,main_feels_like,main_temp_min,main_temp_max,main_pressure,main_humidity,main_sea_level,main_grnd_level,wind_speed,wind_deg,wind_gust,clouds_all,sys_type,sys_id,sys_country,sys_sunrise,sys_sunset
+stations,10000,1783825184,7200,6544100,Eixample,200,broken clouds,2.159,41.3888,24.37,24.77,23.39,25.18,1014,73,1014,1007,0.89,96,2.68,78,2,18549,ES,1783830497,1783884314
