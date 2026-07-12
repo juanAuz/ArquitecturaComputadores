@@ -66,6 +66,7 @@ tree --charset=ascii #utilizado para evitar errores de exportacion a pdf
     |   |   |-- HeapMap.png
     |   |   |-- Humidity.png
     |   |   `-- Temperatura.png
+    |   |-- #index.org#
     |   |-- index.org
     |   |-- index.org~
     |   |-- index.pdf
@@ -77,7 +78,7 @@ tree --charset=ascii #utilizado para evitar errores de exportacion a pdf
         |   `-- Temperatura.png
         `-- index.html
 
-6 directories, 23 files
+6 directories, 24 files
 #+end_example
 
 Puede usar Emacs para la creación de la estructura de su proyecto
@@ -134,6 +135,8 @@ WSL. Las etapas del problema se subdividen en:
             :ensure t)
        #+end_src
 
+       #+RESULTS:
+
        Instrucciones de sobre la creación del sitio web se tiene en el
        vídeo de instrucciones y en el archivo [[https://github.com/LeninGF/EPN-Lectures/blob/main/iccd332ArqComp-2024-A/Tutoriales/Org-Website/Org-Website.org][Org-Website.org]] en el
        GitHub del curso
@@ -189,39 +192,39 @@ print(json.dumps(Barcelona_weather, indent=2, ensure_ascii=False))
   },
   "weather": [
     {
-      "id": 804,
+      "id": 803,
       "main": "Clouds",
-      "description": "overcast clouds",
-      "icon": "04d"
+      "description": "broken clouds",
+      "icon": "04n"
     }
   ],
   "base": "stations",
   "main": {
-    "temp": 29.26,
-    "feels_like": 30.7,
-    "temp_min": 26.97,
-    "temp_max": 32.02,
+    "temp": 26.63,
+    "feels_like": 26.63,
+    "temp_min": 24.69,
+    "temp_max": 27.61,
     "pressure": 1014,
-    "humidity": 55,
+    "humidity": 50,
     "sea_level": 1014,
     "grnd_level": 1007
   },
   "visibility": 10000,
   "wind": {
-    "speed": 4.21,
-    "deg": 82,
-    "gust": 5.38
+    "speed": 2.98,
+    "deg": 65,
+    "gust": 3.55
   },
   "clouds": {
-    "all": 100
+    "all": 52
   },
-  "dt": 1783876800,
+  "dt": 1783899671,
   "sys": {
     "type": 2,
-    "id": 18549,
+    "id": 2032131,
     "country": "ES",
-    "sunrise": 1783830497,
-    "sunset": 1783884314
+    "sunrise": 1783916942,
+    "sunset": 1783970683
   },
   "timezone": 7200,
   "id": 3128760,
@@ -269,34 +272,34 @@ print(jsonProcesado.T.to_string())
 
 #+RESULTS:
 #+begin_example
-                                   0
-base                        stations
-visibility                     10000
-dt                        1783876800
-timezone                        7200
-id                           3128760
-name                       Barcelona
-cod                              200
-weather_description  overcast clouds
-coord_lon                      2.159
-coord_lat                    41.3888
-main_temp                      29.26
-main_feels_like                 30.7
-main_temp_min                  26.97
-main_temp_max                  32.02
-main_pressure                   1014
-main_humidity                     55
-main_sea_level                  1014
-main_grnd_level                 1007
-wind_speed                      4.21
-wind_deg                          82
-wind_gust                       5.38
-clouds_all                       100
-sys_type                           2
-sys_id                         18549
-sys_country                       ES
-sys_sunrise               1783830497
-sys_sunset                1783884314
+                                 0
+base                      stations
+visibility                   10000
+dt                      1783899671
+timezone                      7200
+id                         3128760
+name                     Barcelona
+cod                            200
+weather_description  broken clouds
+coord_lon                    2.159
+coord_lat                  41.3888
+main_temp                    26.63
+main_feels_like              26.63
+main_temp_min                24.69
+main_temp_max                27.61
+main_pressure                 1014
+main_humidity                   50
+main_sea_level                1014
+main_grnd_level               1007
+wind_speed                    2.98
+wind_deg                        65
+wind_gust                     3.55
+clouds_all                      52
+sys_type                         2
+sys_id                     2032131
+sys_country                     ES
+sys_sunrise             1783916942
+sys_sunset              1783970683
 #+end_example
 *** Almacenamiento en csv
 Con nuestros datos aplanados, es necesario guardarlos en un archivo
@@ -326,39 +329,39 @@ los datos se exportan a formato CSV y se guardan en el disco.
 write2csv(jsonProcesado, fileName)
 #+end_src
 Para ilustrar como se guardan los datos se utiliza la funcion read_csv
-#+begin_src python :session clima :dir ../../ :results table :eval never-export
+#+begin_src python :session clima :dir ../../ :results table 
 pd.read_csv(fileName).sample(4).T
 #+end_src
 
 #+RESULTS:
-|                     |              17 |              24 |              15 |               5 |
+|                     |              24 |               6 |              29 |              22 |
 |---------------------+-----------------+-----------------+-----------------+-----------------|
 | base                |        stations |        stations |        stations |        stations |
 | visibility          |           10000 |           10000 |           10000 |           10000 |
-| dt                  |      1783873363 |      1783880103 |      1783871652 |      1783862652 |
+| dt                  |      1783880103 |      1783863627 |      1783884174 |      1783877992 |
 | timezone            |            7200 |            7200 |            7200 |            7200 |
 | id                  |         3128760 |         3128760 |         3128760 |         3128760 |
 | name                |       Barcelona |       Barcelona |       Barcelona |       Barcelona |
 | cod                 |             200 |             200 |             200 |             200 |
 | weather_description | overcast clouds | overcast clouds | overcast clouds | overcast clouds |
-| coord_lon           |           2.159 |           2.159 |           2.159 |           2.159 |
-| coord_lat           |         41.3888 |         41.3888 |         41.3888 |         41.3888 |
-| main_temp           |           28.71 |           28.14 |           28.88 |            30.0 |
-| main_feels_like     |           30.55 |            29.9 |           30.83 |           31.71 |
-| main_temp_min       |           26.97 |            26.5 |           26.97 |           28.26 |
-| main_temp_max       |           32.02 |           30.64 |           33.13 |           33.13 |
-| main_pressure       |            1015 |            1015 |            1015 |            1015 |
-| main_humidity       |              60 |              62 |              60 |              54 |
-| main_sea_level      |            1015 |            1015 |            1015 |            1015 |
-| main_grnd_level     |            1007 |            1006 |            1007 |            1008 |
-| wind_speed          |            4.78 |            4.43 |            0.45 |            2.24 |
-| wind_deg            |              87 |              78 |             107 |              94 |
-| wind_gust           |            6.01 |            5.52 |            4.02 |            4.92 |
-| clouds_all          |              99 |             100 |              99 |             100 |
+| coord_lon           |           2.159 |          2.1606 |           2.159 |           2.159 |
+| coord_lat           |         41.3888 |         41.3891 |         41.3888 |         41.3888 |
+| main_temp           |           28.14 |           29.57 |           27.68 |           28.88 |
+| main_feels_like     |            29.9 |           31.85 |            29.4 |            30.4 |
+| main_temp_min       |            26.5 |           27.65 |           25.94 |           26.97 |
+| main_temp_max       |           30.64 |           33.17 |           28.99 |           31.46 |
+| main_pressure       |            1015 |            1015 |            1014 |            1014 |
+| main_humidity       |              62 |              59 |              64 |              57 |
+| main_sea_level      |            1015 |            1015 |            1014 |            1014 |
+| main_grnd_level     |            1006 |            1008 |            1007 |            1006 |
+| wind_speed          |            4.43 |            0.45 |            3.74 |            4.43 |
+| wind_deg            |              78 |             174 |              67 |              78 |
+| wind_gust           |            5.52 |            4.47 |            4.33 |            5.52 |
+| clouds_all          |             100 |             100 |              95 |             100 |
 | sys_type            |               2 |               2 |               2 |               2 |
 | sys_id              |           18549 |           18549 |           18549 |           18549 |
 | sys_country         |              ES |              ES |              ES |              ES |
-| sys_sunrise         |      1783830497 |      1783830497 |      1783830497 |      1783830497 |
+| sys_sunrise         |      1783830497 |      1783830496 |      1783830497 |      1783830497 |
 | sys_sunset          |      1783884314 |      1783884314 |      1783884314 |      1783884314 |
 Con eso conseguimos nuestros datos limpios y planos para un posterior análisis
 ** Script ejecutable sh
@@ -419,7 +422,7 @@ print(df.shape)
 
 #+end_src
 #+RESULTS:
-: (40, 27)
+: (47, 27)
 
 Resultado del número de filas y columnas leídos del archivo csv
 
@@ -433,18 +436,18 @@ table = [list(table1)]+[None]+table1.values.tolist()
 #+end_src
 
 #+RESULTS:
-| base     | visibility | dt                  | timezone |      id | name      | cod | weather_description | coord_lon | coord_lat | main_temp | main_feels_like | main_temp_min | main_temp_max | main_pressure | main_humidity | main_sea_level | main_grnd_level | wind_speed | wind_deg | wind_gust | clouds_all | sys_type | sys_id | sys_country | sys_sunrise         | sys_sunset          |
-|----------+------------+---------------------+----------+---------+-----------+-----+---------------------+-----------+-----------+-----------+-----------------+---------------+---------------+---------------+---------------+----------------+-----------------+------------+----------+-----------+------------+----------+--------+-------------+---------------------+---------------------|
-| stations |      10000 | 2026-07-12 10:12:20 |     7200 | 3128760 | Barcelona | 200 | overcast clouds     |     2.159 |   41.3888 |     29.81 |           31.24 |         28.51 |         33.69 |          1015 |            53 |           1015 |            1007 |       1.34 |       82 |      4.92 |         99 |        2 |  18549 | ES          | 2026-07-11 23:28:17 | 2026-07-12 14:25:14 |
-| stations |      10000 | 2026-07-12 11:55:08 |     7200 | 3128760 | Barcelona | 200 | overcast clouds     |     2.159 |   41.3888 |     28.84 |           30.77 |         26.97 |         32.02 |          1014 |            60 |           1014 |            1007 |       4.21 |       82 |      5.38 |        100 |        2 |  18549 | ES          | 2026-07-11 23:28:17 | 2026-07-12 14:25:14 |
-| stations |      10000 | 2026-07-11 21:59:44 |     7200 | 6544100 | Eixample  | 200 | broken clouds       |     2.159 |   41.3888 |     24.37 |           24.77 |         23.39 |         25.18 |          1014 |            73 |           1014 |            1007 |       0.89 |       96 |      2.68 |         78 |        2 |  18549 | ES          | 2026-07-11 23:28:17 | 2026-07-12 14:25:14 |
-| stations |      10000 | 2026-07-12 12:39:52 |     7200 | 3128760 | Barcelona | 200 | overcast clouds     |     2.159 |   41.3888 |     28.88 |            30.4 |         26.97 |         31.46 |          1014 |            57 |           1014 |            1006 |       4.43 |       78 |      5.52 |        100 |        2 |  18549 | ES          | 2026-07-11 23:28:17 | 2026-07-12 14:25:14 |
-| stations |      10000 | 2026-07-12 08:40:27 |     7200 | 3128760 | Barcelona | 200 | overcast clouds     |    2.1606 |   41.3891 |     29.57 |           31.85 |         27.65 |         33.17 |          1015 |            59 |           1015 |            1008 |       0.45 |      174 |      4.47 |        100 |        2 |  18549 | ES          | 2026-07-11 23:28:16 | 2026-07-12 14:25:14 |
-| stations |      10000 | 2026-07-12 09:14:59 |     7200 | 3128760 | Barcelona | 200 | overcast clouds     |     2.159 |   41.3888 |     30.44 |           32.85 |         28.08 |         33.13 |          1015 |            56 |           1015 |            1008 |       0.89 |       49 |      4.02 |        100 |        2 |  18549 | ES          | 2026-07-11 23:28:17 | 2026-07-12 14:25:14 |
-| stations |      10000 | 2026-07-12 09:25:54 |     7200 | 6544100 | Eixample  | 200 | overcast clouds     |    2.1606 |   41.3891 |     30.59 |           32.51 |          28.3 |         33.17 |          1015 |            53 |           1015 |            1008 |       0.89 |       80 |      4.47 |        100 |        2 |  18549 | ES          | 2026-07-11 23:28:16 | 2026-07-12 14:25:14 |
-| stations |      10000 | 2026-07-11 22:26:30 |     7200 | 3128760 | Barcelona | 200 | broken clouds       |     2.159 |   41.3888 |     24.37 |           24.74 |         23.64 |         25.18 |          1014 |            72 |           1014 |            1007 |       2.44 |       76 |      3.42 |         78 |        2 |  18549 | ES          | 2026-07-11 23:28:17 | 2026-07-12 14:25:14 |
-| stations |      10000 | 2026-07-12 08:10:47 |     7200 | 6544100 | Eixample  | 200 | overcast clouds     |     2.159 |   41.3888 |     30.44 |           32.26 |         28.81 |         32.84 |          1015 |            53 |           1015 |            1008 |       5.16 |      107 |      6.97 |        100 |        2 |  18549 | ES          | 2026-07-11 23:28:17 | 2026-07-12 14:25:14 |
-| stations |      10000 | 2026-07-12 12:52:12 |     7200 | 3128760 | Barcelona | 200 | overcast clouds     |     2.159 |   41.3888 |     28.77 |           30.23 |         26.97 |         31.46 |          1014 |            57 |           1014 |            1006 |       4.43 |       78 |      5.52 |        100 |        2 |  18549 | ES          | 2026-07-11 23:28:17 | 2026-07-12 14:25:14 |
+| base     | visibility | dt                  | timezone |      id | name      | cod | weather_description | coord_lon | coord_lat | main_temp | main_feels_like | main_temp_min | main_temp_max | main_pressure | main_humidity | main_sea_level | main_grnd_level | wind_speed | wind_deg | wind_gust | clouds_all | sys_type |  sys_id | sys_country | sys_sunrise         | sys_sunset          |
+|----------+------------+---------------------+----------+---------+-----------+-----+---------------------+-----------+-----------+-----------+-----------------+---------------+---------------+---------------+---------------+----------------+-----------------+------------+----------+-----------+------------+----------+---------+-------------+---------------------+---------------------|
+| stations |      10000 | 2026-07-12 18:00:00 |     7200 | 3128760 | Barcelona | 200 | broken clouds       |     2.159 |   41.3888 |     27.36 |           27.25 |          25.8 |         28.16 |          1015 |            42 |           1015 |            1007 |       3.26 |       71 |      4.22 |         57 |        2 |   18549 | ES          | 2026-07-12 23:29:02 | 2026-07-13 14:24:43 |
+| stations |      10000 | 2026-07-12 16:50:59 |     7200 | 3128760 | Barcelona | 200 | broken clouds       |     2.159 |   41.3888 |     27.36 |           27.14 |         26.28 |         28.72 |          1014 |            40 |           1014 |            1007 |       0.89 |      336 |      5.36 |         67 |        2 |   18549 | ES          | 2026-07-11 23:28:17 | 2026-07-12 14:25:14 |
+| stations |      10000 | 2026-07-12 18:41:11 |     7200 | 3128760 | Barcelona | 200 | broken clouds       |     2.159 |   41.3888 |     26.63 |           26.63 |         24.69 |         27.61 |          1014 |            50 |           1014 |            1007 |       2.98 |       65 |      3.55 |         52 |        2 | 2032131 | ES          | 2026-07-12 23:29:02 | 2026-07-13 14:24:43 |
+| stations |      10000 | 2026-07-12 14:14:03 |     7200 | 6544100 | Eixample  | 200 | overcast clouds     |     2.159 |   41.3888 |     27.78 |           29.55 |         25.94 |         28.99 |          1014 |            64 |           1014 |            1007 |       3.74 |       67 |      4.33 |         95 |        2 |   18549 | ES          | 2026-07-11 23:28:17 | 2026-07-12 14:25:14 |
+| stations |      10000 | 2026-07-12 17:41:29 |     7200 | 3128760 | Barcelona | 200 | broken clouds       |     2.159 |   41.3888 |     27.43 |           27.31 |         25.72 |         28.16 |          1015 |            42 |           1015 |            1007 |       3.26 |       71 |      4.22 |         57 |        2 |   18549 | ES          | 2026-07-12 23:29:02 | 2026-07-13 14:24:43 |
+| stations |      10000 | 2026-07-12 10:44:30 |     7200 | 3128760 | Barcelona | 200 | overcast clouds     |     2.159 |   41.3888 |     29.23 |            30.8 |         27.96 |         33.44 |          1014 |            56 |           1014 |            1007 |       0.89 |       70 |      5.36 |         99 |        2 |   18549 | ES          | 2026-07-11 23:28:17 | 2026-07-12 14:25:14 |
+| stations |      10000 | 2026-07-12 17:15:02 |     7200 | 3128760 | Barcelona | 200 | broken clouds       |     2.159 |   41.3888 |     27.51 |           27.44 |         25.61 |         28.72 |          1014 |            43 |           1014 |            1007 |       0.45 |      355 |      3.58 |         67 |        2 |   18549 | ES          | 2026-07-12 23:29:02 | 2026-07-13 14:24:43 |
+| stations |      10000 | 2026-07-12 15:10:12 |     7200 | 6544100 | Eixample  | 200 | overcast clouds     |     2.159 |   41.3888 |     26.98 |           27.65 |         25.89 |         28.13 |          1015 |            54 |           1015 |            1007 |       1.34 |       30 |      3.58 |         95 |        2 |   18549 | ES          | 2026-07-11 23:28:17 | 2026-07-12 14:25:14 |
+| stations |      10000 | 2026-07-12 15:45:01 |     7200 | 3128760 | Barcelona | 200 | broken clouds       |     2.159 |   41.3888 |     26.83 |           27.26 |         25.86 |         28.08 |          1014 |            50 |           1014 |            1007 |       0.89 |      318 |      4.02 |         77 |        2 |   18549 | ES          | 2026-07-11 23:28:17 | 2026-07-12 14:25:14 |
+| stations |      10000 | 2026-07-12 12:39:52 |     7200 | 3128760 | Barcelona | 200 | overcast clouds     |     2.159 |   41.3888 |     28.88 |            30.4 |         26.97 |         31.46 |          1014 |            57 |           1014 |            1006 |       4.43 |       78 |      5.52 |        100 |        2 |   18549 | ES          | 2026-07-11 23:28:17 | 2026-07-12 14:25:14 |
 
 ** Gráfica Temperatura vs Tiempo
 Realizar una gráfica de la Temperatura en el tiempo.
@@ -483,6 +486,7 @@ cp -rfv ./images/* ~/BarcelonaWeather/weather-site/public/images
 #+end_src
 
 #+RESULTS:
+| './images/HeapMap.png'     | -> | '/home/juand/BarcelonaWeather/weather-site/public/images/HeapMap.png'     |
 | './images/Humidity.png'    | -> | '/home/juand/BarcelonaWeather/weather-site/public/images/Humidity.png'    |
 | './images/Temperatura.png' | -> | '/home/juand/BarcelonaWeather/weather-site/public/images/Temperatura.png' |
 
