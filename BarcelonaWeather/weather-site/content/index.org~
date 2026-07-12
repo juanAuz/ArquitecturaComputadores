@@ -4,9 +4,9 @@
 #+options: inline:t num:t p:nil pri:nil prop:nil stat:t tags:t
 #+options: tasks:t tex:t timestamp:t title:t toc:t todo:t |:t
 #+title: Proyecto ICCD332 Arquitectura de Computadores
-#+date: 2024-08-07
-#+author: Profesor: Lenin G. Falconí M.Sc.
-#+email: lenin.falconi@epn.edu.ec
+#+date: 2026-07-11
+#+author: Juan Auz, Lanchimba Danny, Palomeque Matías, Quillupangui Ana María
+#+email: juan.auzmontezuma@epn.edu.ec
 #+language: es
 #+select_tags: export
 #+exclude_tags: noexport
@@ -26,21 +26,21 @@ las destrezas obtenidas durante el transcurso de la asignatura de
 Se recomienda que el proyecto se cree en el /home/ del sistema
 operativo i.e. /home/<user>/. Allí se creará la carpeta /CityWeather/
 #+begin_src shell :results output :exports both
-#cd ..
-#cd ..
+cd
+cd BarcelonaWeather 
 pwd
 #+end_src
 
 #+RESULTS:
-: /home/QuitoWeather
+: /home/juand/BarcelonaWeather
 
 El proyecto ha de tener los siguientes archivos y
 subdirectorios. Adaptar los nombres de los archivos según las ciudades
 específicas del grupo.
 
 #+begin_src shell :results output :exports results
-cd ..
-cd ..
+cd 
+cd BarcelonaWeather
 tree
 #+end_src
 
@@ -48,27 +48,20 @@ tree
 #+begin_example
 .
 ├── CityTemperatureAnalysis.ipynb
-├── clima-quito-hoy.csv
 ├── get-weather.sh
 ├── main.py
-├── output.log
 └── weather-site
-    ├── build-site.el
     ├── build.sh
+    ├── build-site.el
     ├── content
-    │   ├── images
-    │   │   ├── plot.png
-    │   │   └── temperature.png
+    │   ├── #index.org#
     │   ├── index.org
-    │   └── index.org_archive
-    └── public
-        ├── images
-        │   ├── plot.png
-        │   └── temperature.png
-        ├── index.html
-        
+    │   └── page2-js.org
 
-5 directories, 18 files
+    └── public
+        └── index.html
+
+4 directories, 9 files
 #+end_example
 
 Puede usar Emacs para la creación de la estructura de su proyecto
@@ -113,9 +106,6 @@ WSL. Las etapas del problema se subdividen en:
        (rain) y nieve (snow) se dan a veces si existe el fenómeno.
     3. Desarrollar un ejecutable /get-weather.sh/ para ejecutar el
        programa Python/Java.[fn:1]
-       #+begin_src shell :exports both
-         
-       #+end_src
     4. Configurar Crontab para la adquisición de datos. Escriba el
        comando configurado. Respalde la ejecución de crontab en un
        archivo output.log

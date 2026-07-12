@@ -3,6 +3,7 @@
 #+options: d:(not "LOGBOOK") date:t e:t email:nil expand-links:t f:t
 #+options: inline:t num:t p:nil pri:nil prop:nil stat:t tags:t
 #+options: tasks:t tex:t timestamp:t title:t toc:t todo:t |:t
+#+PROPERTY: header-args:python :exports both
 #+title: Proyecto ICCD332 Arquitectura de Computadores
 #+date: 2026-07-11
 #+author: Juan Auz, Lanchimba Danny, Palomeque Matías, Quillupangui Ana María
@@ -41,27 +42,42 @@ específicas del grupo.
 #+begin_src shell :results output :exports results
 cd 
 cd BarcelonaWeather
-tree
+tree --charset=ascii #utilizado para evitar errores de exportacion a pdf
 #+end_src
 
 #+RESULTS:
 #+begin_example
 .
-├── CityTemperatureAnalysis.ipynb
-├── get-weather.sh
-├── main.py
-└── weather-site
-    ├── build.sh
-    ├── build-site.el
-    ├── content
-    │   ├── #index.org#
-    │   ├── index.org
-    │   └── page2-js.org
+|-- ChatCopilot.md
+|-- ChatCopilot.md~
+|-- CityTemperatureAnalysis.ipynb
+|-- clima-barcelona-hoy.csv
+|-- get-weather.sh
+|-- get-weather.sh~
+|-- main.py
+|-- main.py~
+|-- output.log
+|-- testMap.py
+`-- weather-site
+    |-- build.sh
+    |-- build-site.el
+    |-- content
+    |   |-- images
+    |   |   |-- HeapMap.png
+    |   |   |-- Humidity.png
+    |   |   `-- Temperatura.png
+    |   |-- index.org
+    |   |-- index.org~
+    |   |-- index.pdf
+    |   |-- index.tex
+    |   `-- page2-js.org
+    `-- public
+        |-- images
+        |   |-- Humidity.png
+        |   `-- Temperatura.png
+        `-- index.html
 
-    └── public
-        └── index.html
-
-4 directories, 9 files
+6 directories, 23 files
 #+end_example
 
 Puede usar Emacs para la creación de la estructura de su proyecto
@@ -72,12 +88,6 @@ adapte el bloque según su código tenga un comandos de shell, código de
 Python o de Java. En este documento ~.org~ dispone de varios ejemplos
 funcionales para escribir y presentar el código.
 
-#+begin_src shell :results output :exports both
-echo 'Aquí va sus comandos'
-#+end_src
-
-#+RESULTS:
-: Aquí va sus comandos
 
 ** Formulación del Problema
 Se desea realizar un registro climatológico de una ciudad
@@ -135,143 +145,309 @@ En esta sección se debe detallar segmentos importantes del código
 desarrollado así como la **estrategia de solución** adoptada por el
 grupo para resolver el problema. Divida su código en unidades
 funcionales para facilitar su presentación y exposición.
+*** Librerias a utilizar y variables globales
+Durante toda la recepción y transformación de los datos se utilizan
+las siguientes librerias: pandas, request, os, pathlib, json. Así también, las variables globales: BarcelonaLat, BarcelonaLon,
+API_KEY, fileName 
+#+begin_src python :session clima :dir ../../ :results none
+import pandas as pd
+import requests
+import os
+import pathlib
+import json
 
-Lectura del API
-#+begin_src python :session :results output exports both
-def adder(a,b):
-    return a+b
-print(adder(5,3))
+BarcelonaLat = 41.38879
+BarcelonaLon = 2.15899
+API_KEY = "b794b9218f841b4d649bce12eacc5aed"
+fileName ='clima-barcelona-hoy.csv' #modificado para coincidir con la ruta
+#+end_src
+*** Recepción de los datos crudos
+Para conseguir los datos de la climatologia de Barcelona se utiliza la
+API de openWeather, la cuál requiere los datos de Longitud, Latitud y
+una api key, datos que previamente definimos. Se utiliza la libreria
+request  para consumir la API y la libreria json para convertir los
+datos en un diccionario de python utilizable.
+#+begin_src python :session clima :dir ../../ :results none :eval never-export
+def getWeather(lat, lon, api):
+    URL = f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={api}&units=metric"
+    response = requests.get(URL)
+    return response.json()
+#+end_src
+Con esto, al hacer una llamada al método con las variables
+correspondientes a Barcelona conseguimos datos en el siguiente formato
+#+begin_src python :session clima :dir ../../ :results output
+Barcelona_weather = getWeather(lat=BarcelonaLat, lon=BarcelonaLon, api=API_KEY)
+print(json.dumps(Barcelona_weather, indent=2, ensure_ascii=False))
 #+end_src
 
-Puede tener que borrar los dos puntos para que el resultado aparezca
-en el HTML. En mi caso no fue necesario. Pruebe.
 #+RESULTS:
-: 8
-
-Convertir /Json/ a /Diccionario/ de Python
-#+begin_src python :session :results output exports both
-print(adder(8,8))
+#+begin_example
+{
+  "coord": {
+    "lon": 2.159,
+    "lat": 41.3888
+  },
+  "weather": [
+    {
+      "id": 804,
+      "main": "Clouds",
+      "description": "overcast clouds",
+      "icon": "04d"
+    }
+  ],
+  "base": "stations",
+  "main": {
+    "temp": 29.26,
+    "feels_like": 30.7,
+    "temp_min": 26.97,
+    "temp_max": 32.02,
+    "pressure": 1014,
+    "humidity": 55,
+    "sea_level": 1014,
+    "grnd_level": 1007
+  },
+  "visibility": 10000,
+  "wind": {
+    "speed": 4.21,
+    "deg": 82,
+    "gust": 5.38
+  },
+  "clouds": {
+    "all": 100
+  },
+  "dt": 1783876800,
+  "sys": {
+    "type": 2,
+    "id": 18549,
+    "country": "ES",
+    "sunrise": 1783830497,
+    "sunset": 1783884314
+  },
+  "timezone": 7200,
+  "id": 3128760,
+  "name": "Barcelona",
+  "cod": 200
+}
+#+end_example
+Como se puede observar, la respuesta de la API genera diccionarios anidados. Por ejemplo, el
+valor de temperatura mínima se encuentra anidado dentro de ~main~. Uno
+de los casos a tener en cuenta es el campo ~weather~ el cuál a
+diferencia de main que es un único objeto, es un arreglo. Esto se debe
+a que un mismo lugar puede tener varias situaciones climáticas a la
+vez, haciendo que el valor especifico de description quede doblemente
+anidado. Problema que se solucionará en el procesamiento de los datos
+*** Procesamiento de datos
+Una vez conseguido los valores en crudo, es necesario aplanarlos y
+colocar un formato para un posterior análisis. El método process
+recibe el dato crudo proveniente del paso anterior y realiza dos
+funciones: Solventar la doble anidación de weather y aplanar el
+formato json
+#+begin_src python :session clima :dir ../../ :results none
+def process(data):
+    if "weather" in data and isinstance(data["weather"], list) and data["weather"]:
+        data["weather_description"] = data["weather"][0].get("description", None)
+        del data["weather"]
+    else:
+        data["weather_description"] = None
+    return pd.json_normalize(data, sep="_")
+#+end_src
+El proceso consta de un condicional el cuál verifica tres condiciones
+en el campo ~weather~: Que exista en el json recibido, que
+efectivamente sea una lista y finalmente que tenga al menos un
+dato. Una vez verificado la existencia de estos campos procede a
+extraer del primer elemento de la lista el valor correspondiente a
+description guardandolo como  ~weather_description~ y elimina la clave
+original para que no haya repetición. En caso de que el condicional
+falle, asigna un valor de ~None~ a este nuevo campo. Finalmente
+utilizando pandas, el método devuelve el json aplanado mediante
+json_normalize
+#+begin_src python :session clima :dir ../../ :results output
+jsonProcesado = process(Barcelona_weather)
+#Se utiliza transpose (T) para convertir filas en columnas para una mejor visualización
+print(jsonProcesado.T.to_string())
 #+end_src
 
 #+RESULTS:
-: 16
-
-
-Guardar el archivo csv
-#+begin_src python :session :results output exports both
-print(adder(8,-18))
+#+begin_example
+                                   0
+base                        stations
+visibility                     10000
+dt                        1783876800
+timezone                        7200
+id                           3128760
+name                       Barcelona
+cod                              200
+weather_description  overcast clouds
+coord_lon                      2.159
+coord_lat                    41.3888
+main_temp                      29.26
+main_feels_like                 30.7
+main_temp_min                  26.97
+main_temp_max                  32.02
+main_pressure                   1014
+main_humidity                     55
+main_sea_level                  1014
+main_grnd_level                 1007
+wind_speed                      4.21
+wind_deg                          82
+wind_gust                       5.38
+clouds_all                       100
+sys_type                           2
+sys_id                         18549
+sys_country                       ES
+sys_sunrise               1783830497
+sys_sunset                1783884314
+#+end_example
+*** Almacenamiento en csv
+Con nuestros datos aplanados, es necesario guardarlos en un archivo
+.csv, tarea que es designada al método ~write2csv~. Sin embargo,
+existe una variable que hasta ahora no ha sido contemplada: la API de
+OpenWeatherMap genera campos como rain o snow únicamente cuando
+ocurren estos fenómenos. Si el archivo inicial fue generado un día despejado,
+esas columnas no existirán en la estructura base. Esto se soluciona
+mediante la libreria pandas.
+#+begin_src python :session clima :dir ../../ :results none
+def write2csv(json_processed, csvFile):
+    if os.path.isfile(csvFile):
+        antiguo = pd.read_csv(csvFile)
+        df=pd.concat([antiguo, json_processed], ignore_index=True)
+    else:
+        df = json_processed
+    df.to_csv(csvFile, index=False)
+#+end_src
+El método consta de un condicional que verifica si el archivo CSV ya
+existe en el disco. De ser así, lee el csv antiguo y lo
+concatena con los nuevos datos mediante ~pd.concat~. Esta función
+alinea las columnas por su nombre, haciendo que si aparece un campo
+nuevo como ~rain~ o ~snow~, rellena con valores nulos los campos anteriores. En caso de que el
+archivo no exista, no se hacen cambios a los datos recibidos. Finalmente,
+los datos se exportan a formato CSV y se guardan en el disco.
+#+begin_src python :session clima :dir ../../ :results none
+write2csv(jsonProcesado, fileName)
+#+end_src
+Para ilustrar como se guardan los datos se utiliza la funcion read_csv
+#+begin_src python :session clima :dir ../../ :results table :eval never-export
+pd.read_csv(fileName).sample(4).T
 #+end_src
 
 #+RESULTS:
-: -10
-
+|                     |              17 |              24 |              15 |               5 |
+|---------------------+-----------------+-----------------+-----------------+-----------------|
+| base                |        stations |        stations |        stations |        stations |
+| visibility          |           10000 |           10000 |           10000 |           10000 |
+| dt                  |      1783873363 |      1783880103 |      1783871652 |      1783862652 |
+| timezone            |            7200 |            7200 |            7200 |            7200 |
+| id                  |         3128760 |         3128760 |         3128760 |         3128760 |
+| name                |       Barcelona |       Barcelona |       Barcelona |       Barcelona |
+| cod                 |             200 |             200 |             200 |             200 |
+| weather_description | overcast clouds | overcast clouds | overcast clouds | overcast clouds |
+| coord_lon           |           2.159 |           2.159 |           2.159 |           2.159 |
+| coord_lat           |         41.3888 |         41.3888 |         41.3888 |         41.3888 |
+| main_temp           |           28.71 |           28.14 |           28.88 |            30.0 |
+| main_feels_like     |           30.55 |            29.9 |           30.83 |           31.71 |
+| main_temp_min       |           26.97 |            26.5 |           26.97 |           28.26 |
+| main_temp_max       |           32.02 |           30.64 |           33.13 |           33.13 |
+| main_pressure       |            1015 |            1015 |            1015 |            1015 |
+| main_humidity       |              60 |              62 |              60 |              54 |
+| main_sea_level      |            1015 |            1015 |            1015 |            1015 |
+| main_grnd_level     |            1007 |            1006 |            1007 |            1008 |
+| wind_speed          |            4.78 |            4.43 |            0.45 |            2.24 |
+| wind_deg            |              87 |              78 |             107 |              94 |
+| wind_gust           |            6.01 |            5.52 |            4.02 |            4.92 |
+| clouds_all          |              99 |             100 |              99 |             100 |
+| sys_type            |               2 |               2 |               2 |               2 |
+| sys_id              |           18549 |           18549 |           18549 |           18549 |
+| sys_country         |              ES |              ES |              ES |              ES |
+| sys_sunrise         |      1783830497 |      1783830497 |      1783830497 |      1783830497 |
+| sys_sunset          |      1783884314 |      1783884314 |      1783884314 |      1783884314 |
+Con eso conseguimos nuestros datos limpios y planos para un posterior análisis
 ** Script ejecutable sh
-Se coloca el contenido del script ejecutable. Recuerde que se debe
-utilizar el entorno de **anaconda/mamba** denominado **iccd332** para
-la ejecución de Python; independientemente de que tenga una
-instalación nativa de Python
-
-En el caso de los shell script se puede usar `which sh` para conocer
-la ubicación del ejecutable
+Para ejecutar nuestro script, es necesario conocer donde se encuentra
+sh y para ello utilizamos el comando ~which~.
 #+begin_src shell :results output :exports both
 which sh
 #+end_src
-
 #+RESULTS:
 : /usr/bin/sh
-
 De igual manera se requiere localizar el entorno de mamba *iccd332*
-que será utilizado
+que será utilizado para la ejecución del script
 
 #+begin_src shell :results output :exports both
 which mamba
 #+end_src
-
 #+RESULTS:
 : /home/juand/miniforge3/condabin/mamba
-
-Con esto el archivo ejecutable a de tener (adapte el código según las
-condiciones de su máquina):
-
-#+begin_src shell :results output :exports both
+Con esto el archivo ejecutable contiene
+#+begin_src shell :results none  :eval never
 #!/usr/bin/sh
-source /home/<user>/miniforge3/etc/profile.d/conda.sh
-eval "$(conda shell.bash hook)"
-conda activate iccd332
-python main.py
+/home/juand/miniforge3/envs/iccd332/bin/python /home/juand/BarcelonaWeather/main.py
 #+end_src
-
-Finalmente convierta en ejecutable como se explicó en clases y laboratorio
-#+begin_src shell :results output :exports both
+Finalmente se convierte en ejecutable dandole permisos de ejecución
+#+begin_src shell :results none :eval never 
 #!/usr/bin/sh
-Poner comando/s aquí
+chmod +x /home/juand/BarcelonaWeather/get-weather.sh
 #+end_src
 
 ** Configuración de Crontab
-Se indica la configuración realizada en crontab para la adquisición de datos
-
-#+begin_src shell
-*/t * * * * cd <City>Weather && ./get-weather.sh >> output.log 2>&1
+Para crontab, se configura para un intervalo de 15 minutos, con la
+ejecución de nuestro script previamente creado. Guarda en el archivo
+output.log tanto la salida como los errores generados
+#+begin_src shell :results none :eval never
+*/15 * * * * cd /home/juand/BarcelonaWeather && ./get-weather.sh >> /home/juand/BarcelonaWeather/output.log 2>&1
 #+end_src
-
-- Recuerde remplazar <City> por el nombre de la ciudad que analice
-- Recuerde ajustar el tiempo para potenciar tomar datos nuevos
-- Recuerde que ~2>&1~ permite guardar en ~output.log~ tanto la salida
-  del programa como los errores en la ejecución.
 * Presentación de resultados
 Para la pressentación de resultados se utilizan las librerías de Python:
 - matplotlib
 - pandas
-
-Alternativamente como pudo estudiar en el Jupyter Notebook
-[[https://github.com/LeninGF/EPN-Lectures/blob/main/iccd332ArqComp-2024-A/Proyectos/CityWeather/CityTemperatureAnalysis.ipynb][CityTemperatureAnalysis.ipynb]], existen librerías alternativas que se
-pueden utilizar para presentar los resultados gráficos. En ambos
-casos, para que funcione los siguientes bloques de código, es
-necesario que realice la instalación de los paquetes usando ~mamba
-install <nombre-paquete>~
 ** Muestra Aleatoria de datos
 Presentar una muestra de 10 valores aleatorios de los datos obtenidos.
 #+caption: Lectura de archivo csv
 #+begin_src python :session :results output exports both
 import os
 import pandas as pd
+from datetime import datetime
 # lectura del archivo csv obtenido
-df = pd.read_csv('/home/leningfe/PythonProjects/QuitoWeather/clima-quito-hoy-etl.csv')
+dfRaw = pd.read_csv('/home/juand/BarcelonaWeather/clima-barcelona-hoy.csv')
+# se convierte de timestamps a tiempos legibles
+df = dfRaw.copy()
+df.dt = dfRaw.dt.apply(lambda x: datetime.fromtimestamp(x))
+df.sys_sunrise = dfRaw.sys_sunrise.apply(lambda x: datetime.fromtimestamp(x))
+df.sys_sunset = dfRaw.sys_sunset.apply(lambda x: datetime.fromtimestamp(x))
 # se imprime la estructura del dataframe en forma de filas x columnas
 print(df.shape)
+
+
 #+end_src
+#+RESULTS:
+: (40, 27)
 
 Resultado del número de filas y columnas leídos del archivo csv
-#+RESULTS:
-: (57, 30)
+
 #+caption: Despliegue de datos aleatorios
 #+begin_src python :session :exports both :results value table :return table
-table1 = df.sample(10)
+dfToShow = df.copy()
+for col in ['dt', 'sys_sunrise', 'sys_sunset']:
+    dfToShow[col] = dfToShow[col].astype(str)
+table1 = dfToShow.sample(10)
 table = [list(table1)]+[None]+table1.values.tolist()
 #+end_src
 
 #+RESULTS:
-| dt                  | coord_lon | coord_lat | weather_0_id | weather_0_main | weather_0_description | weather_0_icon | base     | main_temp | main_feels_like | main_temp_min | main_temp_max | main_pressure | main_humidity | main_sea_level | main_grnd_level | visibility | wind_speed | wind_deg | wind_gust | clouds_all | sys_type | sys_id | sys_country | sys_sunrise         | sys_sunset          | timezone |      id | name  | cod |
-|---------------------+-----------+-----------+--------------+----------------+-----------------------+----------------+----------+-----------+-----------------+---------------+---------------+---------------+---------------+----------------+-----------------+------------+------------+----------+-----------+------------+----------+--------+-------------+---------------------+---------------------+----------+---------+-------+-----|
-| 2024-08-03 21:57:57 |  -78.5249 |   -0.2299 |          804 | Clouds         | overcast clouds       | 04n            | stations |      8.53 |            8.53 |          8.53 |          8.53 |          1019 |            90 |           1019 |             724 |      10000 |       0.78 |       75 |      1.58 |         97 |        1 |   8555 | EC          | 2024-08-03 06:17:01 | 2024-08-03 18:23:24 |   -18000 | 3652462 | Quito | 200 |
-| 2024-08-04 10:26:16 |   -78.525 |   -0.2299 |          804 | Clouds         | overcast clouds       | 04d            | stations |     16.53 |           15.57 |         16.53 |         16.53 |          1016 |            51 |           1016 |             728 |      10000 |       1.11 |        6 |       2.1 |         90 |        1 |   8555 | EC          | 2024-08-04 06:16:56 | 2024-08-04 18:23:19 |   -18000 | 3652462 | Quito | 200 |
-| 2024-08-04 09:15:02 |  -78.5249 |   -0.2299 |          804 | Clouds         | overcast clouds       | 04d            | stations |     14.53 |           13.61 |         14.53 |         14.53 |          1018 |            60 |           1018 |             726 |      10000 |       0.73 |       90 |      1.81 |         86 |        1 |   8555 | EC          | 2024-08-04 06:16:56 | 2024-08-04 18:23:19 |   -18000 | 3652462 | Quito | 200 |
-| 2024-08-06 10:05:50 |  -78.5211 |   -0.2309 |          801 | Clouds         | few clouds            | 02d            | stations |     14.66 |           13.59 |         14.66 |         14.66 |          1017 |            54 |           1017 |             730 |      10000 |       1.01 |       25 |      1.74 |         15 |        1 |   8555 | EC          | 2024-08-06 06:16:44 | 2024-08-06 18:23:07 |   -18000 | 3652462 | Quito | 200 |
-| 2024-08-03 02:43:26 |  -78.5249 |   -0.2299 |          802 | Clouds         | scattered clouds      | 03n            | stations |      7.53 |            6.77 |          7.53 |          7.53 |          1019 |            81 |           1019 |             722 |      10000 |       1.55 |      171 |      1.97 |         44 |        1 |   8555 | EC          | 2024-08-03 06:17:01 | 2024-08-03 18:23:24 |   -18000 | 3652462 | Quito | 200 |
-| 2024-08-04 22:50:26 |  -78.5249 |   -0.2299 |          802 | Clouds         | scattered clouds      | 03n            | stations |      9.53 |            9.53 |          9.53 |          9.53 |          1020 |            93 |           1020 |             724 |      10000 |       1.18 |      117 |       1.4 |         38 |        1 |   8555 | EC          | 2024-08-04 06:16:56 | 2024-08-04 18:23:19 |   -18000 | 3652462 | Quito | 200 |
-| 2024-08-03 12:52:29 |  -78.5211 |   -0.2309 |          801 | Clouds         | few clouds            | 02d            | stations |     20.66 |           19.72 |         20.66 |         20.66 |          1012 |            36 |           1012 |             729 |      10000 |       4.05 |      341 |       5.7 |         17 |        1 |   8555 | EC          | 2024-08-03 06:17:00 | 2024-08-03 18:23:23 |   -18000 | 3652462 | Quito | 200 |
-| 2024-08-03 10:54:26 |  -78.5211 |   -0.2309 |          800 | Clear          | clear sky             | 01d            | stations |     15.66 |           14.12 |         15.66 |         15.66 |          1015 |            32 |           1015 |             730 |      10000 |       2.42 |      354 |       3.3 |         10 |        1 |   8555 | EC          | 2024-08-03 06:17:00 | 2024-08-03 18:23:23 |   -18000 | 3652462 | Quito | 200 |
-| 2024-08-02 23:51:42 |  -78.5211 |   -0.2309 |          803 | Clouds         | broken clouds         | 04n            | stations |      8.66 |            8.66 |          8.66 |          8.66 |          1020 |            88 |           1020 |             726 |       8882 |       1.17 |      146 |      1.32 |         68 |        1 |   8555 | EC          | 2024-08-02 06:17:04 | 2024-08-02 18:23:27 |   -18000 | 3652462 | Quito | 200 |
-| 2024-08-03 02:13:58 |  -78.5249 |   -0.2299 |          802 | Clouds         | scattered clouds      | 03n            | stations |      7.53 |            6.77 |          7.53 |          7.53 |          1019 |            85 |           1019 |             722 |      10000 |       1.55 |      160 |      1.87 |         26 |        1 |   8555 | EC          | 2024-08-03 06:17:01 | 2024-08-03 18:23:24 |   -18000 | 3652462 | Quito | 200 |
+| base     | visibility | dt                  | timezone |      id | name      | cod | weather_description | coord_lon | coord_lat | main_temp | main_feels_like | main_temp_min | main_temp_max | main_pressure | main_humidity | main_sea_level | main_grnd_level | wind_speed | wind_deg | wind_gust | clouds_all | sys_type | sys_id | sys_country | sys_sunrise         | sys_sunset          |
+|----------+------------+---------------------+----------+---------+-----------+-----+---------------------+-----------+-----------+-----------+-----------------+---------------+---------------+---------------+---------------+----------------+-----------------+------------+----------+-----------+------------+----------+--------+-------------+---------------------+---------------------|
+| stations |      10000 | 2026-07-12 10:12:20 |     7200 | 3128760 | Barcelona | 200 | overcast clouds     |     2.159 |   41.3888 |     29.81 |           31.24 |         28.51 |         33.69 |          1015 |            53 |           1015 |            1007 |       1.34 |       82 |      4.92 |         99 |        2 |  18549 | ES          | 2026-07-11 23:28:17 | 2026-07-12 14:25:14 |
+| stations |      10000 | 2026-07-12 11:55:08 |     7200 | 3128760 | Barcelona | 200 | overcast clouds     |     2.159 |   41.3888 |     28.84 |           30.77 |         26.97 |         32.02 |          1014 |            60 |           1014 |            1007 |       4.21 |       82 |      5.38 |        100 |        2 |  18549 | ES          | 2026-07-11 23:28:17 | 2026-07-12 14:25:14 |
+| stations |      10000 | 2026-07-11 21:59:44 |     7200 | 6544100 | Eixample  | 200 | broken clouds       |     2.159 |   41.3888 |     24.37 |           24.77 |         23.39 |         25.18 |          1014 |            73 |           1014 |            1007 |       0.89 |       96 |      2.68 |         78 |        2 |  18549 | ES          | 2026-07-11 23:28:17 | 2026-07-12 14:25:14 |
+| stations |      10000 | 2026-07-12 12:39:52 |     7200 | 3128760 | Barcelona | 200 | overcast clouds     |     2.159 |   41.3888 |     28.88 |            30.4 |         26.97 |         31.46 |          1014 |            57 |           1014 |            1006 |       4.43 |       78 |      5.52 |        100 |        2 |  18549 | ES          | 2026-07-11 23:28:17 | 2026-07-12 14:25:14 |
+| stations |      10000 | 2026-07-12 08:40:27 |     7200 | 3128760 | Barcelona | 200 | overcast clouds     |    2.1606 |   41.3891 |     29.57 |           31.85 |         27.65 |         33.17 |          1015 |            59 |           1015 |            1008 |       0.45 |      174 |      4.47 |        100 |        2 |  18549 | ES          | 2026-07-11 23:28:16 | 2026-07-12 14:25:14 |
+| stations |      10000 | 2026-07-12 09:14:59 |     7200 | 3128760 | Barcelona | 200 | overcast clouds     |     2.159 |   41.3888 |     30.44 |           32.85 |         28.08 |         33.13 |          1015 |            56 |           1015 |            1008 |       0.89 |       49 |      4.02 |        100 |        2 |  18549 | ES          | 2026-07-11 23:28:17 | 2026-07-12 14:25:14 |
+| stations |      10000 | 2026-07-12 09:25:54 |     7200 | 6544100 | Eixample  | 200 | overcast clouds     |    2.1606 |   41.3891 |     30.59 |           32.51 |          28.3 |         33.17 |          1015 |            53 |           1015 |            1008 |       0.89 |       80 |      4.47 |        100 |        2 |  18549 | ES          | 2026-07-11 23:28:16 | 2026-07-12 14:25:14 |
+| stations |      10000 | 2026-07-11 22:26:30 |     7200 | 3128760 | Barcelona | 200 | broken clouds       |     2.159 |   41.3888 |     24.37 |           24.74 |         23.64 |         25.18 |          1014 |            72 |           1014 |            1007 |       2.44 |       76 |      3.42 |         78 |        2 |  18549 | ES          | 2026-07-11 23:28:17 | 2026-07-12 14:25:14 |
+| stations |      10000 | 2026-07-12 08:10:47 |     7200 | 6544100 | Eixample  | 200 | overcast clouds     |     2.159 |   41.3888 |     30.44 |           32.26 |         28.81 |         32.84 |          1015 |            53 |           1015 |            1008 |       5.16 |      107 |      6.97 |        100 |        2 |  18549 | ES          | 2026-07-11 23:28:17 | 2026-07-12 14:25:14 |
+| stations |      10000 | 2026-07-12 12:52:12 |     7200 | 3128760 | Barcelona | 200 | overcast clouds     |     2.159 |   41.3888 |     28.77 |           30.23 |         26.97 |         31.46 |          1014 |            57 |           1014 |            1006 |       4.43 |       78 |      5.52 |        100 |        2 |  18549 | ES          | 2026-07-11 23:28:17 | 2026-07-12 14:25:14 |
 
 ** Gráfica Temperatura vs Tiempo
 Realizar una gráfica de la Temperatura en el tiempo.
-
-
-El siguiente cógido permite hacer la gráfica de la temperatura vs
-tiempo para Org 9.7+. Para saber que versión dispone puede ejecutar
-~M-x org-version~
-
 #+begin_src python :results file :exports both :session
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
@@ -279,21 +455,23 @@ import matplotlib.dates as mdates
 fig = plt.figure(figsize=(8,6))
 plt.plot(df['dt'], df['main_temp']) # dibuja las variables dt y temperatura
 # ajuste para presentacion de fechas en la imagen 
-plt.gca().xaxis.set_major_locator(mdates.DayLocator(interval=2))
+plt.gca().xaxis.set_major_locator(mdates.HourLocator(interval=3))
+plt.gcf().autofmt_xdate()
+plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%H:%M\n%d-%b'))
 # plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))  
 plt.grid()
 # Titulo que obtiene el nombre de la ciudad del DataFrame
 plt.title(f'Main Temp vs Time in {next(iter(set(df.name)))}')
 plt.xticks(rotation=40) # rotación de las etiquetas 40°
 fig.tight_layout()
-fname = './images/temperature.png'
+fname = './images/Temperatura.png'
 plt.savefig(fname)
 fname
 #+end_src
 
-#+caption: Gráfica Temperatura vs Tiempo
+#+caption: Gráfica Humedad vs Temperatura
 #+RESULTS:
-[[file:./images/temperature.png]]
+[[file:./images/Temperatura.png]]
 
 Debido a que el archivo index.org se abre dentro de la carpeta
 /content/, y en cambio el servidor http de emacs se ejecuta desde la
@@ -301,15 +479,54 @@ carpeta /public/ es necesario copiar el archivo a la ubicación
 equivalente en ~/public/images~
 
 #+begin_src shell
-cp -rfv ./images/* /home/leningfe/PythonProjects/QuitoWeather/weather-site/public/images
+cp -rfv ./images/* ~/BarcelonaWeather/weather-site/public/images
 #+end_src
 
 #+RESULTS:
-| './images/plot.png'        | -> | '/home/leningfe/PythonProjects/QuitoWeather/weather-site/public/images/plot.png'        |
-| './images/temperature.png' | -> | '/home/leningfe/PythonProjects/QuitoWeather/weather-site/public/images/temperature.png' |
+| './images/Humidity.png'    | -> | '/home/juand/BarcelonaWeather/weather-site/public/images/Humidity.png'    |
+| './images/Temperatura.png' | -> | '/home/juand/BarcelonaWeather/weather-site/public/images/Temperatura.png' |
 
 **  Realice una gráfica de Humedad con respecto al tiempo
+#+begin_src python :results file :exports both :session
+fig = plt.figure(figsize=(8,6))
+plt.plot(df['dt'], df['main_humidity']) # dibuja las variables dt y temperatura
+# ajuste para presentacion de fechas en la imagen 
+plt.gca().xaxis.set_major_locator(mdates.HourLocator(interval=3))
+plt.gcf().autofmt_xdate()
+plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%H:%M\n%d-%b'))
+# plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))  
+plt.grid()
+# Titulo que obtiene el nombre de la ciudad del DataFrame
+plt.title(f'Main Humidity vs Time in {next(iter(set(df.name)))}')
+plt.xticks(rotation=40) # rotación de las etiquetas 40°
+fig.tight_layout()
+fname = './images/Humidity.png'
+plt.savefig(fname)
+fname
+#+end_src
+
+#+RESULTS:
+[[file:./images/Humidity.png]]
+
 **  *Opcional* Presente alguna gráfica de interés.
+Se realiza un gráfico de mapa de calor de correlaciones
+#+begin_src python :results file :exports both :session
+import seaborn as sns
+datos = df[['main_temp', 'main_feels_like', 'main_humidity', 'main_pressure',
+        'wind_speed', 'wind_gust', 'clouds_all']]
+correlaciones = datos.corr()
+plt.figure(figsize=(10, 8))
+sns.heatmap(correlaciones, annot=True, cmap='coolwarm')
+plt.xticks(rotation=20)
+plt.title("Mapa de calor de correlaciones")
+fname = './images/HeapMap.png'
+plt.savefig(fname)
+fname
+#+end_src
+
+#+RESULTS:
+[[file:./images/HeapMap.png]]
+
 * Instrucciones Java Script
 En la siguiente página se indica cómo integrar ~javascript~ como un
 alternativa para testear el código.

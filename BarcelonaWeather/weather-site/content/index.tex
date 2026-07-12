@@ -1,0 +1,517 @@
+% Created 2026-07-12 dom 18:16
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\author{Juan Auz, Lanchimba Danny, Palomeque Matías, Quillupangui Ana María}
+\date{2026-07-11}
+\title{Proyecto ICCD332 Arquitectura de Computadores}
+\hypersetup{
+ pdfauthor={Juan Auz, Lanchimba Danny, Palomeque Matías, Quillupangui Ana María},
+ pdftitle={Proyecto ICCD332 Arquitectura de Computadores},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 27.1 (Org mode 9.7.5)}, 
+ pdflang={Spanish}}
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\section{City Weather APP}
+\label{sec:org42d62b6}
+Este es el proyecto de fin de semestre en donde se pretende demostrar
+las destrezas obtenidas durante el transcurso de la asignatura de
+\textbf{\textbf{Arquitectura de Computadores}}.
+
+\begin{enumerate}
+\item Conocimientos de sistema operativo Linux
+\item Conocimientos de Emacs/Jupyter
+\item Configuración de Entorno para Data Science con Mamba/Anaconda
+\item Literate Programming
+\end{enumerate}
+\subsection{Estructura del proyecto}
+\label{sec:orge6e2e2d}
+Se recomienda que el proyecto se cree en el \emph{home} del sistema
+operativo i.e. \emph{home/<user>}. Allí se creará la carpeta \emph{CityWeather}
+\begin{verbatim}
+cd
+cd BarcelonaWeather 
+pwd
+\end{verbatim}
+
+\phantomsection
+\label{org12c0be0}
+\begin{verbatim}
+/home/juand/BarcelonaWeather
+\end{verbatim}
+
+
+El proyecto ha de tener los siguientes archivos y
+subdirectorios. Adaptar los nombres de los archivos según las ciudades
+específicas del grupo.
+
+\phantomsection
+\label{org665cac5}
+\begin{verbatim}
+.
+|-- ChatCopilot.md
+|-- ChatCopilot.md~
+|-- CityTemperatureAnalysis.ipynb
+|-- clima-barcelona-hoy.csv
+|-- get-weather.sh
+|-- get-weather.sh~
+|-- main.py
+|-- main.py~
+|-- output.log
+|-- testMap.py
+`-- weather-site
+    |-- build.sh
+    |-- build-site.el
+    |-- content
+    |   |-- images
+    |   |   |-- HeapMap.png
+    |   |   |-- Humidity.png
+    |   |   `-- Temperatura.png
+    |   |-- index.org
+    |   |-- index.org~
+    |   |-- index.pdf
+    |   |-- index.tex
+    |   `-- page2-js.org
+    `-- public
+        |-- images
+        |   |-- Humidity.png
+        |   `-- Temperatura.png
+        `-- index.html
+
+6 directories, 23 files
+\end{verbatim}
+
+Puede usar Emacs para la creación de la estructura de su proyecto
+usando comandos desde el bloque de shell. Recuerde ejecutar el bloque
+con \texttt{C-c C-c}. Para insertar un bloque nuevo utilice \texttt{C-c C-,} o \texttt{M-x
+org-insert-structure-template}. Seleccione la opción \emph{s} para src y
+adapte el bloque según su código tenga un comandos de shell, código de
+Python o de Java. En este documento \texttt{.org} dispone de varios ejemplos
+funcionales para escribir y presentar el código.
+\subsection{Formulación del Problema}
+\label{sec:org1ab92c1}
+Se desea realizar un registro climatológico de una ciudad
+\(\mathcal{C}\). Para esto, escriba un script de Python/Java que permita
+obtener datos climatológicos desde el API de \href{https://openweathermap.org/current\#one}{openweathermap}. El API
+hace uso de los valores de latitud \(x\) y longitud \(y\) de la ciudad
+\(\mathcal{C}\) para devolver los valores actuales a un tiempo \(t\).
+
+Los resultados obtenidos de la consulta al API se escriben en un
+archivo \emph{clima-<ciudad>-hoy.csv}. Cada ejecución del script debe
+almacenar nuevos datos en el archivo. Utilice \textbf{crontab} y sus
+conocimientos de Linux y Programación para obtener datos del API de
+\emph{openweathermap} con una periodicidad de 15 minutos mediante la
+ejecución de un archivo ejecutable denominado
+\emph{get-weather.sh}. Obtenga al menos 50 datos. Verifique los
+resultados. Todas las operaciones se realizan en Linux o en el
+WSL. Las etapas del problema se subdividen en:
+
+\begin{enumerate}
+\item Conformar los grupos de 2 estudiantes y definir la ciudad
+objeto de estudio.
+\item Crear su API gratuito en \href{https://openweathermap.org/current\#one}{openweathermap}
+\item Escribir un script en Python/Java que realice la consulta al
+API y escriba los resultados en \emph{clima-<ciudad>-hoy.csv}. El
+archivo ha de contener toda la información que se obtiene del
+API en columnas. Se debe observar que los datos sobre lluvia
+(rain) y nieve (snow) se dan a veces si existe el fenómeno.
+\item Desarrollar un ejecutable \emph{get-weather.sh} para ejecutar el
+programa Python/Java.\footnote{Recuerde que su máquina ha de disponer de un entorno de
+anaconda/mamba denominado iccd332 en el cual se dispone del interprete
+de Python}
+\item Configurar Crontab para la adquisición de datos. Escriba el
+comando configurado. Respalde la ejecución de crontab en un
+archivo output.log
+\item Realizar la presentación del Trabajo utilizando la generación
+del sitio web por medio de Emacs. Para esto es necesario crear
+la carpeta \textbf{\textbf{weather-site}} dentro del proyecto. Puede ajustar el
+\emph{look and feel} según sus preferencias. El servidor a usar es
+el \textbf{\textbf{simple-httpd}} integrado en Emacs que debe ser instalado:
+\begin{itemize}
+\item Usando comandos Emacs: \texttt{M-x package-install} presionamos
+enter (i.e. RET) y escribimos el nombre del paquete:
+simple-httpd
+\item Configurando el archivo init.el
+\end{itemize}
+
+\begin{verbatim}
+         (use-package simple-httpd
+            :ensure t)
+\end{verbatim}
+
+Instrucciones de sobre la creación del sitio web se tiene en el
+vídeo de instrucciones y en el archivo \href{https://github.com/LeninGF/EPN-Lectures/blob/main/iccd332ArqComp-2024-A/Tutoriales/Org-Website/Org-Website.org}{Org-Website.org} en el
+GitHub del curso
+
+\item Su código debe estar respaldado en GitHub/BitBucket, la
+dirección será remitida en la contestación de la tarea
+\end{enumerate}
+\subsection{Descripción del código}
+\label{sec:org7c63a10}
+En esta sección se debe detallar segmentos importantes del código
+desarrollado así como la \textbf{\textbf{estrategia de solución}} adoptada por el
+grupo para resolver el problema. Divida su código en unidades
+funcionales para facilitar su presentación y exposición.
+\subsubsection{Librerias a utilizar y variables globales}
+\label{sec:org410688e}
+Durante toda la recepción y transformación de los datos se utilizan
+las siguientes librerias: pandas, request, os, pathlib, json. Así también, las variables globales: BarcelonaLat, BarcelonaLon,
+API\textsubscript{KEY}, fileName 
+\begin{verbatim}
+import pandas as pd
+import requests
+import os
+import pathlib
+import json
+
+BarcelonaLat = 41.38879
+BarcelonaLon = 2.15899
+API_KEY = "b794b9218f841b4d649bce12eacc5aed"
+fileName ='clima-barcelona-hoy.csv' #modificado para coincidir con la ruta
+\end{verbatim}
+\subsubsection{Recepción de los datos crudos}
+\label{sec:org2ea6859}
+Para conseguir los datos de la climatologia de Barcelona se utiliza la
+API de openWeather, la cuál requiere los datos de Longitud, Latitud y
+una api key, datos que previamente definimos. Se utiliza la libreria
+request  para consumir la API y la libreria json para convertir los
+datos en un diccionario de python utilizable.
+\begin{verbatim}
+def getWeather(lat, lon, api):
+    URL = f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={api}&units=metric"
+    response = requests.get(URL)
+    return response.json()
+\end{verbatim}
+Con esto, al hacer una llamada al método con las variables
+correspondientes a Barcelona conseguimos datos en el siguiente formato
+\begin{verbatim}
+Barcelona_weather = getWeather(lat=BarcelonaLat, lon=BarcelonaLon, api=API_KEY)
+print(json.dumps(Barcelona_weather, indent=2, ensure_ascii=False))
+\end{verbatim}
+
+Como se puede observar, la respuesta de la API genera diccionarios anidados. Por ejemplo, el
+valor de temperatura mínima se encuentra anidado dentro de \texttt{main}. Uno
+de los casos a tener en cuenta es el campo \texttt{weather} el cuál a
+diferencia de main que es un único objeto, es un arreglo. Esto se debe
+a que un mismo lugar puede tener varias situaciones climáticas a la
+vez, haciendo que el valor especifico de description quede doblemente
+anidado. Problema que se solucionará en el procesamiento de los datos
+\subsubsection{Procesamiento de datos}
+\label{sec:orgaba4846}
+Una vez conseguido los valores en crudo, es necesario aplanarlos y
+colocar un formato para un posterior análisis. El método process
+recibe el dato crudo proveniente del paso anterior y realiza dos
+funciones: Solventar la doble anidación de weather y aplanar el
+formato json
+\begin{verbatim}
+def process(data):
+    if "weather" in data and isinstance(data["weather"], list) and data["weather"]:
+        data["weather_description"] = data["weather"][0].get("description", None)
+        del data["weather"]
+    else:
+        data["weather_description"] = None
+    return pd.json_normalize(data, sep="_")
+\end{verbatim}
+El proceso consta de un condicional el cuál verifica tres condiciones
+en el campo \texttt{weather}: Que exista en el json recibido, que
+efectivamente sea una lista y finalmente que tenga al menos un
+dato. Una vez verificado la existencia de estos campos procede a
+extraer del primer elemento de la lista el valor correspondiente a
+description guardandolo como  \texttt{weather\_description} y elimina la clave
+original para que no haya repetición. En caso de que el condicional
+falle, asigna un valor de \texttt{None} a este nuevo campo. Finalmente
+utilizando pandas, el método devuelve el json aplanado mediante
+json\textsubscript{normalize}
+\begin{verbatim}
+jsonProcesado = process(Barcelona_weather)
+#Se utiliza transpose (T) para convertir filas en columnas para una mejor visualización
+print(jsonProcesado.T.to_string())
+\end{verbatim}
+\subsubsection{Almacenamiento en csv}
+\label{sec:orgd924bed}
+Con nuestros datos aplanados, es necesario guardarlos en un archivo
+.csv, tarea que es designada al método \texttt{write2csv}. Sin embargo,
+existe una variable que hasta ahora no ha sido contemplada: la API de
+OpenWeatherMap genera campos como rain o snow únicamente cuando
+ocurren estos fenómenos. Si el archivo inicial fue generado un día despejado,
+esas columnas no existirán en la estructura base. Esto se soluciona
+mediante la libreria pandas.
+\begin{verbatim}
+def write2csv(json_processed, csvFile):
+    if os.path.isfile(csvFile):
+        antiguo = pd.read_csv(csvFile)
+        df=pd.concat([antiguo, json_processed], ignore_index=True)
+    else:
+        df = json_processed
+    df.to_csv(csvFile, index=False)
+\end{verbatim}
+El método consta de un condicional que verifica si el archivo CSV ya
+existe en el disco. De ser así, lee el csv antiguo y lo
+concatena con los nuevos datos mediante \texttt{pd.concat}. Esta función
+alinea las columnas por su nombre, haciendo que si aparece un campo
+nuevo como \texttt{rain} o \texttt{snow}, rellena con valores nulos los campos anteriores. En caso de que el
+archivo no exista, no se hacen cambios a los datos recibidos. Finalmente,
+los datos se exportan a formato CSV y se guardan en el disco.
+\begin{verbatim}
+write2csv(jsonProcesado, fileName)
+\end{verbatim}
+Para ilustrar como se guardan los datos se utiliza la funcion read\textsubscript{csv}
+\begin{verbatim}
+pd.read_csv(fileName).sample(4).T
+\end{verbatim}
+
+\begin{table}[htbp]
+\label{tab:org01a19f0}
+\centering
+\begin{tabular}{lrrrr}
+ & 17 & 24 & 15 & 5\\
+\hline
+base & stations & stations & stations & stations\\
+visibility & 10000 & 10000 & 10000 & 10000\\
+dt & 1783873363 & 1783880103 & 1783871652 & 1783862652\\
+timezone & 7200 & 7200 & 7200 & 7200\\
+id & 3128760 & 3128760 & 3128760 & 3128760\\
+name & Barcelona & Barcelona & Barcelona & Barcelona\\
+cod & 200 & 200 & 200 & 200\\
+weather\textsubscript{description} & overcast clouds & overcast clouds & overcast clouds & overcast clouds\\
+coord\textsubscript{lon} & 2.159 & 2.159 & 2.159 & 2.159\\
+coord\textsubscript{lat} & 41.3888 & 41.3888 & 41.3888 & 41.3888\\
+main\textsubscript{temp} & 28.71 & 28.14 & 28.88 & 30.0\\
+main\textsubscript{feels}\textsubscript{like} & 30.55 & 29.9 & 30.83 & 31.71\\
+main\textsubscript{temp}\textsubscript{min} & 26.97 & 26.5 & 26.97 & 28.26\\
+main\textsubscript{temp}\textsubscript{max} & 32.02 & 30.64 & 33.13 & 33.13\\
+main\textsubscript{pressure} & 1015 & 1015 & 1015 & 1015\\
+main\textsubscript{humidity} & 60 & 62 & 60 & 54\\
+main\textsubscript{sea}\textsubscript{level} & 1015 & 1015 & 1015 & 1015\\
+main\textsubscript{grnd}\textsubscript{level} & 1007 & 1006 & 1007 & 1008\\
+wind\textsubscript{speed} & 4.78 & 4.43 & 0.45 & 2.24\\
+wind\textsubscript{deg} & 87 & 78 & 107 & 94\\
+wind\textsubscript{gust} & 6.01 & 5.52 & 4.02 & 4.92\\
+clouds\textsubscript{all} & 99 & 100 & 99 & 100\\
+sys\textsubscript{type} & 2 & 2 & 2 & 2\\
+sys\textsubscript{id} & 18549 & 18549 & 18549 & 18549\\
+sys\textsubscript{country} & ES & ES & ES & ES\\
+sys\textsubscript{sunrise} & 1783830497 & 1783830497 & 1783830497 & 1783830497\\
+sys\textsubscript{sunset} & 1783884314 & 1783884314 & 1783884314 & 1783884314\\
+\end{tabular}
+\end{table}
+Con eso conseguimos nuestros datos limpios y planos para un posterior análisis
+\subsection{Script ejecutable sh}
+\label{sec:org8b52ffd}
+Para ejecutar nuestro script, es necesario conocer donde se encuentra
+sh y para ello utilizamos el comando \texttt{which}.
+\begin{verbatim}
+which sh
+\end{verbatim}
+\phantomsection
+\label{org09a2613}
+\begin{verbatim}
+/usr/bin/sh
+\end{verbatim}
+
+De igual manera se requiere localizar el entorno de mamba \textbf{iccd332}
+que será utilizado para la ejecución del script
+
+\begin{verbatim}
+which mamba
+\end{verbatim}
+\phantomsection
+\label{orgf06797e}
+\begin{verbatim}
+/home/juand/miniforge3/condabin/mamba
+\end{verbatim}
+
+Con esto el archivo ejecutable contiene
+\begin{verbatim}
+#!/usr/bin/sh
+/home/juand/miniforge3/envs/iccd332/bin/python /home/juand/BarcelonaWeather/main.py
+\end{verbatim}
+Finalmente se convierte en ejecutable dandole permisos de ejecución
+\begin{verbatim}
+#!/usr/bin/sh
+chmod +x /home/juand/BarcelonaWeather/get-weather.sh
+\end{verbatim}
+\subsection{Configuración de Crontab}
+\label{sec:org4d67712}
+Para crontab, se configura para un intervalo de 15 minutos, con la
+ejecución de nuestro script previamente creado. Guarda en el archivo
+output.log tanto la salida como los errores generados
+\begin{verbatim}
+*/15 * * * * cd /home/juand/BarcelonaWeather && ./get-weather.sh >> /home/juand/BarcelonaWeather/output.log 2>&1
+\end{verbatim}
+\section{Presentación de resultados}
+\label{sec:org32d45fa}
+Para la pressentación de resultados se utilizan las librerías de Python:
+\begin{itemize}
+\item matplotlib
+\item pandas
+\end{itemize}
+\subsection{Muestra Aleatoria de datos}
+\label{sec:org757b933}
+Presentar una muestra de 10 valores aleatorios de los datos obtenidos.
+\begin{verbatim}
+import os
+import pandas as pd
+from datetime import datetime
+# lectura del archivo csv obtenido
+dfRaw = pd.read_csv('/home/juand/BarcelonaWeather/clima-barcelona-hoy.csv')
+# se convierte de timestamps a tiempos legibles
+df = dfRaw.copy()
+df.dt = dfRaw.dt.apply(lambda x: datetime.fromtimestamp(x))
+df.sys_sunrise = dfRaw.sys_sunrise.apply(lambda x: datetime.fromtimestamp(x))
+df.sys_sunset = dfRaw.sys_sunset.apply(lambda x: datetime.fromtimestamp(x))
+# se imprime la estructura del dataframe en forma de filas x columnas
+print(df.shape)
+
+
+\end{verbatim}
+\captionof{figure}{Lectura de archivo csv}
+\phantomsection
+\label{org1db805c}
+\begin{verbatim}
+(44, 27)
+\end{verbatim}
+
+
+Resultado del número de filas y columnas leídos del archivo csv
+
+\begin{verbatim}
+dfToShow = df.copy()
+for col in ['dt', 'sys_sunrise', 'sys_sunset']:
+    dfToShow[col] = dfToShow[col].astype(str)
+table1 = dfToShow.sample(10)
+table = [list(table1)]+[None]+table1.values.tolist()
+\end{verbatim}
+\captionof{figure}{Despliegue de datos aleatorios}
+
+\begin{table}[htbp]
+\label{tab:org463f25a}
+\centering
+\begin{tabular}{lrlrrlrlrrrrrrrrrrrrrrrrlll}
+base & visibility & dt & timezone & id & name & cod & weather\textsubscript{description} & coord\textsubscript{lon} & coord\textsubscript{lat} & main\textsubscript{temp} & main\textsubscript{feels}\textsubscript{like} & main\textsubscript{temp}\textsubscript{min} & main\textsubscript{temp}\textsubscript{max} & main\textsubscript{pressure} & main\textsubscript{humidity} & main\textsubscript{sea}\textsubscript{level} & main\textsubscript{grnd}\textsubscript{level} & wind\textsubscript{speed} & wind\textsubscript{deg} & wind\textsubscript{gust} & clouds\textsubscript{all} & sys\textsubscript{type} & sys\textsubscript{id} & sys\textsubscript{country} & sys\textsubscript{sunrise} & sys\textsubscript{sunset}\\
+\hline
+stations & 10000 & 2026-07-12 16:10:43 & 7200 & 3128760 & Barcelona & 200 & broken clouds & 2.159 & 41.3888 & 27.27 & 27.35 & 26.28 & 28.16 & 1014 & 45 & 1014 & 1007 & 0.89 & 336 & 4.02 & 77 & 2 & 18549 & ES & 2026-07-11 23:28:17 & 2026-07-12 14:25:14\\
+stations & 10000 & 2026-07-12 13:44:42 & 7200 & 3128760 & Barcelona & 200 & overcast clouds & 2.159 & 41.3888 & 28.33 & 29.83 & 26.97 & 30.16 & 1014 & 59 & 1014 & 1007 & 3.75 & 68 & 4.45 & 98 & 2 & 18549 & ES & 2026-07-11 23:28:17 & 2026-07-12 14:25:14\\
+stations & 10000 & 2026-07-11 21:59:44 & 7200 & 6544100 & Eixample & 200 & broken clouds & 2.159 & 41.3888 & 24.37 & 24.77 & 23.39 & 25.18 & 1014 & 73 & 1014 & 1007 & 0.89 & 96 & 2.68 & 78 & 2 & 18549 & ES & 2026-07-11 23:28:17 & 2026-07-12 14:25:14\\
+stations & 10000 & 2026-07-11 22:41:13 & 7200 & 3128760 & Barcelona & 200 & broken clouds & 2.159 & 41.3888 & 24.2 & 24.56 & 23.08 & 25.18 & 1014 & 72 & 1014 & 1007 & 2.68 & 76 & 3.33 & 68 & 2 & 18549 & ES & 2026-07-11 23:28:17 & 2026-07-12 14:25:14\\
+stations & 10000 & 2026-07-12 08:24:12 & 7200 & 3128760 & Barcelona & 200 & overcast clouds & 2.159 & 41.3888 & 30.0 & 31.71 & 28.26 & 33.13 & 1015 & 54 & 1015 & 1008 & 2.24 & 94 & 4.92 & 100 & 2 & 18549 & ES & 2026-07-11 23:28:17 & 2026-07-12 14:25:14\\
+stations & 10000 & 2026-07-12 11:55:08 & 7200 & 3128760 & Barcelona & 200 & overcast clouds & 2.159 & 41.3888 & 28.84 & 30.77 & 26.97 & 32.02 & 1014 & 60 & 1014 & 1007 & 4.21 & 82 & 5.38 & 100 & 2 & 18549 & ES & 2026-07-11 23:28:17 & 2026-07-12 14:25:14\\
+stations & 10000 & 2026-07-12 11:44:33 & 7200 & 6544100 & Eixample & 200 & overcast clouds & 2.159 & 41.3888 & 28.79 & 30.68 & 26.97 & 32.02 & 1014 & 60 & 1014 & 1007 & 0.45 & 355 & 4.47 & 100 & 2 & 18549 & ES & 2026-07-11 23:28:17 & 2026-07-12 14:25:14\\
+stations & 10000 & 2026-07-12 16:25:46 & 7200 & 3128760 & Barcelona & 200 & broken clouds & 2.159 & 41.3888 & 27.15 & 27.19 & 26.36 & 28.16 & 1014 & 44 & 1014 & 1007 & 1.34 & 304 & 4.92 & 77 & 2 & 18549 & ES & 2026-07-11 23:28:17 & 2026-07-12 14:25:14\\
+stations & 10000 & 2026-07-12 10:12:20 & 7200 & 3128760 & Barcelona & 200 & overcast clouds & 2.159 & 41.3888 & 29.81 & 31.24 & 28.51 & 33.69 & 1015 & 53 & 1015 & 1007 & 1.34 & 82 & 4.92 & 99 & 2 & 18549 & ES & 2026-07-11 23:28:17 & 2026-07-12 14:25:14\\
+stations & 10000 & 2026-07-12 09:42:43 & 7200 & 3128760 & Barcelona & 200 & overcast clouds & 2.159 & 41.3888 & 30.23 & 32.09 & 28.64 & 33.5 & 1015 & 54 & 1015 & 1007 & 4.54 & 96 & 5.88 & 99 & 2 & 18549 & ES & 2026-07-11 23:28:17 & 2026-07-12 14:25:14\\
+\end{tabular}
+\end{table}
+\subsection{Gráfica Temperatura vs Tiempo}
+\label{sec:orgb312869}
+Realizar una gráfica de la Temperatura en el tiempo.
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
+# Define el tamaño de la figura de salida
+fig = plt.figure(figsize=(8,6))
+plt.plot(df['dt'], df['main_temp']) # dibuja las variables dt y temperatura
+# ajuste para presentacion de fechas en la imagen 
+plt.gca().xaxis.set_major_locator(mdates.HourLocator(interval=3))
+plt.gcf().autofmt_xdate()
+plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%H:%M\n%d-%b'))
+# plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))  
+plt.grid()
+# Titulo que obtiene el nombre de la ciudad del DataFrame
+plt.title(f'Main Temp vs Time in {next(iter(set(df.name)))}')
+plt.xticks(rotation=40) # rotación de las etiquetas 40°
+fig.tight_layout()
+fname = './images/Temperatura.png'
+plt.savefig(fname)
+fname
+\end{verbatim}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.9\linewidth]{./images/Temperatura.png}
+\caption{\label{fig:orga760de1}Gráfica Humedad vs Temperatura}
+\end{figure}
+
+Debido a que el archivo index.org se abre dentro de la carpeta
+\emph{content}, y en cambio el servidor http de emacs se ejecuta desde la
+carpeta \emph{public} es necesario copiar el archivo a la ubicación
+equivalente en \texttt{/public/images}
+
+\begin{verbatim}
+cp -rfv ./images/* ~/BarcelonaWeather/weather-site/public/images
+\end{verbatim}
+\subsection{Realice una gráfica de Humedad con respecto al tiempo}
+\label{sec:orge5ecb87}
+\begin{verbatim}
+fig = plt.figure(figsize=(8,6))
+plt.plot(df['dt'], df['main_humidity']) # dibuja las variables dt y temperatura
+# ajuste para presentacion de fechas en la imagen 
+plt.gca().xaxis.set_major_locator(mdates.HourLocator(interval=3))
+plt.gcf().autofmt_xdate()
+plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%H:%M\n%d-%b'))
+# plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))  
+plt.grid()
+# Titulo que obtiene el nombre de la ciudad del DataFrame
+plt.title(f'Main Humidity vs Time in {next(iter(set(df.name)))}')
+plt.xticks(rotation=40) # rotación de las etiquetas 40°
+fig.tight_layout()
+fname = './images/Humidity.png'
+plt.savefig(fname)
+fname
+\end{verbatim}
+
+\begin{center}
+\includegraphics[width=.9\linewidth]{./images/Humidity.png}
+\label{orgb344c33}
+\end{center}
+\subsection{\textbf{Opcional} Presente alguna gráfica de interés.}
+\label{sec:orga6f8b36}
+Se realiza un gráfico de mapa de calor de correlaciones
+\begin{verbatim}
+import seaborn as sns
+datos = df[['main_temp', 'main_feels_like', 'main_humidity', 'main_pressure',
+        'wind_speed', 'wind_gust', 'clouds_all']]
+correlaciones = datos.corr()
+plt.figure(figsize=(10, 8))
+sns.heatmap(correlaciones, annot=True, cmap='coolwarm')
+plt.xticks(rotation=20)
+plt.title("Mapa de calor de correlaciones")
+fname = './images/HeapMap.png'
+plt.savefig(fname)
+fname
+\end{verbatim}
+
+\begin{center}
+\includegraphics[width=.9\linewidth]{./images/HeapMap.png}
+\label{orgf31103c}
+\end{center}
+\section{Instrucciones Java Script}
+\label{sec:orga68f5fc}
+En la siguiente página se indica cómo integrar \texttt{javascript} como un
+alternativa para testear el código.
+\href{index.org}{
+JavaScript}
+\section{Referencias}
+\label{sec:org4b9d163}
+\begin{itemize}
+\item \href{https://emacs.stackexchange.com/questions/28715/get-pandas-data-frame-as-a-table-in-org-babel}{presentar dataframe como tabla en emacs org}
+\item \href{https://orgmode.org/worg/org-contrib/babel/languages/ob-doc-python.html}{Python Source Code Blocks in Org Mode}
+\item \href{https://systemcrafters.net/publishing-websites-with-org-mode/building-the-site/}{Systems Crafters Construir tu sitio web con Modo Emacs Org}
+\item \href{https://www.youtube.com/watch?v=AfkrzFodoNw}{Vídeo Youtube Build Your Website with Org Mode}
+\end{itemize}
+\end{document}

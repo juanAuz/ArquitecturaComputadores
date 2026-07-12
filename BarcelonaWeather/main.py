@@ -2,9 +2,6 @@ import pandas as pd
 import requests
 import os
 import pathlib
-import json
-import csv
-
 
 BarcelonaLat = 41.38879
 BarcelonaLon = 2.15899
