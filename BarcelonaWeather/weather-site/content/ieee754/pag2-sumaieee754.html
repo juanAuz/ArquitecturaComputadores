@@ -1,0 +1,1133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es">
+<head>
+<!-- 2026-07-14 Tue 00:10 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Implementación del Algoritmo de Suma en Notación de Coma Flotante IEEE 754</title>
+<meta name="author" content="Auz Juan, Lanchimba Danny, Palomeque Matías, Quillupangui Ana María" />
+<meta name="generator" content="Org Mode" />
+<style>
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { }
+</style>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">Implementación del Algoritmo de Suma en Notación de Coma Flotante IEEE 754</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>&Iacute;ndice</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org636100d">1. Introducción</a></li>
+<li><a href="#org93dc285">2. Objetivos</a></li>
+<li><a href="#orgf9d91d6">3. Fundamento teórico</a></li>
+<li><a href="#orgf268f7c">4. Descripción del algoritmo</a>
+<ul>
+<li><a href="#org99151a7">4.1. Conversión de decimal a IEEE754</a></li>
+<li><a href="#org3c7fac6">4.2. Alineación de exponentes</a></li>
+<li><a href="#org5c3efb9">4.3. Determinación del tipo de operación</a></li>
+<li><a href="#org49e5fb6">4.4. Operación entre mantisas</a></li>
+<li><a href="#org14e4884">4.5. Normalización del resultado</a></li>
+<li><a href="#orgcdfdace">4.6. Ensamblaje final</a></li>
+<li><a href="#orgceeeda2">4.7. Función principal</a></li>
+</ul>
+</li>
+<li><a href="#org737c809">5. Capturas de ejecución</a></li>
+<li><a href="#org3534e1b">6. Conclusiones</a></li>
+<li><a href="#orgfdabb53">7. Extra: Ejecución interactiva mediante JavaScript</a></li>
+<li><a href="#org30dfc1c">8. Referencias</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org636100d" class="outline-2">
+<h2 id="org636100d"><span class="section-number-2">1.</span> Introducción</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+El estándar IEEE 754 define la representación y las operaciones
+aritméticas para números en punto flotante utilizadas por la mayoría de
+los procesadores actuales.
+</p>
+
+<p>
+En este trabajo se desarrolla una implementación en Python del algoritmo
+de suma de números en formato IEEE 754 de precisión simple (32 bits),
+siguiendo las etapas descritas en el estándar y en la literatura de
+Arquitectura de Computadores.
+</p>
+
+<p>
+El objetivo es comprender el funcionamiento interno de la unidad de
+punto flotante, implementando manualmente las diferentes etapas de
+la suma binaria.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org93dc285" class="outline-2">
+<h2 id="org93dc285"><span class="section-number-2">2.</span> Objetivos</h2>
+<div class="outline-text-2" id="text-2">
+<ul class="org-ul">
+<li>Comprender la representación IEEE 754 de precisión simple.</li>
+<li>Implementar el algoritmo de suma de punto flotante.</li>
+<li>Analizar cada etapa del algoritmo mediante ejemplos.</li>
+<li>Verificar el correcto funcionamiento mediante diferentes pruebas.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgf9d91d6" class="outline-2">
+<h2 id="orgf9d91d6"><span class="section-number-2">3.</span> Fundamento teórico</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Un número IEEE 754 de precisión simple ocupa 32 bits distribuidos de la
+siguiente forma:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Campo</th>
+<th scope="col" class="org-right">Bits</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Signo</td>
+<td class="org-right">1</td>
+</tr>
+
+<tr>
+<td class="org-left">Exponente</td>
+<td class="org-right">8</td>
+</tr>
+
+<tr>
+<td class="org-left">Mantisa</td>
+<td class="org-right">23</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+El valor representado está dado por
+</p>
+
+<p>
+\[
+(-1)^S \times 1.M \times 2^{E-127}
+\]
+</p>
+
+<p>
+donde:
+</p>
+
+<ul class="org-ul">
+<li>S representa el bit de signo.</li>
+<li>E es el exponente con sesgo.</li>
+<li>M corresponde a la mantisa.</li>
+</ul>
+
+<p>
+Antes de realizar una suma en punto flotante se siguen las siguientes
+etapas:
+</p>
+
+<ol class="org-ol">
+<li>Comparar exponentes.</li>
+<li>Alinear mantisas.</li>
+<li>Realizar la operación.</li>
+<li>Normalizar el resultado.</li>
+<li>Reempacar el número en formato IEEE754.</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgf268f7c" class="outline-2">
+<h2 id="orgf268f7c"><span class="section-number-2">4.</span> Descripción del algoritmo</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+El algoritmo desarrollado se divide en cinco etapas principales.
+</p>
+</div>
+
+<div id="outline-container-org99151a7" class="outline-3">
+<h3 id="org99151a7"><span class="section-number-3">4.1.</span> Conversión de decimal a IEEE754</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+Primero se obtiene el signo del número.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">
+def obtenerSigno(numero):
+    """
+    Devuelve el bit de signo según IEEE754
+    """
+    if numero &lt; 0:
+        return 1
+    else:
+        return 0
+
+</pre>
+</div>
+
+<p>
+Posteriormente el número se separa en parte entera y decimal.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">
+def separarPartes(numero):
+    """
+    Separa un número en su parte entera y decimal
+    """
+    numero = abs(numero)
+    entero = int(numero)
+    decimal = numero - entero
+
+    return entero, decimal
+
+</pre>
+</div>
+
+<p>
+La parte entera se convierte a binario.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">
+def convertirEnteroBinario(entero):
+    """
+    Devuelve la parte entera en binario
+    """
+    return bin(entero).replace("0b","")
+
+</pre>
+</div>
+
+<p>
+La parte fraccionaria se convierte utilizando el algoritmo visto en
+clase.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">
+def convertirDecimalBinario(decimal):
+    """
+    Convierte la parte decimal a binario
+    """
+    bits = ""
+
+    while decimal != 0 and len(bits) &lt; 23:
+
+        decimal *= 2
+
+        if decimal &gt;= 1:
+            bits += "1"
+            decimal -= 1
+        else:
+            bits += "0"
+
+    if bits == "":
+        return "0"
+
+    return bits
+
+</pre>
+</div>
+
+<p>
+Se unen ambas partes.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">
+def convertirBinario(numero):
+    """
+    Convierte un número decimal a binario
+    """
+    entero, decimal = separarPartes(numero)
+    return convertirEnteroBinario(entero) + "." + convertirDecimalBinario(decimal)
+
+</pre>
+</div>
+
+<p>
+Posteriormente se normaliza el número.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">
+def normalizar(binario):
+    """
+    Normaliza el número binario
+    """
+    entero, decimal = binario.split(".")
+
+    if entero != "0":
+        exponente = len(entero) - 1
+        mantisa = entero[1:] + decimal
+        return mantisa, exponente
+
+    indice = decimal.index("1")
+    exponente = -(indice + 1)
+    mantisa = decimal[indice + 1:]
+
+    return mantisa, exponente
+
+</pre>
+</div>
+
+<p>
+El exponente se sesga con 127.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">
+def calcularExponente(exponente):
+    """
+    Calcula el exponente sesgado
+    """
+    exponente = exponente + 127
+    binario = bin(exponente).replace("0b","")
+    return binario.zfill(8)
+
+</pre>
+</div>
+
+<p>
+Finalmente la mantisa se ajusta a 23 bits.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">
+def ajustarMantisa(mantisa):
+    """
+    Ajusta la mantisa a 23 bits
+    """
+    return mantisa.ljust(23,"0")
+
+</pre>
+</div>
+
+<p>
+Con todas las funciones anteriores se implementa la conversión completa.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">
+def convertirIEEE754(numero):
+    """
+    Convierte un número decimal a IEEE754
+    """
+
+    if numero == 0:
+        return {
+            "signo":"0",
+            "exponente":"00000000",
+            "mantisa":"00000000000000000000000",
+            "ieee754":"00000000000000000000000000000000"
+        }
+
+    signo = str(obtenerSigno(numero))
+
+    binario = convertirBinario(numero)
+
+    mantisa, exponente = normalizar(binario)
+
+    exponenteIEEE = calcularExponente(exponente)
+
+    mantisaIEEE = ajustarMantisa(mantisa)
+
+    ieee754 = signo + exponenteIEEE + mantisaIEEE
+
+    return {
+        "signo":signo,
+        "binario":binario,
+        "exponenteReal":exponente,
+        "exponenteSesgado":exponenteIEEE,
+        "mantisa":mantisaIEEE,
+        "ieee754":ieee754
+    }
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3c7fac6" class="outline-3">
+<h3 id="org3c7fac6"><span class="section-number-3">4.2.</span> Alineación de exponentes</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+Para poder sumar dos números IEEE754 ambos deben poseer el mismo
+exponente.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">
+def alinearExponentes(exp1,mant1,exp2,mant2):
+
+    mant1 = "1" + mant1
+    mant2 = "1" + mant2
+
+    while exp1 &lt; exp2:
+        mant1 = "0" + mant1[:-1]
+        exp1 += 1
+
+    while exp2 &lt; exp1:
+        mant2 = "0" + mant2[:-1]
+        exp2 += 1
+
+    return exp1, mant1, mant2
+
+print(
+    alinearExponentes(
+        1,
+        "01000000000000000000000",
+        0,
+        "01000000000000000000000"
+    )
+)
+</pre>
+</div>
+
+<pre class="example">
+(1, '101000000000000000000000', '010100000000000000000000')
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org5c3efb9" class="outline-3">
+<h3 id="org5c3efb9"><span class="section-number-3">4.3.</span> Determinación del tipo de operación</h3>
+<div class="outline-text-3" id="text-4-3">
+<p>
+Una vez alineados los exponentes, el algoritmo determina si debe
+realizar una suma o una resta dependiendo del signo de ambos
+operandos. Cuando los signos son diferentes, también se determina
+cuál de las mantisas tiene el mayor valor absoluto para garantizar
+que la resta produzca un resultado positivo.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">
+def determinarSignoYOrden(signo1, signo2, mant1, mant2):
+    """
+    Compara los signos para decidir si se suma o se resta.
+    Además, ordena las mantisas para que la resta sea siempre positiva,
+    y determina cuál será el signo del resultado final.
+    """
+
+    val1 = int(mant1, 2)
+    val2 = int(mant2, 2)
+
+    if signo1 == signo2:
+        return signo1, "suma", mant1, mant2
+
+    else:
+
+        if val1 &gt;= val2:
+            return signo1, "resta", mant1, mant2
+        else:
+            return signo2, "resta", mant2, mant1
+
+print(
+    determinarSignoYOrden(
+        "0",
+        "1",
+        "101000000000000000000000",
+        "010100000000000000000000"
+    )
+)
+
+</pre>
+</div>
+
+<pre class="example">
+('0', 'resta', '101000000000000000000000', '010100000000000000000000')
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org49e5fb6" class="outline-3">
+<h3 id="org49e5fb6"><span class="section-number-3">4.4.</span> Operación entre mantisas</h3>
+<div class="outline-text-3" id="text-4-4">
+<p>
+La suma y la resta de las mantisas se implementan utilizando únicamente
+operaciones binarias bit a bit, reproduciendo el comportamiento de una
+unidad aritmética lógica.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">
+def operarMantisas(mantMayor, mantMenor, operacion):
+    """
+    Suma o resta mantisas binarias utilizando operaciones
+    bit a bit.
+    Retorna el resultado en binario.
+    """
+    while len(mantMayor) &gt; len(mantMenor):
+        mantMenor = "0" + mantMenor
+
+    while len(mantMenor) &gt; len(mantMayor):
+        mantMayor = "0" + mantMayor
+
+    if operacion == "suma":
+        resultado = ""
+        acarreo = 0
+
+        # Se recorren las cadenas desde el bit menos significativo
+        for i in range(len(mantMayor)-1, -1, -1):
+
+            bit1 = int(mantMayor[i])
+            bit2 = int(mantMenor[i])
+
+            suma = bit1 + bit2 + acarreo
+
+            if suma == 0:
+                resultado = "0" + resultado
+                acarreo = 0
+
+            elif suma == 1:
+                resultado = "1" + resultado
+                acarreo = 0
+
+            elif suma == 2:
+                resultado = "0" + resultado
+                acarreo = 1
+
+            else:
+                resultado = "1" + resultado
+                acarreo = 1
+
+        if acarreo == 1:
+            resultado = "1" + resultado
+
+        return resultado
+
+    else:
+        # Resta binaria
+        resultado = ""
+        prestamo = 0
+
+        for i in range(len(mantMayor)-1, -1, -1):
+
+            bit1 = int(mantMayor[i]) - prestamo
+            bit2 = int(mantMenor[i])
+
+            if bit1 &lt; bit2:
+                bit1 += 2
+                prestamo = 1
+            else:
+                prestamo = 0
+
+            diferencia = bit1 - bit2
+
+            resultado = str(diferencia) + resultado
+
+        return resultado
+          
+print(
+    operarMantisas(
+        "101000000000000000000000",
+        "010100000000000000000000",
+        "suma"
+    )
+)
+
+</pre>
+</div>
+
+<pre class="example">
+111100000000000000000000
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org14e4884" class="outline-3">
+<h3 id="org14e4884"><span class="section-number-3">4.5.</span> Normalización del resultado</h3>
+<div class="outline-text-3" id="text-4-5">
+<p>
+Después de la operación puede aparecer un acarreo adicional o bien
+desaparecer el bit implícito debido a una resta. En ambos casos es
+necesario ajustar nuevamente el exponente y la mantisa.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">
+def normalizarResultado(mantResultado, expComun):
+
+    if mantResultado == "0":
+        return "0", 0
+
+    exponente = expComun
+
+    # Caso suma
+    if len(mantResultado) &gt; 24:
+        mantResultado = mantResultado[1:]
+        exponente += 1
+
+    # Caso resta
+    while mantResultado[0] == "0":
+        mantResultado = mantResultado[1:] + "0"
+        exponente -= 1
+
+    mantisa = mantResultado[1:]
+
+    return mantisa[:23], exponente
+
+print(
+    normalizarResultado(
+        "111100000000000000000000",
+        1
+    )
+)
+
+</pre>
+</div>
+
+<pre class="example">
+('11100000000000000000000', 1)
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgcdfdace" class="outline-3">
+<h3 id="orgcdfdace"><span class="section-number-3">4.6.</span> Ensamblaje final</h3>
+<div class="outline-text-3" id="text-4-6">
+<p>
+Una vez obtenidos el signo, el exponente y la mantisa normalizados,
+se construye nuevamente la palabra de 32 bits correspondiente al
+formato IEEE754.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">def ensamblarIEEE754(signo, exponenteReal, mantisa):
+    """
+    Construye el número IEEE754 final.
+    """
+
+    if mantisa == "0" and exponenteReal == 0:
+        return "00000000000000000000000000000000"
+
+    exponenteIEEE = calcularExponente(exponenteReal)
+
+    mantisaIEEE = ajustarMantisa(mantisa)[:23]
+
+    return signo + exponenteIEEE + mantisaIEEE
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgceeeda2" class="outline-3">
+<h3 id="orgceeeda2"><span class="section-number-3">4.7.</span> Función principal</h3>
+<div class="outline-text-3" id="text-4-7">
+<p>
+La siguiente función integra todas las etapas del algoritmo descritas
+anteriormente.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">
+def sumarIEEE754(num1, num2):
+    """
+    Función principal del algoritmo.
+    """
+
+    if num1 == 0:
+        return {
+            "resultadoIEEE754": convertirIEEE754(num2)["ieee754"]
+        }
+
+    if num2 == 0:
+        return {
+            "resultadoIEEE754": convertirIEEE754(num1)["ieee754"]
+        }
+
+    ieee1 = convertirIEEE754(num1)
+    ieee2 = convertirIEEE754(num2)
+
+    expComun, mant1Alineada, mant2Alineada = alinearExponentes(
+        ieee1["exponenteReal"],
+        ieee1["mantisa"],
+        ieee2["exponenteReal"],
+        ieee2["mantisa"]
+    )
+
+    signoFinal, operacion, mantMayor, mantMenor = determinarSignoYOrden(
+        ieee1["signo"],
+        ieee2["signo"],
+        mant1Alineada,
+        mant2Alineada
+    )
+
+    mantResultado = operarMantisas(
+        mantMayor,
+        mantMenor,
+        operacion
+    )
+
+    mantNormalizada, expFinal = normalizarResultado(
+        mantResultado,
+        expComun
+    )
+
+    resultado = ensamblarIEEE754(
+        signoFinal,
+        expFinal,
+        mantNormalizada
+    )
+
+    return {
+
+        "exponenteComun": expComun,
+
+        "mantisa1Alineada": mant1Alineada,
+        "mantisa2Alineada": mant2Alineada,
+
+        "signoFinal": signoFinal,
+        "operacion": operacion,
+
+        "mantisaMayor": mantMayor,
+        "mantisaMenor": mantMenor,
+
+        "mantisaResultado": mantResultado,
+
+        "mantisaNormalizada": mantNormalizada,
+        "exponenteFinal": expFinal,
+
+        "resultadoIEEE754": resultado
+    }
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org737c809" class="outline-2">
+<h2 id="org737c809"><span class="section-number-2">5.</span> Capturas de ejecución</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+En esta sección se incluyen las capturas de pantalla obtenidas durante
+la ejecución del programa.
+</p>
+
+<ul class="org-ul">
+<li>Conversión del primer operando.</li>
+<li>Conversión del segundo operando.</li>
+<li>Alineación de exponentes.</li>
+<li>Determinación de la operación.</li>
+<li>Operación sobre las mantisas.</li>
+<li>Normalización del resultado.</li>
+<li>Ensamblaje del número IEEE754.</li>
+<li>Resultado final.</li>
+</ul>
+
+
+<div id="org066097e" class="figure">
+<p><img src="./ejemplos/prueba1.png" alt="prueba1.png" />
+</p>
+<p><span class="figure-number">Figura 1: </span>Ejecución del algoritmo para la suma 3.5 + 1.25</p>
+</div>
+
+
+<div id="orga6968b9" class="figure">
+<p><img src="./ejemplos/prueba2.png" alt="prueba2.png" />
+</p>
+<p><span class="figure-number">Figura 2: </span>Ejecución del algoritmo para la suma 2.5 + (-1.24)</p>
+</div>
+
+
+<div id="orge961aa3" class="figure">
+<p><img src="./ejemplos/prueba3.png" alt="prueba3.png" />
+</p>
+<p><span class="figure-number">Figura 3: </span>Ejecución del algoritmo para la suma (-5) + (-34)</p>
+</div>
+
+
+<div id="org5fd1189" class="figure">
+<p><img src="./ejemplos/prueba4.png" alt="prueba4.png" />
+</p>
+<p><span class="figure-number">Figura 4: </span>Ejecución del algoritmo para la suma 100 + 0.25</p>
+</div>
+
+
+<div id="org85e1bde" class="figure">
+<p><img src="./ejemplos/prueba5.png" alt="prueba5.png" />
+</p>
+<p><span class="figure-number">Figura 5: </span>Ejecución del algoritmo para la suma 0.1 + 0.2</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3534e1b" class="outline-2">
+<h2 id="org3534e1b"><span class="section-number-2">6.</span> Conclusiones</h2>
+<div class="outline-text-2" id="text-6">
+<ul class="org-ul">
+<li>Se implementó satisfactoriamente el algoritmo de suma de números en
+formato IEEE754 de precisión simple empleando Python.</li>
+
+<li>El desarrollo permitió comprender el funcionamiento interno de una
+unidad de punto flotante, especialmente el proceso de alineación de
+exponentes, operación entre mantisas y normalización del resultado.</li>
+
+<li>La implementación reproduce las principales etapas descritas por el
+estándar IEEE754 para la suma en punto flotante.</li>
+
+<li>Las pruebas realizadas con números positivos, negativos, enteros y
+fraccionarios mostraron resultados consistentes con la representación
+IEEE754 de precisión simple.</li>
+
+<li>El ejemplo al sumar 0.1 + 0.2 representa los errores que se puede acarrear
+al momento de trabajar con números muy pequeños, al obtener un valor un
+tanto diferente al 0.3 esperado. Esto sucede ya que el algoritmo trunca los
+decimales menos significativos</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgfdabb53" class="outline-2">
+<h2 id="orgfdabb53"><span class="section-number-2">7.</span> Extra: Ejecución interactiva mediante JavaScript</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+La implementación principal del algoritmo IEEE754 fue desarrollada en Python.
+Sin embargo, debido a que los navegadores no pueden ejecutar directamente
+código Python, se desarrolló una versión interactiva utilizando JavaScript,
+el cual puede ser interpretado directamente por el navegador.
+</p>
+
+
+<h2>Suma IEEE754 interactiva</h2>
+
+<p>
+Ingrese dos números para obtener su representación IEEE754.
+</p>
+
+<input type="number" id="num1" placeholder="Primer número">
+
+<input type="number" id="num2" placeholder="Segundo número">
+
+<button onclick="sumarIEEE()">Sumar</button>
+
+<h3>Resultado:</h3>
+
+<p id="resultado"></p>
+
+
+<script>
+
+function obtenerSigno(numero){
+    if(numero < 0){
+        return "1";
+    }
+    return "0";
+}
+
+
+function convertirIEEE754(numero){
+
+    let buffer = new ArrayBuffer(4);
+    let vista = new DataView(buffer);
+
+    vista.setFloat32(0, numero);
+
+    let bits = vista.getUint32(0).toString(2);
+
+    bits = bits.padStart(32,"0");
+
+    return {
+        signo: bits.substring(0,1),
+        exponente: bits.substring(1,9),
+        mantisa: bits.substring(9,32),
+        ieee754: bits
+    };
+}
+
+
+function sumarIEEE(){
+
+    let num1 = parseFloat(document.getElementById("num1").value);
+    let num2 = parseFloat(document.getElementById("num2").value);
+
+
+    let ieee1 = convertirIEEE754(num1);
+    let ieee2 = convertirIEEE754(num2);
+
+
+    let resultado = num1 + num2;
+
+    let ieeeResultado = convertirIEEE754(resultado);
+
+
+    document.getElementById("resultado").innerHTML =
+    `
+    <b>Primer número:</b> ${num1}<br>
+    Signo: ${iee1 = ieee1.signo}<br>
+    Exponente: ${ieee1.exponente}<br>
+    Mantisa: ${ieee1.mantisa}<br>
+    IEEE754: ${ieee1.ieee754}<br><br>
+
+    <b>Segundo número:</b> ${num2}<br>
+    Signo: ${ieee2.signo}<br>
+    Exponente: ${ieee2.exponente}<br>
+    Mantisa: ${ieee2.mantisa}<br>
+    IEEE754: ${ieee2.ieee754}<br><br>
+
+
+    <b>Resultado de la suma:</b> ${resultado}<br>
+    Signo: ${ieeeResultado.signo}<br>
+    Exponente: ${ieeeResultado.exponente}<br>
+    Mantisa: ${ieeeResultado.mantisa}<br>
+    IEEE754: ${ieeeResultado.ieee754}
+    `;
+}
+
+</script>
+</div>
+</div>
+<div id="outline-container-org30dfc1c" class="outline-2">
+<h2 id="org30dfc1c"><span class="section-number-2">8.</span> Referencias</h2>
+<div class="outline-text-2" id="text-8">
+<ul class="org-ul">
+<li>IEEE Computer Society. <i>IEEE Standard for Floating-Point Arithmetic
+(IEEE Std 754-2019).</i> IEEE, 2019.</li>
+
+<li>Stallings, William. <i>Computer Organization and Architecture:
+Designing for Performance.</i> 11th Edition. Pearson.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Fecha: 2026-07-13</p>
+<p class="author">Autor: Auz Juan, Lanchimba Danny, Palomeque Matías, Quillupangui Ana María</p>
+<p class="date">Created: 2026-07-14 Tue 00:10</p>
+<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

@@ -614,6 +614,103 @@ la ejecución del programa.
   tanto diferente al 0.3 esperado. Esto sucede ya que el algoritmo trunca los
   decimales menos significativos
 
+* Extra: Ejecución interactiva mediante JavaScript
+
+La implementación principal del algoritmo IEEE754 fue desarrollada en Python.
+Sin embargo, debido a que los navegadores no pueden ejecutar directamente
+código Python, se desarrolló una versión interactiva utilizando JavaScript,
+el cual puede ser interpretado directamente por el navegador.
+
+#+begin_export html
+
+<h2>Suma IEEE754 interactiva</h2>
+
+<p>
+Ingrese dos números para obtener su representación IEEE754.
+</p>
+
+<input type="number" id="num1" placeholder="Primer número">
+
+<input type="number" id="num2" placeholder="Segundo número">
+
+<button onclick="sumarIEEE()">Sumar</button>
+
+<h3>Resultado:</h3>
+
+<p id="resultado"></p>
+
+
+<script>
+
+function obtenerSigno(numero){
+    if(numero < 0){
+        return "1";
+    }
+    return "0";
+}
+
+
+function convertirIEEE754(numero){
+
+    let buffer = new ArrayBuffer(4);
+    let vista = new DataView(buffer);
+
+    vista.setFloat32(0, numero);
+
+    let bits = vista.getUint32(0).toString(2);
+
+    bits = bits.padStart(32,"0");
+
+    return {
+        signo: bits.substring(0,1),
+        exponente: bits.substring(1,9),
+        mantisa: bits.substring(9,32),
+        ieee754: bits
+    };
+}
+
+
+function sumarIEEE(){
+
+    let num1 = parseFloat(document.getElementById("num1").value);
+    let num2 = parseFloat(document.getElementById("num2").value);
+
+
+    let ieee1 = convertirIEEE754(num1);
+    let ieee2 = convertirIEEE754(num2);
+
+
+    let resultado = num1 + num2;
+
+    let ieeeResultado = convertirIEEE754(resultado);
+
+
+    document.getElementById("resultado").innerHTML =
+    `
+    <b>Primer número:</b> ${num1}<br>
+    Signo: ${iee1 = ieee1.signo}<br>
+    Exponente: ${ieee1.exponente}<br>
+    Mantisa: ${ieee1.mantisa}<br>
+    IEEE754: ${ieee1.ieee754}<br><br>
+
+    <b>Segundo número:</b> ${num2}<br>
+    Signo: ${ieee2.signo}<br>
+    Exponente: ${ieee2.exponente}<br>
+    Mantisa: ${ieee2.mantisa}<br>
+    IEEE754: ${ieee2.ieee754}<br><br>
+
+
+    <b>Resultado de la suma:</b> ${resultado}<br>
+    Signo: ${ieeeResultado.signo}<br>
+    Exponente: ${ieeeResultado.exponente}<br>
+    Mantisa: ${ieeeResultado.mantisa}<br>
+    IEEE754: ${ieeeResultado.ieee754}
+    `;
+}
+
+</script>
+
+#+end_export
 * Referencias
 
 - IEEE Computer Society. /IEEE Standard for Floating-Point Arithmetic
