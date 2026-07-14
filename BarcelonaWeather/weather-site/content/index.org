@@ -464,6 +464,10 @@ JavaScript]]
 - [[https://orgmode.org/worg/org-contrib/babel/languages/ob-doc-python.html][Python Source Code Blocks in Org Mode]]
 - [[https://systemcrafters.net/publishing-websites-with-org-mode/building-the-site/][Systems Crafters Construir tu sitio web con Modo Emacs Org]]
 - [[https://www.youtube.com/watch?v=AfkrzFodoNw][Vídeo Youtube Build Your Website with Org Mode]]
+* Navegación
+
+[[file:ieee754/pag2-sumaieee754.org][Siguiente: Suma IEEE754 →]]
+
 * Footnotes
 
 [fn:1] Recuerde que su máquina ha de disponer de un entorno de

@@ -17,6 +17,8 @@
 
 #+cite_export:
 
+[[file:index.org][← Inicio]] | [[file:ieee754/pag2-sumaieee754.org][← Suma IEEE754]]
+
 * Análisis de Datos de Seguridad INEC
 
 Este proyecto corresponde al trabajo final de semestre de la asignatura
@@ -697,3 +699,7 @@ archivo
 - [[https://pandas.pydata.org/docs/][Pandas Documentation]]
 - [[https://matplotlib.org/stable/][Matplotlib Documentation]]
 - [[https://www.ecuadorencifras.gob.ec/][Instituto Nacional de Estadística y Censos (INEC)]]
+
+* Navegación
+
+[[file:index.org][← Inicio]] | [[file:ieee754/pag2-sumaieee754.org][← Suma IEEE754]]
