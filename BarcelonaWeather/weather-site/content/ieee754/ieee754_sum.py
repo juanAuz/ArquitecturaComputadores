@@ -100,7 +100,7 @@ def convertirIEEE754(numero):
     binario = convertirBinario(numero)
     mantisa, exponente =normalizar(binario)
     exponenteIEEE = calcularExponente(exponente)
-    mantisaIEEE = ajustarMantisa(mantisa)
+    mantisaIEEE = ajustarMantisa(mantisa)[:23]
     ieee754 = signo + exponenteIEEE + mantisaIEEE
     return {
         "signo":signo,
@@ -154,6 +154,11 @@ def operarMantisas(mantMayor, mantMenor, operacion):
     bit a bit.
     Retorna el resultado en binario.
     """
+    while len(mantMayor) > len(mantMenor):
+        mantMenor = "0" + mantMenor
+
+    while len(mantMenor) > len(mantMayor):
+        mantMayor = "0" + mantMayor
 
     if operacion == "suma":
         resultado = ""
@@ -217,20 +222,20 @@ def normalizarResultado(mantResultado, expComun):
 
     exponente = expComun
 
-    # Caso suma: sobra un bit a la izquierda
+    # Si hay acarreo, desplazar derecha
     if len(mantResultado) > 24:
-        mantResultado = mantResultado[1:]
+        mantResultado = mantResultado[:-1]
         exponente += 1
 
-    # Caso resta: hay ceros antes del primer 1
+    # Eliminar ceros iniciales
     while mantResultado[0] == "0":
-        mantResultado = mantResultado[1:] + "0"
+        mantResultado = mantResultado[1:]
         exponente -= 1
 
-    # quitar el 1 implícito
+    # quitar bit implícito
     mantisa = mantResultado[1:]
 
-    return mantisa, exponente
+    return mantisa[:23], exponente
 
 def ensamblarIEEE754(signo, exponenteReal, mantisa):
     """
@@ -320,5 +325,3 @@ def sumarIEEE754(num1, num2):
 
         "resultadoIEEE754": resultado
     }
-
-

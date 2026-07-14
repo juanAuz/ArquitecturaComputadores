@@ -341,13 +341,19 @@ def operarMantisas(mantMayor, mantMenor, operacion):
     """
     Suma o resta mantisas binarias utilizando operaciones
     bit a bit.
+    Retorna el resultado en binario.
     """
+    while len(mantMayor) > len(mantMenor):
+        mantMenor = "0" + mantMenor
+
+    while len(mantMenor) > len(mantMayor):
+        mantMayor = "0" + mantMayor
 
     if operacion == "suma":
-
         resultado = ""
         acarreo = 0
 
+        # Se recorren las cadenas desde el bit menos significativo
         for i in range(len(mantMayor)-1, -1, -1):
 
             bit1 = int(mantMayor[i])
@@ -377,7 +383,7 @@ def operarMantisas(mantMayor, mantMenor, operacion):
         return resultado
 
     else:
-
+        # Resta binaria
         resultado = ""
         prestamo = 0
 
@@ -397,6 +403,7 @@ def operarMantisas(mantMayor, mantMenor, operacion):
             resultado = str(diferencia) + resultado
 
         return resultado
+          
 print(
     operarMantisas(
         "101000000000000000000000",
@@ -437,7 +444,7 @@ def normalizarResultado(mantResultado, expComun):
 
     mantisa = mantResultado[1:]
 
-    return mantisa, exponente
+    return mantisa[:23], exponente
 
 print(
     normalizarResultado(
@@ -458,7 +465,6 @@ se construye nuevamente la palabra de 32 bits correspondiente al
 formato IEEE754.
 
 #+begin_src python
-
 def ensamblarIEEE754(signo, exponenteReal, mantisa):
     """
     Construye el número IEEE754 final.
@@ -472,8 +478,7 @@ def ensamblarIEEE754(signo, exponenteReal, mantisa):
     mantisaIEEE = ajustarMantisa(mantisa)[:23]
 
     return signo + exponenteIEEE + mantisaIEEE
-
-#+end_src:
+#+end_src
 
 ** Función principal
 
@@ -568,14 +573,25 @@ la ejecución del programa.
 - Ensamblaje del número IEEE754.
 - Resultado final.
 
-#+CAPTION: Ejecución del algoritmo para la suma 2.5 + 1.25
-[[./images/prueba1.png]]
+#+CAPTION: Ejecución del algoritmo para la suma 3.5 + 1.25
+#+ATTR_LATEX: :placement [H]
+[[./ejemplos/prueba1.png]]
 
-#+CAPTION: Ejecución del algoritmo para la suma 5.5 + (-5.25)
-[[./images/prueba2.png]]
+#+CAPTION: Ejecución del algoritmo para la suma 2.5 + (-1.24)
+#+ATTR_LATEX: :placement [H]
+[[./ejemplos/prueba2.png]]
+
+#+CAPTION: Ejecución del algoritmo para la suma (-5) + (-34)
+#+ATTR_LATEX: :placement [H]
+[[./ejemplos/prueba3.png]]
+
+#+CAPTION: Ejecución del algoritmo para la suma 100 + 0.25
+#+ATTR_LATEX: :placement [H]
+[[./ejemplos/prueba4.png]]
 
 #+CAPTION: Ejecución del algoritmo para la suma 0.1 + 0.2
-[[./images/prueba3.png]]
+#+ATTR_LATEX: :placement [H]
+[[./ejemplos/prueba5.png]]
 
 * Conclusiones
 
@@ -592,6 +608,11 @@ la ejecución del programa.
 - Las pruebas realizadas con números positivos, negativos, enteros y
   fraccionarios mostraron resultados consistentes con la representación
   IEEE754 de precisión simple.
+
+- El ejemplo al sumar 0.1 + 0.2 representa los errores que se puede acarrear
+  al momento de trabajar con números muy pequeños, al obtener un valor un
+  tanto diferente al 0.3 esperado. Esto sucede ya que el algoritmo trunca los
+  decimales menos significativos
 
 * Referencias
 
