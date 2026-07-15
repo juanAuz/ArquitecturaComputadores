@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es">
 <head>
-<!-- 2026-07-14 mar 22:07 -->
+<!-- 2026-07-15 Wed 18:52 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Proyecto ICCD332 Arquitectura de Computadores</title>
@@ -50,37 +50,37 @@
 <h2>&Iacute;ndice</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org9fd734e">1. City Weather APP</a>
+<li><a href="#orgc558bad">1. City Weather APP</a>
 <ul>
-<li><a href="#orgfd44354">1.1. Estructura del proyecto</a></li>
-<li><a href="#orgfe3469e">1.2. Formulación del Problema</a></li>
-<li><a href="#org8205d2f">1.3. Descripción del código</a>
+<li><a href="#orge67699b">1.1. Estructura del proyecto</a></li>
+<li><a href="#orga5efda6">1.2. Formulación del Problema</a></li>
+<li><a href="#orgc58003a">1.3. Descripción del código</a>
 <ul>
-<li><a href="#org3d5dce5">1.3.1. Librerías a utilizar y variables globales</a></li>
-<li><a href="#org4c4d502">1.3.2. Recepción de los datos crudos</a></li>
-<li><a href="#org8d1531c">1.3.3. Procesamiento de datos</a></li>
-<li><a href="#org3648852">1.3.4. Almacenamiento en csv</a></li>
+<li><a href="#org95fc5cf">1.3.1. Librerías a utilizar y variables globales</a></li>
+<li><a href="#orgca0f37e">1.3.2. Recepción de los datos crudos</a></li>
+<li><a href="#org0a6ea75">1.3.3. Procesamiento de datos</a></li>
+<li><a href="#orgfaaa3b5">1.3.4. Almacenamiento en csv</a></li>
 </ul>
 </li>
-<li><a href="#org21500a1">1.4. Script ejecutable sh</a></li>
-<li><a href="#org2fbb27e">1.5. Configuración de Crontab</a></li>
+<li><a href="#orgdcf0bf5">1.4. Script ejecutable sh</a></li>
+<li><a href="#orgc104b4c">1.5. Configuración de Crontab</a></li>
 </ul>
 </li>
-<li><a href="#org59c7036">2. Presentación de resultados</a>
+<li><a href="#orgb79ae74">2. Presentación de resultados</a>
 <ul>
-<li><a href="#org12f99f3">2.1. Muestra Aleatoria de datos</a></li>
-<li><a href="#org6d88c16">2.2. Gráfica Temperatura vs Tiempo</a></li>
-<li><a href="#orga94ed7a">2.3. Realice una gráfica de Humedad con respecto al tiempo</a></li>
-<li><a href="#orgaa78e5d">2.4. <b>Opcional</b> Presente alguna gráfica de interés.</a></li>
+<li><a href="#org1b7ab25">2.1. Muestra Aleatoria de datos</a></li>
+<li><a href="#org1132ae3">2.2. Gráfica Temperatura vs Tiempo</a></li>
+<li><a href="#orgda235b6">2.3. Realice una gráfica de Humedad con respecto al tiempo</a></li>
+<li><a href="#org1cd4dd2">2.4. <b>Opcional</b> Presente alguna gráfica de interés.</a></li>
 </ul>
 </li>
-<li><a href="#org34a1b4a">3. Referencias</a></li>
-<li><a href="#org0eebd0f">4. Navegación</a></li>
+<li><a href="#orgab9a981">3. Referencias</a></li>
+<li><a href="#org7436151">4. Navegación</a></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org9fd734e" class="outline-2">
-<h2 id="org9fd734e"><span class="section-number-2">1.</span> City Weather APP</h2>
+<div id="outline-container-orgc558bad" class="outline-2">
+<h2 id="orgc558bad"><span class="section-number-2">1.</span> City Weather APP</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 Este es el proyecto de fin de semestre en donde se pretende demostrar
@@ -95,8 +95,9 @@ las destrezas obtenidas durante el transcurso de la asignatura de
 <li>Literate Programming</li>
 </ol>
 </div>
-<div id="outline-container-orgfd44354" class="outline-3">
-<h3 id="orgfd44354"><span class="section-number-3">1.1.</span> Estructura del proyecto</h3>
+
+<div id="outline-container-orge67699b" class="outline-3">
+<h3 id="orge67699b"><span class="section-number-3">1.1.</span> Estructura del proyecto</h3>
 <div class="outline-text-3" id="text-1-1">
 <p>
 Se recomienda que el proyecto se cree en el <i>home</i> del sistema
@@ -120,7 +121,7 @@ subdirectorios. Adaptar los nombres de los archivos según las ciudades
 específicas del grupo.
 </p>
 
-<pre class="example" id="orge0d7df3">
+<pre class="example" id="org972797a">
 .
 |-- ChatCopilot.md
 |-- ChatCopilot.md~
@@ -190,8 +191,10 @@ funcionales para escribir y presentar el código.
 </p>
 </div>
 </div>
-<div id="outline-container-orgfe3469e" class="outline-3">
-<h3 id="orgfe3469e"><span class="section-number-3">1.2.</span> Formulación del Problema</h3>
+
+
+<div id="outline-container-orga5efda6" class="outline-3">
+<h3 id="orga5efda6"><span class="section-number-3">1.2.</span> Formulación del Problema</h3>
 <div class="outline-text-3" id="text-1-2">
 <p>
 Se desea realizar un registro climatológico de una ciudad
@@ -258,8 +261,8 @@ dirección será remitida en la contestación de la tarea</li>
 </ol>
 </div>
 </div>
-<div id="outline-container-org8205d2f" class="outline-3">
-<h3 id="org8205d2f"><span class="section-number-3">1.3.</span> Descripción del código</h3>
+<div id="outline-container-orgc58003a" class="outline-3">
+<h3 id="orgc58003a"><span class="section-number-3">1.3.</span> Descripción del código</h3>
 <div class="outline-text-3" id="text-1-3">
 <p>
 En esta sección se debe detallar segmentos importantes del código
@@ -268,8 +271,8 @@ grupo para resolver el problema. Divida su código en unidades
 funcionales para facilitar su presentación y exposición.
 </p>
 </div>
-<div id="outline-container-org3d5dce5" class="outline-4">
-<h4 id="org3d5dce5"><span class="section-number-4">1.3.1.</span> Librerías a utilizar y variables globales</h4>
+<div id="outline-container-org95fc5cf" class="outline-4">
+<h4 id="org95fc5cf"><span class="section-number-4">1.3.1.</span> Librerías a utilizar y variables globales</h4>
 <div class="outline-text-4" id="text-1-3-1">
 <p>
 Durante toda la recepción y transformación de los datos se utilizan
@@ -291,8 +294,8 @@ API<sub>KEY</sub>, fileName
 </div>
 </div>
 </div>
-<div id="outline-container-org4c4d502" class="outline-4">
-<h4 id="org4c4d502"><span class="section-number-4">1.3.2.</span> Recepción de los datos crudos</h4>
+<div id="outline-container-orgca0f37e" class="outline-4">
+<h4 id="orgca0f37e"><span class="section-number-4">1.3.2.</span> Recepción de los datos crudos</h4>
 <div class="outline-text-4" id="text-1-3-2">
 <p>
 Para conseguir los datos de la climatología de Barcelona se utiliza la
@@ -318,7 +321,7 @@ correspondientes a Barcelona conseguimos datos en el siguiente formato
 </pre>
 </div>
 
-<pre class="example" id="org1d99d8a">
+<pre class="example" id="org8159ba9">
 {
   "coord": {
     "lon": 2.159,
@@ -377,8 +380,8 @@ anidado. Problema que se solucionará en el procesamiento de los datos
 </p>
 </div>
 </div>
-<div id="outline-container-org8d1531c" class="outline-4">
-<h4 id="org8d1531c"><span class="section-number-4">1.3.3.</span> Procesamiento de datos</h4>
+<div id="outline-container-org0a6ea75" class="outline-4">
+<h4 id="org0a6ea75"><span class="section-number-4">1.3.3.</span> Procesamiento de datos</h4>
 <div class="outline-text-4" id="text-1-3-3">
 <p>
 Una vez conseguido los valores en crudo, es necesario aplanarlos y
@@ -416,7 +419,7 @@ json<sub>normalize</sub>
 </pre>
 </div>
 
-<pre class="example" id="org7c80f6f">
+<pre class="example" id="orgdfa87ca">
                               0
 base                   stations
 visibility                10000
@@ -448,8 +451,8 @@ sys_sunset           1784143416
 </pre>
 </div>
 </div>
-<div id="outline-container-org3648852" class="outline-4">
-<h4 id="org3648852"><span class="section-number-4">1.3.4.</span> Almacenamiento en csv</h4>
+<div id="outline-container-orgfaaa3b5" class="outline-4">
+<h4 id="orgfaaa3b5"><span class="section-number-4">1.3.4.</span> Almacenamiento en csv</h4>
 <div class="outline-text-4" id="text-1-3-4">
 <p>
 Con nuestros datos aplanados, es necesario guardarlos en un archivo
@@ -738,15 +741,15 @@ Con eso conseguimos nuestros datos limpios y planos para un posterior análisis
 </div>
 </div>
 </div>
-<div id="outline-container-org21500a1" class="outline-3">
-<h3 id="org21500a1"><span class="section-number-3">1.4.</span> Script ejecutable sh</h3>
+<div id="outline-container-orgdcf0bf5" class="outline-3">
+<h3 id="orgdcf0bf5"><span class="section-number-3">1.4.</span> Script ejecutable sh</h3>
 <div class="outline-text-3" id="text-1-4">
 <p>
 Para ejecutar nuestro script, es necesario conocer donde se encuentra
 sh y para ello utilizamos el comando <code>which</code>.
 </p>
 <div class="org-src-container">
-<pre class="src src-shell"><span style="font-weight: bold;">which</span> sh
+<pre class="src src-shell">which sh
 </pre>
 </div>
 <pre class="example">
@@ -759,7 +762,7 @@ que será utilizado para la ejecución del script
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell"><span style="font-weight: bold;">which</span> mamba
+<pre class="src src-shell">which mamba
 </pre>
 </div>
 <pre class="example">
@@ -784,8 +787,9 @@ Finalmente se convierte en ejecutable dándole permisos de ejecución
 </div>
 </div>
 </div>
-<div id="outline-container-org2fbb27e" class="outline-3">
-<h3 id="org2fbb27e"><span class="section-number-3">1.5.</span> Configuración de Crontab</h3>
+
+<div id="outline-container-orgc104b4c" class="outline-3">
+<h3 id="orgc104b4c"><span class="section-number-3">1.5.</span> Configuración de Crontab</h3>
 <div class="outline-text-3" id="text-1-5">
 <p>
 Para crontab, se configura para un intervalo de 15 minutos, con la
@@ -799,8 +803,8 @@ output.log tanto la salida como los errores generados
 </div>
 </div>
 </div>
-<div id="outline-container-org59c7036" class="outline-2">
-<h2 id="org59c7036"><span class="section-number-2">2.</span> Presentación de resultados</h2>
+<div id="outline-container-orgb79ae74" class="outline-2">
+<h2 id="orgb79ae74"><span class="section-number-2">2.</span> Presentación de resultados</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Para la presentación de resultados se utilizan las librerías de Python:
@@ -810,8 +814,8 @@ Para la presentación de resultados se utilizan las librerías de Python:
 <li>pandas</li>
 </ul>
 </div>
-<div id="outline-container-org12f99f3" class="outline-3">
-<h3 id="org12f99f3"><span class="section-number-3">2.1.</span> Muestra Aleatoria de datos</h3>
+<div id="outline-container-org1b7ab25" class="outline-3">
+<h3 id="org1b7ab25"><span class="section-number-3">2.1.</span> Muestra Aleatoria de datos</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 Presentar una muestra de 10 valores aleatorios de los datos obtenidos.
@@ -1244,8 +1248,9 @@ Resultado del número de filas y columnas leídos del archivo csv
 </table>
 </div>
 </div>
-<div id="outline-container-org6d88c16" class="outline-3">
-<h3 id="org6d88c16"><span class="section-number-3">2.2.</span> Gráfica Temperatura vs Tiempo</h3>
+
+<div id="outline-container-org1132ae3" class="outline-3">
+<h3 id="org1132ae3"><span class="section-number-3">2.2.</span> Gráfica Temperatura vs Tiempo</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
 Realizar una gráfica de la Temperatura en el tiempo.
@@ -1273,7 +1278,7 @@ fname
 </div>
 
 
-<div id="org5e451d2" class="figure">
+<div id="org6ae9e14" class="figure">
 <p><img src="./images/Temperatura.png" alt="Temperatura.png" />
 </p>
 <p><span class="figure-number">Figura 1: </span>Gráfica Humedad vs Temperatura</p>
@@ -1292,8 +1297,9 @@ equivalente en <code>/public/images</code>
 </div>
 </div>
 </div>
-<div id="outline-container-orga94ed7a" class="outline-3">
-<h3 id="orga94ed7a"><span class="section-number-3">2.3.</span> Realice una gráfica de Humedad con respecto al tiempo</h3>
+
+<div id="outline-container-orgda235b6" class="outline-3">
+<h3 id="orgda235b6"><span class="section-number-3">2.3.</span> Realice una gráfica de Humedad con respecto al tiempo</h3>
 <div class="outline-text-3" id="text-2-3">
 <div class="org-src-container">
 <pre class="src src-python"><span style="font-weight: bold; font-style: italic;">fig</span> = plt.figure(figsize=(8,6))
@@ -1315,14 +1321,15 @@ fname
 </div>
 
 
-<div id="org8a71b9e" class="figure">
+<div id="org3697603" class="figure">
 <p><img src="./images/Humidity.png" alt="Humidity.png" />
 </p>
 </div>
 </div>
 </div>
-<div id="outline-container-orgaa78e5d" class="outline-3">
-<h3 id="orgaa78e5d"><span class="section-number-3">2.4.</span> <b>Opcional</b> Presente alguna gráfica de interés.</h3>
+
+<div id="outline-container-org1cd4dd2" class="outline-3">
+<h3 id="org1cd4dd2"><span class="section-number-3">2.4.</span> <b>Opcional</b> Presente alguna gráfica de interés.</h3>
 <div class="outline-text-3" id="text-2-4">
 <p>
 Se realiza un gráfico de mapa de calor de correlaciones
@@ -1343,15 +1350,16 @@ fname
 </div>
 
 
-<div id="orgf8988f2" class="figure">
+<div id="orgbbedc74" class="figure">
 <p><img src="./images/HeapMap.png" alt="HeapMap.png" />
 </p>
 </div>
 </div>
 </div>
 </div>
-<div id="outline-container-org34a1b4a" class="outline-2">
-<h2 id="org34a1b4a"><span class="section-number-2">3.</span> Referencias</h2>
+
+<div id="outline-container-orgab9a981" class="outline-2">
+<h2 id="orgab9a981"><span class="section-number-2">3.</span> Referencias</h2>
 <div class="outline-text-2" id="text-3">
 <ul class="org-ul">
 <li><a href="https://emacs.stackexchange.com/questions/28715/get-pandas-data-frame-as-a-table-in-org-babel">presentar dataframe como tabla en emacs org</a></li>
@@ -1361,8 +1369,8 @@ fname
 </ul>
 </div>
 </div>
-<div id="outline-container-org0eebd0f" class="outline-2">
-<h2 id="org0eebd0f"><span class="section-number-2">4.</span> Navegación</h2>
+<div id="outline-container-org7436151" class="outline-2">
+<h2 id="org7436151"><span class="section-number-2">4.</span> Navegación</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 <a href="pag2-sumaieee754.html">Siguiente: Suma IEEE754 →</a>
@@ -1385,7 +1393,7 @@ de Python
 <div id="postamble" class="status">
 <p class="date">Fecha: 2026-07-11</p>
 <p class="author">Autor: Juan Auz, Lanchimba Danny, Palomeque Matías, Quillupangui Ana María</p>
-<p class="date">Created: 2026-07-14 mar 22:07</p>
+<p class="date">Created: 2026-07-15 Wed 18:52</p>
 </div>
 </body>
 </html>

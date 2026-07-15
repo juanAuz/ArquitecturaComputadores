@@ -86,10 +86,10 @@ identificar sus variables y características principales.
 #+begin_src python :session inec :results output
 
 print("Dimensiones del conjunto de datos:")
-print(df.shape)
+print(df.shape)   #Imprime las filas y columnas de los datos 
 
 print("\nPrimeras filas del conjunto de datos:")
-print(df.head())
+print(df.head()) #Muestra las primeras filas del DataFrame (por defecto 5)
 
 #+end_src
 #+RESULTS:
@@ -120,15 +120,15 @@ enero 2025- febrero 2026 para el análisis.
 # Seleccionar columnas correspondientes a los años 2025 y 2026
 columnas_periodo = [
     columna for columna in df.columns
-    if "2025" in str(columna) or "2026" in str(columna)
+    if "2025" in str(columna) or "2026" in str(columna) 
 ]
 
 # Crear nuevo DataFrame con provincias y periodo seleccionado
 df_2025_2026 = df[["Provincia de ocurrencia"] + columnas_periodo]
-
+#Mostrar el número de filas y columas del nuevo dataframe
 print("Dimensiones del periodo seleccionado:")
 print(df_2025_2026.shape)
-
+#Mostrar los nombres de las columnas seleccionadas 
 print("\nColumnas seleccionadas:")
 print(df_2025_2026.columns)
 
@@ -165,7 +165,7 @@ la información:
   
 #+begin_src python :session inec :results output
 
-print(df_2025_2026.head())
+print(df_2025_2026.head()) #Imprime las primeras filas del dataframe
 
 #+end_src
 #+RESULTS:
@@ -186,7 +186,7 @@ seleccionado.
 
 #+begin_src python :session inec :results output
 
-print(df_2025_2026.isnull().sum().sum())
+print(df_2025_2026.isnull().sum().sum())  #Cuenta valores nulos o vaciós en el dataframe 
 
 #+end_src
 
@@ -204,14 +204,14 @@ representa una observación mensual.
 
 # Transformación de formato ancho a formato largo
 
-df_largo = df_2025_2026.melt(
+df_largo = df_2025_2026.melt(  #Transforma formado ando a largo (columnas a filas)
     id_vars=["Provincia de ocurrencia"],
     var_name="Fecha",
     value_name="Femicidios"
 )
 
 # Convertir la columna fecha a formato fecha
-df_largo["Fecha"] = pd.to_datetime(df_largo["Fecha"])
+df_largo["Fecha"] = pd.to_datetime(df_largo["Fecha"]) #Convierte Fecha de texto a formado fecha pandas
 
 print("Dimensiones del nuevo conjunto de datos:")
 print(df_largo.shape)
@@ -251,11 +251,11 @@ se realizará a nivel provincial, este registro es eliminado para evitar
 distorsionar los resultados estadísticos.
 
 #+begin_src python :session inec :results output
-
+#Elimina filas donde la columna de la provincia es 'Total Nacional'
 df_largo = df_largo[
-    df_largo["Provincia de ocurrencia"] != "Total Nacional"
+    df_largo["Provincia de ocurrencia"] != "Total Nacional" 
 ]
-
+#Obtiene el numero de provincias únicas que uqedan
 print("Número de provincias analizadas:")
 print(df_largo["Provincia de ocurrencia"].nunique())
 
@@ -274,13 +274,13 @@ general de los casos registrados.
 
 estadisticos = (
     df_largo["Femicidios"]
-    .describe()
-    .reset_index()
+    .describe()  #Genera estadísticas descriptivas automáticamente 
+    .reset_index() #Convierte el objeto que toma los valores como índices en una tabla
 )
 
-estadisticos.columns = ["Medida", "Valor"]
-
-table = [list(estadisticos.columns)] + [None] + estadisticos.values.tolist()
+estadisticos.columns = ["Medida", "Valor"] #Cambia nombres de las columnas
+#Prepara los datos para mostrarlos como tabla en un Org-mode
+table = [list(estadisticos.columns)] + [None] + estadisticos.values.tolist() 
 
 table
 
@@ -305,9 +305,9 @@ periodo analizado se realiza una agrupación por provincia.
 #+begin_src python :session inec :results output
 
 femicidios_provincia = (
-    df_largo.groupby("Provincia de ocurrencia")["Femicidios"]
-    .sum()
-    .sort_values(ascending=False)
+    df_largo.groupby("Provincia de ocurrencia")["Femicidios"] #Agrupa los datos por provincia 
+    .sum() #Suma los valores de cada provincia 
+    .sort_values(ascending=False) #Ordena de mayor a menor 
 )
 
 print(femicidios_provincia)
@@ -354,12 +354,12 @@ medidas descriptivas para resumir el comportamiento de los datos.
 
 estadisticos_provincia = (
     femicidios_provincia
-    .describe()
-    .reset_index()
+    .describe() #Obtiene estadísticas descriptivas
+    .reset_index() #Transforma el resultado a un dataframe
 )
 
 estadisticos_provincia.columns = ["Medida", "Valor"]
-
+#Crea tabla compatible con ORG
 table = [list(estadisticos_provincia)] + [None] + estadisticos_provincia.values.tolist()
 
 table
@@ -388,9 +388,9 @@ durante el periodo seleccionado.
 #+begin_src python :session inec :results output
 
 femicidios_mes = (
-    df_largo.groupby("Fecha")["Femicidios"]
-    .sum()
-)
+    df_largo.groupby("Fecha")["Femicidios"] #Agrupa filas que pertenezcan al mismo mes 
+    .sum() #Suma los valores 
+) 
 
 print(femicidios_mes)
 
@@ -422,7 +422,7 @@ Se analiza la frecuencia de los valores registrados para observar la
 distribución de los casos.
 
 #+begin_src python :session inec :results output
-
+# Frecuencia de la cantidad de femicidios registrada, cuenta el número de veces que aparece cada valor, ordena utilizando el índice 
 print(df_largo["Femicidios"].value_counts().sort_index())
 
 #+end_src
@@ -444,8 +444,8 @@ para la creación de gráficos estadísticos.
 #+begin_src python :session inec :results output
 
 print("Datos preparados:")
-print("Provincias analizadas:", len(femicidios_provincia))
-print("Meses analizados:", len(femicidios_mes))
+print("Provincias analizadas:", len(femicidios_provincia)) #Cuenta el número de provincias analizadas
+print("Meses analizados:", len(femicidios_mes)) #Cuenta el número de meses analizados
 
 #+end_src
 
@@ -469,9 +469,9 @@ después de la transformación al formato largo.
 #+caption: Muestra aleatoria de datos procesados
 
 #+begin_src python :session inec :results table :exports both
-
+#Selecciona filas aleatorias de df_largo y crea una copia 
 tabla_muestra = df_largo.sample(10).copy()
-
+#astype: Convierte la fecha a texto, toma solo los 10 primero caracteres del texto 
 tabla_muestra["Fecha"] = tabla_muestra["Fecha"].astype(str).str[:10]
 
 table = [list(tabla_muestra)] + [None] + tabla_muestra.values.tolist()
@@ -494,16 +494,17 @@ table
 | Zamora Chinchipe        | 2025-10-01 |          0 |
 | Imbabura                | 2025-02-01 |          0 |
 
- **Provincias con mayor cantidad de femicidios registrados 
+** Provincias con mayor cantidad de femicidios registrados
+ 
 
 #+caption: Provincias con mayor cantidad de femicidios registrados
 
 #+begin_src python :session inec :results table :exports both
 
 tabla_provincias = (
-    femicidios_provincia
-    .head(10)
-    .reset_index()
+    femicidios_provincia #Datos ya ordenados previamente 
+    .head(10) #Toma las diez primeras provincias
+    .reset_index() #Convierte los valores para usarse en tabla normal 
 )
 
 table = [list(tabla_provincias)] + [None] + tabla_provincias.values.tolist()
@@ -533,18 +534,18 @@ acumulados de femicidio por provincia durante el periodo analizado.
 
 #+begin_src python :session inec :results file graphics :exports both
 
-plt.figure(figsize=(10,6))
+plt.figure(figsize=(10,6)) #Crea el espacio gráfico 
 
-femicidios_provincia.plot(kind="bar")
+femicidios_provincia.plot(kind="bar") #Crea el gráfico de barras
 
-plt.title("Femicidios acumulados por provincia (2025-2026)")
-plt.xlabel("Provincia")
+plt.title("Femicidios acumulados por provincia (2025-2026)") #Agrega título
+plt.xlabel("Provincia") #Etiqueta los ejes
 plt.ylabel("Número de femicidios")
-
+#Gira las etiquetas del eje x 90 grados
 plt.xticks(rotation=90)
-
+#Ajusta los márgenes del gráfico 
 plt.tight_layout()
-
+#Guarda la imagen
 archivo="./images/femicidios_provincia.png"
 
 plt.savefig(archivo)
@@ -565,31 +566,32 @@ durante el periodo seleccionado.
 
 #+begin_src python :session inec :results file graphics :exports both
 
-plt.figure(figsize=(12,5))
+plt.figure(figsize=(12,5)) #Crea el tamaño de la figura
 
+#Crea el gráfico de líneas 
 plt.plot(
-    femicidios_mes.index,
-    femicidios_mes.values,
-    marker="o"
+    femicidios_mes.index,  #Eje x : Fechas
+    femicidios_mes.values, #Eje y : Valores de femicidios por mes 
+    marker="o" #Agrega un punto circular en cada dato 
 )
-
+ #Títulos y Etiquetas de ejes 
 plt.title("Evolución mensual de femicidios (2025-2026)")
 plt.xlabel("Mes")
 plt.ylabel("Número de femicidios")
 
 # Mostrar todos los meses
 plt.xticks(
-    femicidios_mes.index,
-    [fecha.strftime("%b-%Y") for fecha in femicidios_mes.index],
+    femicidios_mes.index, #Indica donde colocar las etiquetas del eje x 
+    [fecha.strftime("%b-%Y") for fecha in femicidios_mes.index], #Transforma las fechas al formato Mes-Año
     rotation=45
 )
-
+#Agrega cuadrícula 
 plt.grid()
-
+#Ajusta los espacios
 plt.tight_layout()
-
+#Guarda la imagen 
 archivo="./images/evolucion_mensual_femicidios.png"
-
+#Guarda el gráfico como imagen 
 plt.savefig(archivo)
 
 plt.close()
@@ -605,23 +607,23 @@ La gráfica representa la frecuencia con la que aparecen diferentes
 cantidades de femicidios en los registros mensuales por provincia.
 
 #+begin_src python :session inec :results file graphics :exports both
-
+#Calcula la frecuencia de cada valor: cuenta y  ordena
 frecuencia = df_largo["Femicidios"].value_counts().sort_index()
-
+#Crea el espacio del gráfico 
 plt.figure(figsize=(7,5))
-
+#Crea el gráfico de barras 
 frecuencia.plot(kind="bar")
-
+#Etiquetas de la gráfica 
 plt.title("Frecuencia de registros según cantidad de femicidios")
 plt.xlabel("Cantidad de femicidios")
 plt.ylabel("Número de registros")
-
+#Mantiene los valores del eje x horizontales 
 plt.xticks(rotation=0)
-
+#Ajusta el diseño 
 plt.tight_layout()
-
+#Guarda la imagen 
 archivo="./images/frecuencia_femicidios.png"
-
+#Cierra el gráfico
 plt.savefig(archivo)
 
 plt.close()
