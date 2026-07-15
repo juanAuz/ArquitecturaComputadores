@@ -1,0 +1,1100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es">
+<head>
+<!-- 2026-07-14 mar 22:07 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Análisis de Datos de Seguridad INEC 2025-2026</title>
+<meta name="author" content="Auz Juan, Lanchimba Danny, Palomeque Matías, Quillupangui Ana María" />
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css" />
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">Análisis de Datos de Seguridad INEC 2025-2026</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>&Iacute;ndice</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orgdaf89e3">1. Análisis de Datos de Seguridad INEC</a></li>
+<li><a href="#org89e9f9f">2. Formulación del problema</a></li>
+<li><a href="#orgb797f45">3. Descripción del código</a>
+<ul>
+<li><a href="#orga4087a8">3.1. Librerías utilizadas y carga inicial de datos</a></li>
+</ul>
+</li>
+<li><a href="#orgcc1ceb4">4. Exploración inicial de los datos</a>
+<ul>
+<li><a href="#orge37d495">4.1. Selección del periodo de análisis</a></li>
+</ul>
+</li>
+<li><a href="#org2e8b676">5. Procesamiento de datos</a>
+<ul>
+<li><a href="#org5206bd2">5.1. Tratamiento de valores faltantes</a></li>
+<li><a href="#orga984bb0">5.2. Transformación de datos</a></li>
+</ul>
+</li>
+<li><a href="#orgf2fcfa8">6. Análisis estadístico</a>
+<ul>
+<li><a href="#orgbb15dbb">6.1. Eliminación de registros agregados</a></li>
+<li><a href="#orgad57b4d">6.2. Estadísticas descriptivas</a></li>
+<li><a href="#org7da5e2e">6.3. Total de femicidios por provincia</a></li>
+<li><a href="#org122c51c">6.4. Estadísticos por provincia</a></li>
+<li><a href="#org667f1fe">6.5. Evolución mensual de femicidios</a></li>
+<li><a href="#orgf3295e2">6.6. Frecuencia de registros por cantidad de femicidios</a></li>
+<li><a href="#orgf805467">6.7. Preparación de datos para visualización</a></li>
+</ul>
+</li>
+<li><a href="#orgff899f8">7. Presentación de resultados</a>
+<ul>
+<li><a href="#org8194db1">7.1. Muestra aleatoria de datos</a></li>
+<li><a href="#org4c063a5">7.2. Femicidios acumulados por provincia</a></li>
+<li><a href="#orgbf949b4">7.3. Evolución mensual de femicidios</a></li>
+<li><a href="#org8b09f81">7.4. Frecuencia de registros según cantidad de femicidios</a></li>
+<li><a href="#org292ad1e">7.5. Interpretación de los datos</a></li>
+</ul>
+</li>
+<li><a href="#org4e10140">8. Referencias</a></li>
+<li><a href="#orgcd302f8">9. Navegación</a></li>
+</ul>
+</div>
+</div>
+<p>
+<a href="index.html">← Inicio</a> | <a href="ieee754/pag2-sumaieee754.html">← Suma IEEE754</a>
+</p>
+<div id="outline-container-orgdaf89e3" class="outline-2">
+<h2 id="orgdaf89e3"><span class="section-number-2">1.</span> Análisis de Datos de Seguridad INEC</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Este proyecto corresponde al trabajo final de semestre de la asignatura
+<b><b>Arquitectura de Computadores</b></b>.
+</p>
+
+<p>
+El objetivo es realizar un análisis de información estadística obtenida
+desde los datos proporcionados por el Instituto Nacional de Estadística
+y Censos (INEC), aplicando herramientas computacionales para la
+extracción, procesamiento, análisis y visualización de datos.
+</p>
+</div>
+</div>
+<div id="outline-container-org89e9f9f" class="outline-2">
+<h2 id="org89e9f9f"><span class="section-number-2">2.</span> Formulación del problema</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Se desea realizar un análisis estadístico utilizando información
+proporcionada por el INEC relacionada con seguridad.
+</p>
+
+<p>
+Para esto, se utiliza un conjunto de datos en formato Excel (.xlsx) que contiene
+información recopilada durante el año 2025 hasta febrero del 2026.
+</p>
+
+<p>
+El objetivo es procesar los datos obtenidos, identificar patrones
+relevantes y representar los resultados mediante tablas y gráficos
+estadísticos utilizando Python.
+</p>
+</div>
+</div>
+<div id="outline-container-orgb797f45" class="outline-2">
+<h2 id="orgb797f45"><span class="section-number-2">3.</span> Descripción del código</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+En esta sección se detallan los componentes principales del código
+desarrollado y la estrategia utilizada para resolver el problema.
+</p>
+</div>
+<div id="outline-container-orga4087a8" class="outline-3">
+<h3 id="orga4087a8"><span class="section-number-3">3.1.</span> Librerías utilizadas y carga inicial de datos</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+Durante el procesamiento de la información se utilizan las siguientes
+librerías:
+</p>
+
+<ul class="org-ul">
+<li>pandas</li>
+<li>numpy</li>
+<li>matplotlib</li>
+<li>seaborn</li>
+</ul>
+
+<p>
+En esta etapa se carga la hoja del archivo Excel que contiene la información
+de femicidios por provincia proporcionada por el INEC.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">
+<span style="font-weight: bold;">import</span> pandas <span style="font-weight: bold;">as</span> pd
+<span style="font-weight: bold;">import</span> numpy <span style="font-weight: bold;">as</span> np
+<span style="font-weight: bold;">import</span> matplotlib.pyplot <span style="font-weight: bold;">as</span> plt
+
+<span style="font-weight: bold; font-style: italic;">archivo</span> = <span style="font-style: italic;">"../../Datos de Seguridad Ecuador.xlsx"</span>
+
+<span style="font-weight: bold; font-style: italic;">df</span> = pd.read_excel(
+    archivo,
+    sheet_name=<span style="font-style: italic;">"3.femicidios_prov"</span>,
+    header=3
+)
+
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Eliminar columna vac&#237;a generada por el formato del Excel
+</span><span style="font-weight: bold; font-style: italic;">df</span> = df.drop(columns=df.columns[0])
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgcc1ceb4" class="outline-2">
+<h2 id="orgcc1ceb4"><span class="section-number-2">4.</span> Exploración inicial de los datos</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+Antes de realizar el análisis se revisa la estructura del conjunto de datos para
+identificar sus variables y características principales.
+</p>
+<div class="org-src-container">
+<pre class="src src-python">
+<span style="font-weight: bold;">print</span>(<span style="font-style: italic;">"Dimensiones del conjunto de datos:"</span>)
+<span style="font-weight: bold;">print</span>(df.shape)
+
+<span style="font-weight: bold;">print</span>(<span style="font-style: italic;">"</span><span style="font-weight: bold; text-decoration: underline;">\n</span><span style="font-style: italic;">Primeras filas del conjunto de datos:"</span>)
+<span style="font-weight: bold;">print</span>(df.head())
+
+</pre>
+</div>
+<pre class="example" id="orgc6f22b9">
+Dimensiones del conjunto de datos:
+(25, 147)
+
+Primeras filas del conjunto de datos:
+  Provincia de ocurrencia  2014-01-01 00:00:00  2014-02-01 00:00:00  2014-03-01 00:00:00  ...  2025-11-01 00:00:00  2025-12-01 00:00:00  2026-01-01 00:00:00  2026-02-01 00:00:00
+0                   Azuay                    0                    0                    0  ...                    0                    0                    0                    0
+1                 Bolívar                    0                    0                    0  ...                    0                    0                    0                    0
+2                   Cañar                    0                    0                    0  ...                    0                    1                    0                    0
+3                  Carchi                    0                    0                    0  ...                    0                    0                    0                    0
+4                Cotopaxi                    0                    0                    0  ...                    0                    1                    0                    0
+
+[5 rows x 147 columns]
+</pre>
+</div>
+<div id="outline-container-orge37d495" class="outline-3">
+<h3 id="orge37d495"><span class="section-number-3">4.1.</span> Selección del periodo de análisis</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+Debido a que el archivo contiene información desde el año 2014 hasta
+2026, se seleccionan únicamente los datos correspondientes al periodo
+enero 2025- febrero 2026 para el análisis.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Seleccionar columnas correspondientes a los a&#241;os 2025 y 2026
+</span><span style="font-weight: bold; font-style: italic;">columnas_periodo</span> = [
+    columna <span style="font-weight: bold;">for</span> columna <span style="font-weight: bold;">in</span> df.columns
+    <span style="font-weight: bold;">if</span> <span style="font-style: italic;">"2025"</span> <span style="font-weight: bold;">in</span> <span style="font-weight: bold;">str</span>(columna) <span style="font-weight: bold;">or</span> <span style="font-style: italic;">"2026"</span> <span style="font-weight: bold;">in</span> <span style="font-weight: bold;">str</span>(columna)
+]
+
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Crear nuevo DataFrame con provincias y periodo seleccionado
+</span><span style="font-weight: bold; font-style: italic;">df_2025_2026</span> = df[[<span style="font-style: italic;">"Provincia de ocurrencia"</span>] + columnas_periodo]
+
+<span style="font-weight: bold;">print</span>(<span style="font-style: italic;">"Dimensiones del periodo seleccionado:"</span>)
+<span style="font-weight: bold;">print</span>(df_2025_2026.shape)
+
+<span style="font-weight: bold;">print</span>(<span style="font-style: italic;">"</span><span style="font-weight: bold; text-decoration: underline;">\n</span><span style="font-style: italic;">Columnas seleccionadas:"</span>)
+<span style="font-weight: bold;">print</span>(df_2025_2026.columns)
+
+</pre>
+</div>
+
+<pre class="example" id="org1ba6327">
+Dimensiones del periodo seleccionado:
+(25, 15)
+
+Columnas seleccionadas:
+Index(['Provincia de ocurrencia',       2025-01-01 00:00:00,
+             2025-02-01 00:00:00,       2025-03-01 00:00:00,
+             2025-04-01 00:00:00,       2025-05-01 00:00:00,
+             2025-06-01 00:00:00,       2025-07-01 00:00:00,
+             2025-08-01 00:00:00,       2025-09-01 00:00:00,
+             2025-10-01 00:00:00,       2025-11-01 00:00:00,
+             2025-12-01 00:00:00,       2026-01-01 00:00:00,
+             2026-02-01 00:00:00],
+      dtype='object')
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org2e8b676" class="outline-2">
+<h2 id="org2e8b676"><span class="section-number-2">5.</span> Procesamiento de datos</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+En esta etapa se realizan las transformaciones necesarias para preparar
+la información:
+</p>
+
+<ul class="org-ul">
+<li>Selección del periodo de análisis.</li>
+<li>Verificación de valores faltantes.</li>
+<li>Transformación del formato de los datos.</li>
+<li>Preparación de la información para el análisis estadístico.</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-python">
+<span style="font-weight: bold;">print</span>(df_2025_2026.head())
+
+</pre>
+</div>
+<pre class="example">
+  Provincia de ocurrencia  2025-01-01 00:00:00  2025-02-01 00:00:00  2025-03-01 00:00:00  ...  2025-11-01 00:00:00  2025-12-01 00:00:00  2026-01-01 00:00:00  2026-02-01 00:00:00
+0                   Azuay                    0                    1                    0  ...                    0                    0                    0                    0
+1                 Bolívar                    0                    0                    0  ...                    0                    0                    0                    0
+2                   Cañar                    0                    0                    0  ...                    0                    1                    0                    0
+3                  Carchi                    0                    0                    0  ...                    0                    0                    0                    0
+4                Cotopaxi                    0                    0                    0  ...                    0                    1                    0                    0
+
+[5 rows x 15 columns]
+</pre>
+</div>
+<div id="outline-container-org5206bd2" class="outline-3">
+<h3 id="org5206bd2"><span class="section-number-3">5.1.</span> Tratamiento de valores faltantes</h3>
+<div class="outline-text-3" id="text-5-1">
+<p>
+Se revisa la existencia de valores faltantes dentro del conjunto de datos
+seleccionado.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">
+<span style="font-weight: bold;">print</span>(df_2025_2026.isnull().<span style="font-weight: bold;">sum</span>().<span style="font-weight: bold;">sum</span>())
+
+</pre>
+</div>
+
+<pre class="example">
+0
+</pre>
+</div>
+</div>
+<div id="outline-container-orga984bb0" class="outline-3">
+<h3 id="orga984bb0"><span class="section-number-3">5.2.</span> Transformación de datos</h3>
+<div class="outline-text-3" id="text-5-2">
+<p>
+La información obtenida desde el Excel se encuentra en formato ancho,
+donde cada mes corresponde a una columna. Para facilitar el análisis y
+la generación de gráficos se transforma a un formato donde cada fila
+representa una observación mensual.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Transformaci&#243;n de formato ancho a formato largo
+</span>
+<span style="font-weight: bold; font-style: italic;">df_largo</span> = df_2025_2026.melt(
+    id_vars=[<span style="font-style: italic;">"Provincia de ocurrencia"</span>],
+    var_name=<span style="font-style: italic;">"Fecha"</span>,
+    value_name=<span style="font-style: italic;">"Femicidios"</span>
+)
+
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Convertir la columna fecha a formato fecha
+</span><span style="font-weight: bold; font-style: italic;">df_largo</span>[<span style="font-style: italic;">"Fecha"</span>] = pd.to_datetime(df_largo[<span style="font-style: italic;">"Fecha"</span>])
+
+<span style="font-weight: bold;">print</span>(<span style="font-style: italic;">"Dimensiones del nuevo conjunto de datos:"</span>)
+<span style="font-weight: bold;">print</span>(df_largo.shape)
+
+<span style="font-weight: bold;">print</span>(<span style="font-style: italic;">"</span><span style="font-weight: bold; text-decoration: underline;">\n</span><span style="font-style: italic;">Primeras filas:"</span>)
+<span style="font-weight: bold;">print</span>(df_largo.head())
+
+</pre>
+</div>
+
+<pre class="example" id="org4cf142b">
+Dimensiones del nuevo conjunto de datos:
+(350, 3)
+
+Primeras filas:
+  Provincia de ocurrencia      Fecha  Femicidios
+0                   Azuay 2025-01-01           0
+1                 Bolívar 2025-01-01           0
+2                   Cañar 2025-01-01           0
+3                  Carchi 2025-01-01           0
+4                Cotopaxi 2025-01-01           0
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgf2fcfa8" class="outline-2">
+<h2 id="orgf2fcfa8"><span class="section-number-2">6.</span> Análisis estadístico</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+El análisis se realiza utilizando el conjunto de datos transformado
+(df<sub>largo</sub>), donde cada fila representa el número de femicidios registrado
+para una provincia en un mes determinado.
+</p>
+</div>
+<div id="outline-container-orgbb15dbb" class="outline-3">
+<h3 id="orgbb15dbb"><span class="section-number-3">6.1.</span> Eliminación de registros agregados</h3>
+<div class="outline-text-3" id="text-6-1">
+<p>
+El conjunto de datos contiene un registro correspondiente al Total Nacional,
+el cual representa la suma de todas las provincias. Debido a que el análisis
+se realizará a nivel provincial, este registro es eliminado para evitar
+distorsionar los resultados estadísticos.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">
+<span style="font-weight: bold; font-style: italic;">df_largo</span> = df_largo[
+    df_largo[<span style="font-style: italic;">"Provincia de ocurrencia"</span>] != <span style="font-style: italic;">"Total Nacional"</span>
+]
+
+<span style="font-weight: bold;">print</span>(<span style="font-style: italic;">"N&#250;mero de provincias analizadas:"</span>)
+<span style="font-weight: bold;">print</span>(df_largo[<span style="font-style: italic;">"Provincia de ocurrencia"</span>].nunique())
+
+</pre>
+</div>
+
+<pre class="example">
+Número de provincias analizadas:
+24
+</pre>
+</div>
+</div>
+<div id="outline-container-orgad57b4d" class="outline-3">
+<h3 id="orgad57b4d"><span class="section-number-3">6.2.</span> Estadísticas descriptivas</h3>
+<div class="outline-text-3" id="text-6-2">
+<p>
+Se calculan medidas estadísticas descriptivas para conocer la distribución
+general de los casos registrados.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">
+<span style="font-weight: bold; font-style: italic;">estadisticos</span> = (
+    df_largo[<span style="font-style: italic;">"Femicidios"</span>]
+    .describe()
+    .reset_index()
+)
+
+estadisticos.<span style="font-weight: bold; font-style: italic;">columns</span> = [<span style="font-style: italic;">"Medida"</span>, <span style="font-style: italic;">"Valor"</span>]
+
+<span style="font-weight: bold; font-style: italic;">table</span> = [<span style="font-weight: bold;">list</span>(estadisticos.columns)] + [<span style="font-weight: bold; text-decoration: underline;">None</span>] + estadisticos.values.tolist()
+
+table
+
+</pre>
+</div>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Medida</th>
+<th scope="col" class="org-right">Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">count</td>
+<td class="org-right">336.0</td>
+</tr>
+
+<tr>
+<td class="org-left">mean</td>
+<td class="org-right">0.19047619047619047</td>
+</tr>
+
+<tr>
+<td class="org-left">std</td>
+<td class="org-right">0.46938996233925495</td>
+</tr>
+
+<tr>
+<td class="org-left">min</td>
+<td class="org-right">0.0</td>
+</tr>
+
+<tr>
+<td class="org-left">25%</td>
+<td class="org-right">0.0</td>
+</tr>
+
+<tr>
+<td class="org-left">50%</td>
+<td class="org-right">0.0</td>
+</tr>
+
+<tr>
+<td class="org-left">75%</td>
+<td class="org-right">0.0</td>
+</tr>
+
+<tr>
+<td class="org-left">max</td>
+<td class="org-right">3.0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-org7da5e2e" class="outline-3">
+<h3 id="org7da5e2e"><span class="section-number-3">6.3.</span> Total de femicidios por provincia</h3>
+<div class="outline-text-3" id="text-6-3">
+<p>
+Para identificar las provincias con mayor cantidad de casos durante el
+periodo analizado se realiza una agrupación por provincia.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">
+<span style="font-weight: bold; font-style: italic;">femicidios_provincia</span> = (
+    df_largo.groupby(<span style="font-style: italic;">"Provincia de ocurrencia"</span>)[<span style="font-style: italic;">"Femicidios"</span>]
+    .<span style="font-weight: bold;">sum</span>()
+    .sort_values(ascending=<span style="font-weight: bold; text-decoration: underline;">False</span>)
+)
+
+<span style="font-weight: bold;">print</span>(femicidios_provincia)
+
+</pre>
+</div>
+
+<pre class="example" id="org730f71e">
+Provincia de ocurrencia
+Pichincha                         15
+Guayas                             9
+Esmeraldas                         7
+Los Ríos                           6
+Manabí                             3
+Azuay                              3
+Cotopaxi                           3
+El Oro                             3
+Tungurahua                         3
+Imbabura                           3
+Orellana                           2
+Pastaza                            2
+Santo Domingo de los Tsáchilas     2
+Sucumbíos                          1
+Zamora Chinchipe                   1
+Cañar                              1
+Chimborazo                         0
+Carchi                             0
+Bolívar                            0
+Loja                               0
+Napo                               0
+Morona Santiago                    0
+Galápagos                          0
+Santa Elena                        0
+Name: Femicidios, dtype: int64
+</pre>
+</div>
+</div>
+<div id="outline-container-org122c51c" class="outline-3">
+<h3 id="org122c51c"><span class="section-number-3">6.4.</span> Estadísticos por provincia</h3>
+<div class="outline-text-3" id="text-6-4">
+<p>
+A partir del total de femicidios registrados por provincia se calculan
+medidas descriptivas para resumir el comportamiento de los datos.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">
+<span style="font-weight: bold; font-style: italic;">estadisticos_provincia</span> = (
+    femicidios_provincia
+    .describe()
+    .reset_index()
+)
+
+estadisticos_provincia.<span style="font-weight: bold; font-style: italic;">columns</span> = [<span style="font-style: italic;">"Medida"</span>, <span style="font-style: italic;">"Valor"</span>]
+
+<span style="font-weight: bold; font-style: italic;">table</span> = [<span style="font-weight: bold;">list</span>(estadisticos_provincia)] + [<span style="font-weight: bold; text-decoration: underline;">None</span>] + estadisticos_provincia.values.tolist()
+
+table
+
+</pre>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Medida</th>
+<th scope="col" class="org-right">Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">count</td>
+<td class="org-right">24.0</td>
+</tr>
+
+<tr>
+<td class="org-left">mean</td>
+<td class="org-right">2.6666666666666665</td>
+</tr>
+
+<tr>
+<td class="org-left">std</td>
+<td class="org-right">3.546788708807946</td>
+</tr>
+
+<tr>
+<td class="org-left">min</td>
+<td class="org-right">0.0</td>
+</tr>
+
+<tr>
+<td class="org-left">25%</td>
+<td class="org-right">0.0</td>
+</tr>
+
+<tr>
+<td class="org-left">50%</td>
+<td class="org-right">2.0</td>
+</tr>
+
+<tr>
+<td class="org-left">75%</td>
+<td class="org-right">3.0</td>
+</tr>
+
+<tr>
+<td class="org-left">max</td>
+<td class="org-right">15.0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-org667f1fe" class="outline-3">
+<h3 id="org667f1fe"><span class="section-number-3">6.5.</span> Evolución mensual de femicidios</h3>
+<div class="outline-text-3" id="text-6-5">
+<p>
+Se agrupan los datos por mes para observar el comportamiento temporal
+durante el periodo seleccionado.
+</p>
+
+
+<div class="org-src-container">
+<pre class="src src-python">
+<span style="font-weight: bold; font-style: italic;">femicidios_mes</span> = (
+    df_largo.groupby(<span style="font-style: italic;">"Fecha"</span>)[<span style="font-style: italic;">"Femicidios"</span>]
+    .<span style="font-weight: bold;">sum</span>()
+)
+
+<span style="font-weight: bold;">print</span>(femicidios_mes)
+
+</pre>
+</div>
+
+<pre class="example" id="org8b3ef86">
+Fecha
+2025-01-01    5
+2025-02-01    5
+2025-03-01    6
+2025-04-01    5
+2025-05-01    6
+2025-06-01    5
+2025-07-01    2
+2025-08-01    7
+2025-09-01    3
+2025-10-01    5
+2025-11-01    4
+2025-12-01    4
+2026-01-01    4
+2026-02-01    3
+Name: Femicidios, dtype: int64
+</pre>
+</div>
+</div>
+<div id="outline-container-orgf3295e2" class="outline-3">
+<h3 id="orgf3295e2"><span class="section-number-3">6.6.</span> Frecuencia de registros por cantidad de femicidios</h3>
+<div class="outline-text-3" id="text-6-6">
+<p>
+Se analiza la frecuencia de los valores registrados para observar la
+distribución de los casos.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">
+<span style="font-weight: bold;">print</span>(df_largo[<span style="font-style: italic;">"Femicidios"</span>].value_counts().sort_index())
+
+</pre>
+</div>
+
+<pre class="example">
+Femicidios
+0    282
+1     45
+2      8
+3      1
+Name: count, dtype: int64
+</pre>
+</div>
+</div>
+<div id="outline-container-orgf805467" class="outline-3">
+<h3 id="orgf805467"><span class="section-number-3">6.7.</span> Preparación de datos para visualización</h3>
+<div class="outline-text-3" id="text-6-7">
+<p>
+Se generan estructuras resumidas que serán utilizadas posteriormente
+para la creación de gráficos estadísticos.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">
+<span style="font-weight: bold;">print</span>(<span style="font-style: italic;">"Datos preparados:"</span>)
+<span style="font-weight: bold;">print</span>(<span style="font-style: italic;">"Provincias analizadas:"</span>, <span style="font-weight: bold;">len</span>(femicidios_provincia))
+<span style="font-weight: bold;">print</span>(<span style="font-style: italic;">"Meses analizados:"</span>, <span style="font-weight: bold;">len</span>(femicidios_mes))
+
+</pre>
+</div>
+
+<pre class="example">
+Datos preparados:
+Provincias analizadas: 24
+Meses analizados: 14
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgff899f8" class="outline-2">
+<h2 id="orgff899f8"><span class="section-number-2">7.</span> Presentación de resultados</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+En esta sección se presentan los principales resultados obtenidos
+a partir del análisis estadístico realizado sobre los datos de
+femicidios registrados por provincia durante el periodo 2025-2026.
+</p>
+</div>
+<div id="outline-container-org8194db1" class="outline-3">
+<h3 id="org8194db1"><span class="section-number-3">7.1.</span> Muestra aleatoria de datos</h3>
+<div class="outline-text-3" id="text-7-1">
+<p>
+Se presenta una muestra aleatoria de los datos procesados
+después de la transformación al formato largo.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">
+<span style="font-weight: bold; font-style: italic;">tabla_muestra</span> = df_largo.sample(10).copy()
+
+<span style="font-weight: bold; font-style: italic;">tabla_muestra</span>[<span style="font-style: italic;">"Fecha"</span>] = tabla_muestra[<span style="font-style: italic;">"Fecha"</span>].astype(<span style="font-weight: bold;">str</span>).<span style="font-weight: bold;">str</span>[:10]
+
+<span style="font-weight: bold; font-style: italic;">table</span> = [<span style="font-weight: bold;">list</span>(tabla_muestra)] + [<span style="font-weight: bold; text-decoration: underline;">None</span>] + tabla_muestra.values.tolist()
+
+table
+
+</pre>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Provincia de ocurrencia</th>
+<th scope="col" class="org-right">Fecha</th>
+<th scope="col" class="org-right">Femicidios</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Galápagos</td>
+<td class="org-right">2026-02-01</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">Azuay</td>
+<td class="org-right">2025-10-01</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">Carchi</td>
+<td class="org-right">2025-12-01</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">Santa Elena</td>
+<td class="org-right">2025-09-01</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">Manabí</td>
+<td class="org-right">2025-07-01</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">Sucumbíos</td>
+<td class="org-right">2025-04-01</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">Galápagos</td>
+<td class="org-right">2025-07-01</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">Napo</td>
+<td class="org-right">2025-11-01</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">Zamora Chinchipe</td>
+<td class="org-right">2025-10-01</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">Imbabura</td>
+<td class="org-right">2025-02-01</td>
+<td class="org-right">0</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+**Provincias con mayor cantidad de femicidios registrados 
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">
+<span style="font-weight: bold; font-style: italic;">tabla_provincias</span> = (
+    femicidios_provincia
+    .head(10)
+    .reset_index()
+)
+
+<span style="font-weight: bold; font-style: italic;">table</span> = [<span style="font-weight: bold;">list</span>(tabla_provincias)] + [<span style="font-weight: bold; text-decoration: underline;">None</span>] + tabla_provincias.values.tolist()
+
+table
+
+</pre>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Provincia de ocurrencia</th>
+<th scope="col" class="org-right">Femicidios</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Pichincha</td>
+<td class="org-right">15</td>
+</tr>
+
+<tr>
+<td class="org-left">Guayas</td>
+<td class="org-right">9</td>
+</tr>
+
+<tr>
+<td class="org-left">Esmeraldas</td>
+<td class="org-right">7</td>
+</tr>
+
+<tr>
+<td class="org-left">Los Ríos</td>
+<td class="org-right">6</td>
+</tr>
+
+<tr>
+<td class="org-left">Manabí</td>
+<td class="org-right">3</td>
+</tr>
+
+<tr>
+<td class="org-left">Azuay</td>
+<td class="org-right">3</td>
+</tr>
+
+<tr>
+<td class="org-left">Cotopaxi</td>
+<td class="org-right">3</td>
+</tr>
+
+<tr>
+<td class="org-left">El Oro</td>
+<td class="org-right">3</td>
+</tr>
+
+<tr>
+<td class="org-left">Tungurahua</td>
+<td class="org-right">3</td>
+</tr>
+
+<tr>
+<td class="org-left">Imbabura</td>
+<td class="org-right">3</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-org4c063a5" class="outline-3">
+<h3 id="org4c063a5"><span class="section-number-3">7.2.</span> Femicidios acumulados por provincia</h3>
+<div class="outline-text-3" id="text-7-2">
+<p>
+La siguiente gráfica permite observar la distribución de los casos
+acumulados de femicidio por provincia durante el periodo analizado.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">
+plt.figure(figsize=(10,6))
+
+femicidios_provincia.plot(kind=<span style="font-style: italic;">"bar"</span>)
+
+plt.title(<span style="font-style: italic;">"Femicidios acumulados por provincia (2025-2026)"</span>)
+plt.xlabel(<span style="font-style: italic;">"Provincia"</span>)
+plt.ylabel(<span style="font-style: italic;">"N&#250;mero de femicidios"</span>)
+
+plt.xticks(rotation=90)
+
+plt.tight_layout()
+
+<span style="font-weight: bold; font-style: italic;">archivo</span>=<span style="font-style: italic;">"./images/femicidios_provincia.png"</span>
+
+plt.savefig(archivo)
+
+plt.close()
+
+archivo
+
+</pre>
+</div>
+
+
+<div id="orgdc36521" class="figure">
+<p><img src="images/femicidios_provincia.png" alt="femicidios_provincia.png" />
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgbf949b4" class="outline-3">
+<h3 id="orgbf949b4"><span class="section-number-3">7.3.</span> Evolución mensual de femicidios</h3>
+<div class="outline-text-3" id="text-7-3">
+<p>
+La siguiente gráfica muestra la variación mensual de los casos registrados
+durante el periodo seleccionado.
+</p>
+
+
+<div class="org-src-container">
+<pre class="src src-python">
+plt.figure(figsize=(12,5))
+
+plt.plot(
+    femicidios_mes.index,
+    femicidios_mes.values,
+    marker=<span style="font-style: italic;">"o"</span>
+)
+
+plt.title(<span style="font-style: italic;">"Evoluci&#243;n mensual de femicidios (2025-2026)"</span>)
+plt.xlabel(<span style="font-style: italic;">"Mes"</span>)
+plt.ylabel(<span style="font-style: italic;">"N&#250;mero de femicidios"</span>)
+
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Mostrar todos los meses
+</span>plt.xticks(
+    femicidios_mes.index,
+    [fecha.strftime(<span style="font-style: italic;">"%b-%Y"</span>) <span style="font-weight: bold;">for</span> fecha <span style="font-weight: bold;">in</span> femicidios_mes.index],
+    rotation=45
+)
+
+plt.grid()
+
+plt.tight_layout()
+
+<span style="font-weight: bold; font-style: italic;">archivo</span>=<span style="font-style: italic;">"./images/evolucion_mensual_femicidios.png"</span>
+
+plt.savefig(archivo)
+
+plt.close()
+
+archivo
+
+</pre>
+</div>
+
+<div id="org4d9079b" class="figure">
+<p><img src="images/evolucion_mensual_femicidios.png" alt="evolucion_mensual_femicidios.png" />
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org8b09f81" class="outline-3">
+<h3 id="org8b09f81"><span class="section-number-3">7.4.</span> Frecuencia de registros según cantidad de femicidios</h3>
+<div class="outline-text-3" id="text-7-4">
+<p>
+La gráfica representa la frecuencia con la que aparecen diferentes
+cantidades de femicidios en los registros mensuales por provincia.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">
+<span style="font-weight: bold; font-style: italic;">frecuencia</span> = df_largo[<span style="font-style: italic;">"Femicidios"</span>].value_counts().sort_index()
+
+plt.figure(figsize=(7,5))
+
+frecuencia.plot(kind=<span style="font-style: italic;">"bar"</span>)
+
+plt.title(<span style="font-style: italic;">"Frecuencia de registros seg&#250;n cantidad de femicidios"</span>)
+plt.xlabel(<span style="font-style: italic;">"Cantidad de femicidios"</span>)
+plt.ylabel(<span style="font-style: italic;">"N&#250;mero de registros"</span>)
+
+plt.xticks(rotation=0)
+
+plt.tight_layout()
+
+<span style="font-weight: bold; font-style: italic;">archivo</span>=<span style="font-style: italic;">"./images/frecuencia_femicidios.png"</span>
+
+plt.savefig(archivo)
+
+plt.close()
+
+archivo
+
+</pre>
+</div>
+
+<div id="org53f019a" class="figure">
+<p><img src="images/frecuencia_femicidios.png" alt="frecuencia_femicidios.png" />
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org292ad1e" class="outline-3">
+<h3 id="org292ad1e"><span class="section-number-3">7.5.</span> Interpretación de los datos</h3>
+<div class="outline-text-3" id="text-7-5">
+<ol class="org-ol">
+<li><b><b>Interpretación de estadísticas descriptivas generales:</b></b>
+El análisis descriptivo realizado sobre los registros mensuales pro
+provincia muestra que durante el periodo 2025-2026 se analizaron
+336 observaciones, correspondientes a 24 provincias y 14 meses. El
+promedio obtenido fue de 0.19 femicidios por provincia-mes, esto
+indica que la ocurrencia de estos eventos dentro de una unidad
+específica de análisis es baja.
+La desviación estándar de 0.47 evidencia una dispersión reducida de
+los datos alrededor del promedio. Además, los valores
+correspondientes al primer, segundo y tercer cuartil son iguales a
+cero, indicando que al menos el 75% de los registros mensuales por
+provincia no demuestran casos registrados.
+El valor máximo observado fue de 3 femicidios en una provincia
+durante un mes determinado, mostrando que, aunque la mayoría de
+registros presentan valores bajos, existen periodos específicos con
+concentraciones en mayores casos.</li>
+<li><b><b>Interpretación por provincia:</b></b>
+Al analizar la distribución acumulada por provincia se observa que
+los registros no se distribuyen uniformemente en el territorio
+nacional. Pichincha concentra la mayor cantidad de casos con 15
+registros, seguida de Guayas con 9 casos y Esmeraldas con 7.
+La diferencia entre el valor máximo y el valor mínimo evidencia una
+variabilidad importante entre provincias. Algunas provincias no
+registraron casos durante el periodo analizado, mientras que otras
+presentan una mayor concentración de eventos.
+Los estadísticos calculados por provincia muestran una media de
+2.67 casos y una mediana de 2 casos, lo que indica que la mitad de
+las provincias presentan valores iguales o inferiores a dos
+registros durante periodo.</li>
+<li><b><b>Interpretación Temporal:</b></b>
+El análisis temporal permite observar la evolución mensual de los
+femicidios registrados. Durante el periodo estudiado los valores
+mensuales presentan fluctuaciones moderadas, sin una tendencia
+creciente o decreciente claramente definida.
+El mayor número de casos se registró en agosto de 2025 con 7
+femicidios, mientras que julio presentó el menor valor con 2
+casos. Estas variaciones muestran que la ocurrencia de estos
+eventos presenta cambios entre meses, pero debido al tamaño del
+periodo analizado no es posible establecer una tendencia histórica.</li>
+<li><b><b>Interpretación de la frecuencia:</b></b>
+La distribución de la frecuencia evidencia que la mayoría de
+observaciones corresponden a meses y provincias sin registros de
+femicidio. De las 336 observaciones analizadas, 282 presentan un
+valor de cero, mientras que únicamente 54 registros presentan uno o
+más casos.
+Este comportamiento explica por qué las medidas descriptivas
+presentan valores bajos y demuestra que los femicidios corresponden
+a eventos de baja frecuencia cuando se analizan individualmente por
+provincia y mes</li>
+<li><b><b>Conclusión General</b></b>
+En conjunto, el análisis estadístico permitió identificar varios
+factores relevantes en los registros de femicidios del Ecuador
+durante el periodo 2025-2026. Los resultados muestran una
+concentración de casos en determinadas provincias, principalmente
+Pichincha y Guayas, mientras que gran parte de las provincias
+presentan valores reducidos o nulos.
+El análisis descriptivo evidencia que la mayoría de registros
+mensuales no presentan casos, por lo que las medidas como la media
+y los cuartiles reflejan una distribución con alta presencia de
+valores cero. Sin embargo, los valores máximos observados muestran
+la existencia de periodos específicos con mayor concentración de
+casos.</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="outline-container-org4e10140" class="outline-2">
+<h2 id="org4e10140"><span class="section-number-2">8.</span> Referencias</h2>
+<div class="outline-text-2" id="text-8">
+<ul class="org-ul">
+<li><a href="https://orgmode.org/">Org Mode Documentation</a></li>
+<li><a href="https://pandas.pydata.org/docs/">Pandas Documentation</a></li>
+<li><a href="https://matplotlib.org/stable/">Matplotlib Documentation</a></li>
+<li><a href="https://www.ecuadorencifras.gob.ec/">Instituto Nacional de Estadística y Censos (INEC)</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgcd302f8" class="outline-2">
+<h2 id="orgcd302f8"><span class="section-number-2">9.</span> Navegación</h2>
+<div class="outline-text-2" id="text-9">
+<p>
+<a href="index.html">← Inicio</a> | <a href="ieee754/pag2-sumaieee754.html">← Suma IEEE754</a>
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Fecha: 2026-07-13</p>
+<p class="author">Autor: Auz Juan, Lanchimba Danny, Palomeque Matías, Quillupangui Ana María</p>
+<p class="date">Created: 2026-07-14 mar 22:07</p>
+</div>
+</body>
+</html>

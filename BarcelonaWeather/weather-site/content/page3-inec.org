@@ -554,7 +554,8 @@ plt.close()
 archivo
 
 #+end_src
- 
+
+[[file:images/femicidios_provincia.png]]
 
 ** Evolución mensual de femicidios
 
@@ -596,7 +597,7 @@ plt.close()
 archivo
 
 #+end_src
-
+file:images/evolucion_mensual_femicidios.png
 
 ** Frecuencia de registros según cantidad de femicidios
 
@@ -628,7 +629,7 @@ plt.close()
 archivo
 
 #+end_src
-
+[[file:images/frecuencia_femicidios.png]]
 ** Interpretación de los datos
 1. **Interpretación de estadísticas descriptivas generales:**
    El análisis descriptivo realizado sobre los registros mensuales pro

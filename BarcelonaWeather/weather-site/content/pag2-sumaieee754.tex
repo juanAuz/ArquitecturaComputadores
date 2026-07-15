@@ -1,25 +1,35 @@
-#+options: ':nil *:t -:t ::t <:t H:3 \n:nil ^:t arch:headline
-#+options: author:t broken-links:nil c:nil creator:nil
-#+options: d:(not "LOGBOOK") date:t e:t email:nil expand-links:t f:t
-#+options: inline:t num:t p:nil pri:nil prop:t stat:t tags:t
-#+options: tasks:t tex:t timestamp:t title:t toc:t todo:t |:t
-#+PROPERTY: header-args:python :session ieee :results output :exports both
+% Created 2026-07-14 mar 22:00
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\author{Auz Juan, Lanchimba Danny, Palomeque Matías, Quillupangui Ana María}
+\date{2026-07-13}
+\title{Implementación del Algoritmo de Suma en Notación de Coma Flotante IEEE 754}
+\hypersetup{
+ pdfauthor={Auz Juan, Lanchimba Danny, Palomeque Matías, Quillupangui Ana María},
+ pdftitle={Implementación del Algoritmo de Suma en Notación de Coma Flotante IEEE 754},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 27.1 (Org mode 9.7.5)}, 
+ pdflang={Spanish}}
+\begin{document}
 
-#+title: Implementación del Algoritmo de Suma en Notación de Coma Flotante IEEE 754
-#+date: 2026-07-13
-#+author: Auz Juan, Lanchimba Danny, Palomeque Matías, Quillupangui Ana María
-#+email: juan.auzmontezuma@epn.edu.ec
-#+language: es
+\maketitle
+\tableofcontents
 
-#+select_tags: export
-#+exclude_tags: noexport
-#+creator: Emacs 27.1 (Org mode 9.7.5)
-
-#+cite_export:
-
-[[file:../index.org][← Inicio]] | [[file:../page3-inec.org][Siguiente: Análisis INEC →]]
-
-* Introducción
+\href{../index.org}{← Inicio} | \href{../page3-inec.org}{Siguiente: Análisis INEC →}
+\section{Introducción}
+\label{sec:orgab50853}
 
 El estándar IEEE 754 define la representación y las operaciones
 aritméticas para números en punto flotante utilizadas por la mayoría de
@@ -33,24 +43,30 @@ Arquitectura de Computadores.
 El objetivo es comprender el funcionamiento interno de la unidad de
 punto flotante, implementando manualmente las diferentes etapas de
 la suma binaria.
+\section{Objetivos}
+\label{sec:org1df9565}
 
-* Objetivos
-
-- Comprender la representación IEEE 754 de precisión simple.
-- Implementar el algoritmo de suma de punto flotante.
-- Analizar cada etapa del algoritmo mediante ejemplos.
-- Verificar el correcto funcionamiento mediante diferentes pruebas.
-
-* Fundamento teórico
+\begin{itemize}
+\item Comprender la representación IEEE 754 de precisión simple.
+\item Implementar el algoritmo de suma de punto flotante.
+\item Analizar cada etapa del algoritmo mediante ejemplos.
+\item Verificar el correcto funcionamiento mediante diferentes pruebas.
+\end{itemize}
+\section{Fundamento teórico}
+\label{sec:orgac7ae41}
 
 Un número IEEE 754 de precisión simple ocupa 32 bits distribuidos de la
 siguiente forma:
 
-| Campo      | Bits |
-|------------+------|
-| Signo      |    1 |
-| Exponente  |    8 |
-| Mantisa    |   23 |
+\begin{center}
+\begin{tabular}{lr}
+Campo & Bits\\
+\hline
+Signo & 1\\
+Exponente & 8\\
+Mantisa & 23\\
+\end{tabular}
+\end{center}
 
 El valor representado está dado por
 
@@ -60,28 +76,32 @@ El valor representado está dado por
 
 donde:
 
-- S representa el bit de signo.
-- E es el exponente con sesgo.
-- M corresponde a la mantisa.
+\begin{itemize}
+\item S representa el bit de signo.
+\item E es el exponente con sesgo.
+\item M corresponde a la mantisa.
+\end{itemize}
 
 Antes de realizar una suma en punto flotante se siguen las siguientes
 etapas:
 
-1. Comparar exponentes.
-2. Alinear mantisas.
-3. Realizar la operación.
-4. Normalizar el resultado.
-5. Reempacar el número en formato IEEE754.
-
-* Descripción del algoritmo
+\begin{enumerate}
+\item Comparar exponentes.
+\item Alinear mantisas.
+\item Realizar la operación.
+\item Normalizar el resultado.
+\item Reempacar el número en formato IEEE754.
+\end{enumerate}
+\section{Descripción del algoritmo}
+\label{sec:orgf69d785}
 
 El algoritmo desarrollado se divide en cinco etapas principales.
-
-** Conversión de decimal a IEEE754
+\subsection{Conversión de decimal a IEEE754}
+\label{sec:org3a96961}
 
 Primero se obtiene el signo del número.
 
-#+begin_src python
+\begin{verbatim}
 
 def obtenerSigno(numero):
     """
@@ -92,11 +112,11 @@ def obtenerSigno(numero):
     else:
         return 0
 
-#+end_src
+\end{verbatim}
 
 Posteriormente el número se separa en parte entera y decimal.
 
-#+begin_src python
+\begin{verbatim}
 
 def separarPartes(numero):
     """
@@ -108,11 +128,11 @@ def separarPartes(numero):
 
     return entero, decimal
 
-#+end_src
+\end{verbatim}
 
 La parte entera se convierte a binario.
 
-#+begin_src python
+\begin{verbatim}
 
 def convertirEnteroBinario(entero):
     """
@@ -120,12 +140,12 @@ def convertirEnteroBinario(entero):
     """
     return bin(entero).replace("0b","")
 
-#+end_src
+\end{verbatim}
 
 La parte fraccionaria se convierte utilizando el algoritmo visto en
 clase.
 
-#+begin_src python
+\begin{verbatim}
 
 def convertirDecimalBinario(decimal):
     """
@@ -148,11 +168,11 @@ def convertirDecimalBinario(decimal):
 
     return bits
 
-#+end_src
+\end{verbatim}
 
 Se unen ambas partes.
 
-#+begin_src python
+\begin{verbatim}
 
 def convertirBinario(numero):
     """
@@ -161,11 +181,11 @@ def convertirBinario(numero):
     entero, decimal = separarPartes(numero)
     return convertirEnteroBinario(entero) + "." + convertirDecimalBinario(decimal)
 
-#+end_src
+\end{verbatim}
 
 Posteriormente se normaliza el número.
 
-#+begin_src python
+\begin{verbatim}
 
 def normalizar(binario):
     """
@@ -184,11 +204,11 @@ def normalizar(binario):
 
     return mantisa, exponente
 
-#+end_src
+\end{verbatim}
 
 El exponente se sesga con 127.
 
-#+begin_src python
+\begin{verbatim}
 
 def calcularExponente(exponente):
     """
@@ -198,11 +218,11 @@ def calcularExponente(exponente):
     binario = bin(exponente).replace("0b","")
     return binario.zfill(8)
 
-#+end_src
+\end{verbatim}
 
 Finalmente la mantisa se ajusta a 23 bits.
 
-#+begin_src python
+\begin{verbatim}
 
 def ajustarMantisa(mantisa):
     """
@@ -210,11 +230,11 @@ def ajustarMantisa(mantisa):
     """
     return mantisa.ljust(23,"0")
 
-#+end_src
+\end{verbatim}
 
 Con todas las funciones anteriores se implementa la conversión completa.
 
-#+begin_src python
+\begin{verbatim}
 
 def convertirIEEE754(numero):
     """
@@ -250,14 +270,14 @@ def convertirIEEE754(numero):
         "ieee754":ieee754
     }
 
-#+end_src
-
-** Alineación de exponentes
+\end{verbatim}
+\subsection{Alineación de exponentes}
+\label{sec:org45ef5f5}
 
 Para poder sumar dos números IEEE754 ambos deben poseer el mismo
 exponente.
 
-#+begin_src python
+\begin{verbatim}
 
 def alinearExponentes(exp1,mant1,exp2,mant2):
 
@@ -282,12 +302,15 @@ print(
         "01000000000000000000000"
     )
 )
-#+end_src
+\end{verbatim}
 
-#+RESULTS:
-: (1, '101000000000000000000000', '010100000000000000000000')
-
-** Determinación del tipo de operación
+\phantomsection
+\label{org0c05026}
+\begin{verbatim}
+(1, '101000000000000000000000', '010100000000000000000000')
+\end{verbatim}
+\subsection{Determinación del tipo de operación}
+\label{sec:org1a6aa2b}
 
 Una vez alineados los exponentes, el algoritmo determina si debe
 realizar una suma o una resta dependiendo del signo de ambos
@@ -295,7 +318,7 @@ operandos. Cuando los signos son diferentes, también se determina
 cuál de las mantisas tiene el mayor valor absoluto para garantizar
 que la resta produzca un resultado positivo.
 
-#+begin_src python
+\begin{verbatim}
 
 def determinarSignoYOrden(signo1, signo2, mant1, mant2):
     """
@@ -326,18 +349,21 @@ print(
     )
 )
 
-#+end_src
+\end{verbatim}
 
-#+RESULTS:
-: ('0', 'resta', '101000000000000000000000', '010100000000000000000000')
-
-** Operación entre mantisas
+\phantomsection
+\label{org9e67b50}
+\begin{verbatim}
+('0', 'resta', '101000000000000000000000', '010100000000000000000000')
+\end{verbatim}
+\subsection{Operación entre mantisas}
+\label{sec:org48fc35d}
 
 La suma y la resta de las mantisas se implementan utilizando únicamente
 operaciones binarias bit a bit, reproduciendo el comportamiento de una
 unidad aritmética lógica.
 
-#+begin_src python
+\begin{verbatim}
 
 def operarMantisas(mantMayor, mantMenor, operacion):
     """
@@ -414,18 +440,21 @@ print(
     )
 )
 
-#+end_src
+\end{verbatim}
 
-#+RESULTS:
-: 111100000000000000000000
-
-** Normalización del resultado
+\phantomsection
+\label{org166c318}
+\begin{verbatim}
+111100000000000000000000
+\end{verbatim}
+\subsection{Normalización del resultado}
+\label{sec:org71da12f}
 
 Después de la operación puede aparecer un acarreo adicional o bien
 desaparecer el bit implícito debido a una resta. En ambos casos es
 necesario ajustar nuevamente el exponente y la mantisa.
 
-#+begin_src python
+\begin{verbatim}
 
 def normalizarResultado(mantResultado, expComun):
 
@@ -455,18 +484,21 @@ print(
     )
 )
 
-#+end_src
+\end{verbatim}
 
-#+RESULTS:
-: ('11100000000000000000000', 1)
-
-** Ensamblaje final
+\phantomsection
+\label{org146d98f}
+\begin{verbatim}
+('11100000000000000000000', 1)
+\end{verbatim}
+\subsection{Ensamblaje final}
+\label{sec:orgeaca001}
 
 Una vez obtenidos el signo, el exponente y la mantisa normalizados,
 se construye nuevamente la palabra de 32 bits correspondiente al
 formato IEEE754.
 
-#+begin_src python
+\begin{verbatim}
 def ensamblarIEEE754(signo, exponenteReal, mantisa):
     """
     Construye el número IEEE754 final.
@@ -480,14 +512,14 @@ def ensamblarIEEE754(signo, exponenteReal, mantisa):
     mantisaIEEE = ajustarMantisa(mantisa)[:23]
 
     return signo + exponenteIEEE + mantisaIEEE
-#+end_src
-
-** Función principal
+\end{verbatim}
+\subsection{Función principal}
+\label{sec:org91b07b9}
 
 La siguiente función integra todas las etapas del algoritmo descritas
 anteriormente.
 
-#+begin_src python
+\begin{verbatim}
 
 def sumarIEEE754(num1, num2):
     """
@@ -559,168 +591,95 @@ def sumarIEEE754(num1, num2):
         "resultadoIEEE754": resultado
     }
 
-#+end_src
-
-* Capturas de ejecución
+\end{verbatim}
+\section{Capturas de ejecución}
+\label{sec:org7609842}
 
 En esta sección se incluyen las capturas de pantalla obtenidas durante
 la ejecución del programa.
 
-- Conversión del primer operando.
-- Conversión del segundo operando.
-- Alineación de exponentes.
-- Determinación de la operación.
-- Operación sobre las mantisas.
-- Normalización del resultado.
-- Ensamblaje del número IEEE754.
-- Resultado final.
+\begin{itemize}
+\item Conversión del primer operando.
+\item Conversión del segundo operando.
+\item Alineación de exponentes.
+\item Determinación de la operación.
+\item Operación sobre las mantisas.
+\item Normalización del resultado.
+\item Ensamblaje del número IEEE754.
+\item Resultado final.
+\end{itemize}
 
-#+CAPTION: Ejecución del algoritmo para la suma 3.5 + 1.25
-#+ATTR_LATEX: :placement [H]
-[[./ejemplos/prueba1.png]]
+\begin{figure}[H]
+\centering
+\includegraphics[width=.9\linewidth]{./images/prueba1.png}
+\caption{Ejecución del algoritmo para la suma 3.5 + 1.25}
+\end{figure}
 
-#+CAPTION: Ejecución del algoritmo para la suma 2.5 + (-1.24)
-#+ATTR_LATEX: :placement [H]
-[[./ejemplos/prueba2.png]]
+\begin{figure}[H]
+\centering
+\includegraphics[width=.9\linewidth]{./images/prueba2.png}
+\caption{Ejecución del algoritmo para la suma 2.5 + (-1.24)}
+\end{figure}
 
-#+CAPTION: Ejecución del algoritmo para la suma (-5) + (-34)
-#+ATTR_LATEX: :placement [H]
-[[./ejemplos/prueba3.png]]
+\begin{figure}[H]
+\centering
+\includegraphics[width=.9\linewidth]{./images/prueba3.png}
+\caption{Ejecución del algoritmo para la suma (-5) + (-34)}
+\end{figure}
 
-#+CAPTION: Ejecución del algoritmo para la suma 100 + 0.25
-#+ATTR_LATEX: :placement [H]
-[[./ejemplos/prueba4.png]]
+\begin{figure}[H]
+\centering
+\includegraphics[width=.9\linewidth]{./images/prueba4.png}
+\caption{Ejecución del algoritmo para la suma 100 + 0.25}
+\end{figure}
 
-#+CAPTION: Ejecución del algoritmo para la suma 0.1 + 0.2
-#+ATTR_LATEX: :placement [H]
-[[./ejemplos/prueba5.png]]
+\begin{figure}[H]
+\centering
+\includegraphics[width=.9\linewidth]{./images/prueba5.png}
+\caption{Ejecución del algoritmo para la suma 0.1 + 0.2}
+\end{figure}
+\section{Conclusiones}
+\label{sec:org2bd9ce3}
 
-* Conclusiones
+\begin{itemize}
+\item Se implementó satisfactoriamente el algoritmo de suma de números en
+formato IEEE754 de precisión simple empleando Python.
 
-- Se implementó satisfactoriamente el algoritmo de suma de números en
-  formato IEEE754 de precisión simple empleando Python.
+\item El desarrollo permitió comprender el funcionamiento interno de una
+unidad de punto flotante, especialmente el proceso de alineación de
+exponentes, operación entre mantisas y normalización del resultado.
 
-- El desarrollo permitió comprender el funcionamiento interno de una
-  unidad de punto flotante, especialmente el proceso de alineación de
-  exponentes, operación entre mantisas y normalización del resultado.
+\item La implementación reproduce las principales etapas descritas por el
+estándar IEEE754 para la suma en punto flotante.
 
-- La implementación reproduce las principales etapas descritas por el
-  estándar IEEE754 para la suma en punto flotante.
+\item Las pruebas realizadas con números positivos, negativos, enteros y
+fraccionarios mostraron resultados consistentes con la representación
+IEEE754 de precisión simple.
 
-- Las pruebas realizadas con números positivos, negativos, enteros y
-  fraccionarios mostraron resultados consistentes con la representación
-  IEEE754 de precisión simple.
-
-- El ejemplo al sumar 0.1 + 0.2 representa los errores que se puede acarrear
-  al momento de trabajar con números muy pequeños, al obtener un valor un
-  tanto diferente al 0.3 esperado. Esto sucede ya que el algoritmo trunca los
-  decimales menos significativos
-
-* Extra: Ejecución interactiva mediante JavaScript
+\item El ejemplo al sumar 0.1 + 0.2 representa los errores que se puede acarrear
+al momento de trabajar con números muy pequeños, al obtener un valor un
+tanto diferente al 0.3 esperado. Esto sucede ya que el algoritmo trunca los
+decimales menos significativos
+\end{itemize}
+\section{Extra: Ejecución interactiva mediante JavaScript}
+\label{sec:org6b629a0}
 
 La implementación principal del algoritmo IEEE754 fue desarrollada en Python.
 Sin embargo, debido a que los navegadores no pueden ejecutar directamente
 código Python, se desarrolló una versión interactiva utilizando JavaScript,
 el cual puede ser interpretado directamente por el navegador.
+\section{Referencias}
+\label{sec:orgd769abc}
 
-#+begin_export html
+\begin{itemize}
+\item IEEE Computer Society. \emph{IEEE Standard for Floating-Point Arithmetic
+(IEEE Std 754-2019).} IEEE, 2019.
 
-<h2>Suma IEEE754 interactiva</h2>
+\item Stallings, William. \emph{Computer Organization and Architecture:
+Designing for Performance.} 11th Edition. Pearson.
+\end{itemize}
+\section{Navegación}
+\label{sec:orged40de0}
 
-<p>
-Ingrese dos números para obtener su representación IEEE754.
-</p>
-
-<input type="number" id="num1" placeholder="Primer número">
-
-<input type="number" id="num2" placeholder="Segundo número">
-
-<button onclick="sumarIEEE()">Sumar</button>
-
-<h3>Resultado:</h3>
-
-<p id="resultado"></p>
-
-
-<script>
-
-function obtenerSigno(numero){
-    if(numero < 0){
-        return "1";
-    }
-    return "0";
-}
-
-
-function convertirIEEE754(numero){
-
-    let buffer = new ArrayBuffer(4);
-    let vista = new DataView(buffer);
-
-    vista.setFloat32(0, numero);
-
-    let bits = vista.getUint32(0).toString(2);
-
-    bits = bits.padStart(32,"0");
-
-    return {
-        signo: bits.substring(0,1),
-        exponente: bits.substring(1,9),
-        mantisa: bits.substring(9,32),
-        ieee754: bits
-    };
-}
-
-
-function sumarIEEE(){
-
-    let num1 = parseFloat(document.getElementById("num1").value);
-    let num2 = parseFloat(document.getElementById("num2").value);
-
-
-    let ieee1 = convertirIEEE754(num1);
-    let ieee2 = convertirIEEE754(num2);
-
-
-    let resultado = num1 + num2;
-
-    let ieeeResultado = convertirIEEE754(resultado);
-
-
-    document.getElementById("resultado").innerHTML =
-    `
-    <b>Primer número:</b> ${num1}<br>
-    Signo: ${iee1 = ieee1.signo}<br>
-    Exponente: ${ieee1.exponente}<br>
-    Mantisa: ${ieee1.mantisa}<br>
-    IEEE754: ${ieee1.ieee754}<br><br>
-
-    <b>Segundo número:</b> ${num2}<br>
-    Signo: ${ieee2.signo}<br>
-    Exponente: ${ieee2.exponente}<br>
-    Mantisa: ${ieee2.mantisa}<br>
-    IEEE754: ${ieee2.ieee754}<br><br>
-
-
-    <b>Resultado de la suma:</b> ${resultado}<br>
-    Signo: ${ieeeResultado.signo}<br>
-    Exponente: ${ieeeResultado.exponente}<br>
-    Mantisa: ${ieeeResultado.mantisa}<br>
-    IEEE754: ${ieeeResultado.ieee754}
-    `;
-}
-
-</script>
-
-#+end_export
-* Referencias
-
-- IEEE Computer Society. /IEEE Standard for Floating-Point Arithmetic
-  (IEEE Std 754-2019)./ IEEE, 2019.
-
-- Stallings, William. /Computer Organization and Architecture:
-  Designing for Performance./ 11th Edition. Pearson.
-
-* Navegación
-
-[[file:../index.org][← Inicio]] | [[file:../page3-inec.org][Siguiente: Análisis INEC →]]
+\href{../index.org}{← Inicio} | \href{../page3-inec.org}{Siguiente: Análisis INEC →}
+\end{document}

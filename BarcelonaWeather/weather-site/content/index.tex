@@ -1,4 +1,4 @@
-% Created 2026-07-14 mar 18:07
+% Created 2026-07-14 mar 22:02
 % Intended LaTeX compiler: pdflatex
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
@@ -28,7 +28,7 @@
 \tableofcontents
 
 \section{City Weather APP}
-\label{sec:org1dc1fc1}
+\label{sec:org1884e26}
 Este es el proyecto de fin de semestre en donde se pretende demostrar
 las destrezas obtenidas durante el transcurso de la asignatura de
 \textbf{\textbf{Arquitectura de Computadores}}.
@@ -40,7 +40,7 @@ las destrezas obtenidas durante el transcurso de la asignatura de
 \item Literate Programming
 \end{enumerate}
 \subsection{Estructura del proyecto}
-\label{sec:orgda3b409}
+\label{sec:orga705a8f}
 Se recomienda que el proyecto se cree en el \emph{home} del sistema
 operativo i.e. \emph{home/<user>}. Allí se creará la carpeta \emph{CityWeather}
 \begin{verbatim}
@@ -50,7 +50,7 @@ pwd
 \end{verbatim}
 
 \phantomsection
-\label{org55fd1d0}
+\label{org93fa8ec}
 \begin{verbatim}
 /home/juand/BarcelonaWeather
 \end{verbatim}
@@ -61,7 +61,7 @@ subdirectorios. Adaptar los nombres de los archivos según las ciudades
 específicas del grupo.
 
 \phantomsection
-\label{org4aef415}
+\label{orge6e2910}
 \begin{verbatim}
 .
 |-- ChatCopilot.md
@@ -77,22 +77,48 @@ específicas del grupo.
     |-- build.sh
     |-- build-site.el
     |-- content
+    |   |-- ieee754_sum.py
     |   |-- images
+    |   |   |-- evolucion_mensual_femicidios.png
+    |   |   |-- femicidios_provincia.png
+    |   |   |-- frecuencia_femicidios.png
     |   |   |-- HeapMap.png
     |   |   |-- Humidity.png
+    |   |   |-- prueba1.png
+    |   |   |-- prueba2.png
+    |   |   |-- prueba3.png
+    |   |   |-- prueba4.png
+    |   |   |-- prueba5.png
     |   |   `-- Temperatura.png
     |   |-- index.org
     |   |-- index.org~
+    |   |-- index.pdf
     |   |-- index.tex
-    |   `-- page2-js.org
+    |   |-- main.py
+    |   |-- pag2-sumaieee754.org
+    |   |-- pag2-sumaieee754.pdf
+    |   |-- pag2-sumaieee754.tex
+    |   |-- page3-inec.org
+    |   |-- page3-inec.pdf
+    |   `-- page3-inec.tex
     `-- public
         |-- images
+        |   |-- evolucion_mensual_femicidios.png
+        |   |-- femicidios_provincia.png
+        |   |-- frecuencia_femicidios.png
         |   |-- HeapMap.png
         |   |-- Humidity.png
+        |   |-- prueba1.png
+        |   |-- prueba2.png
+        |   |-- prueba3.png
+        |   |-- prueba4.png
+        |   |-- prueba5.png
         |   `-- Temperatura.png
-        `-- index.html
+        |-- index.html
+        |-- pag2-sumaieee754.html
+        `-- page3-inec.html
 
-6 directories, 22 files
+6 directories, 48 files
 \end{verbatim}
 
 Puede usar Emacs para la creación de la estructura de su proyecto
@@ -103,7 +129,7 @@ adapte el bloque según su código tenga un comandos de shell, código de
 Python o de Java. En este documento \texttt{.org} dispone de varios ejemplos
 funcionales para escribir y presentar el código.
 \subsection{Formulación del Problema}
-\label{sec:orgcae8d00}
+\label{sec:org96ef49d}
 Se desea realizar un registro climatológico de una ciudad
 \(\mathcal{C}\). Para esto, escriba un script de Python/Java que permita
 obtener datos climatológicos desde el API de \href{https://openweathermap.org/current\#one}{openweathermap}. El API
@@ -161,15 +187,15 @@ GitHub del curso
 dirección será remitida en la contestación de la tarea
 \end{enumerate}
 \subsection{Descripción del código}
-\label{sec:org72ccf56}
+\label{sec:org396ea5c}
 En esta sección se debe detallar segmentos importantes del código
 desarrollado así como la \textbf{\textbf{estrategia de solución}} adoptada por el
 grupo para resolver el problema. Divida su código en unidades
 funcionales para facilitar su presentación y exposición.
-\subsubsection{Librerias a utilizar y variables globales}
-\label{sec:orgc8ad829}
+\subsubsection{Librerías a utilizar y variables globales}
+\label{sec:orgad3823a}
 Durante toda la recepción y transformación de los datos se utilizan
-las siguientes librerias: pandas, request, os, pathlib, json. Así también, las variables globales: BarcelonaLat, BarcelonaLon,
+las siguientes librerías: pandas, request, os, pathlib, json. Así también, las variables globales: BarcelonaLat, BarcelonaLon,
 API\textsubscript{KEY}, fileName 
 \begin{verbatim}
 import pandas as pd
@@ -184,11 +210,11 @@ API_KEY = "b794b9218f841b4d649bce12eacc5aed"
 fileName ='clima-barcelona-hoy.csv' #modificado para coincidir con la ruta
 \end{verbatim}
 \subsubsection{Recepción de los datos crudos}
-\label{sec:org5a4be43}
-Para conseguir los datos de la climatologia de Barcelona se utiliza la
+\label{sec:orgbd42699}
+Para conseguir los datos de la climatología de Barcelona se utiliza la
 API de openWeather, la cuál requiere los datos de Longitud, Latitud y
-una api key, datos que previamente definimos. Se utiliza la libreria
-request  para consumir la API y la libreria json para convertir los
+una api key, datos que previamente definimos. Se utiliza la librería
+request  para consumir la API y la librería json para convertir los
 datos en un diccionario de python utilizable.
 \begin{verbatim}
 def getWeather(lat, lon, api):
@@ -204,7 +230,7 @@ print(json.dumps(Barcelona_weather, indent=2, ensure_ascii=False))
 \end{verbatim}
 
 \phantomsection
-\label{org568f60f}
+\label{orgfaf9304}
 \begin{verbatim}
 {
   "coord": {
@@ -213,33 +239,33 @@ print(json.dumps(Barcelona_weather, indent=2, ensure_ascii=False))
   },
   "weather": [
     {
-      "id": 802,
-      "main": "Clouds",
-      "description": "scattered clouds",
-      "icon": "03n"
+      "id": 800,
+      "main": "Clear",
+      "description": "clear sky",
+      "icon": "01n"
     }
   ],
   "base": "stations",
   "main": {
-    "temp": 27.12,
-    "feels_like": 28.8,
-    "temp_min": 26.42,
-    "temp_max": 28.16,
+    "temp": 26.03,
+    "feels_like": 26.03,
+    "temp_min": 24.82,
+    "temp_max": 26.97,
     "pressure": 1015,
-    "humidity": 67,
+    "humidity": 71,
     "sea_level": 1015,
-    "grnd_level": 1007
+    "grnd_level": 1008
   },
   "visibility": 10000,
   "wind": {
-    "speed": 1.09,
-    "deg": 14,
-    "gust": 1.7
+    "speed": 3.3,
+    "deg": 245,
+    "gust": 3.8
   },
   "clouds": {
-    "all": 42
+    "all": 5
   },
-  "dt": 1784069852,
+  "dt": 1784084185,
   "sys": {
     "type": 2,
     "id": 18549,
@@ -261,7 +287,7 @@ a que un mismo lugar puede tener varias situaciones climáticas a la
 vez, haciendo que el valor especifico de description quede doblemente
 anidado. Problema que se solucionará en el procesamiento de los datos
 \subsubsection{Procesamiento de datos}
-\label{sec:org1b510c4}
+\label{sec:orga693af6}
 Una vez conseguido los valores en crudo, es necesario aplanarlos y
 colocar un formato para un posterior análisis. El método process
 recibe el dato crudo proveniente del paso anterior y realiza dos
@@ -293,39 +319,39 @@ print(jsonProcesado.T.to_string())
 \end{verbatim}
 
 \phantomsection
-\label{org5dea51a}
+\label{org07219c2}
 \begin{verbatim}
-                                    0
-base                         stations
-visibility                      10000
-dt                         1784069852
-timezone                         7200
-id                            3128760
-name                        Barcelona
-cod                               200
-weather_description  scattered clouds
-coord_lon                       2.159
-coord_lat                     41.3888
-main_temp                       27.12
-main_feels_like                  28.8
-main_temp_min                   26.42
-main_temp_max                   28.16
-main_pressure                    1015
-main_humidity                      67
-main_sea_level                   1015
-main_grnd_level                  1007
-wind_speed                       1.09
-wind_deg                           14
-wind_gust                         1.7
-clouds_all                         42
-sys_type                            2
-sys_id                          18549
-sys_country                        ES
-sys_sunrise                1784089835
-sys_sunset                 1784143416
+                              0
+base                   stations
+visibility                10000
+dt                   1784084185
+timezone                   7200
+id                      3128760
+name                  Barcelona
+cod                         200
+weather_description   clear sky
+coord_lon                 2.159
+coord_lat               41.3888
+main_temp                 26.03
+main_feels_like           26.03
+main_temp_min             24.82
+main_temp_max             26.97
+main_pressure              1015
+main_humidity                71
+main_sea_level             1015
+main_grnd_level            1008
+wind_speed                  3.3
+wind_deg                    245
+wind_gust                   3.8
+clouds_all                    5
+sys_type                      2
+sys_id                    18549
+sys_country                  ES
+sys_sunrise          1784089835
+sys_sunset           1784143416
 \end{verbatim}
 \subsubsection{Almacenamiento en csv}
-\label{sec:org3732cd1}
+\label{sec:orgea3bfa5}
 Con nuestros datos aplanados, es necesario guardarlos en un archivo
 .csv, tarea que es designada al método \texttt{write2csv}. Sin embargo,
 existe una variable que hasta ahora no ha sido contemplada: la API de
@@ -352,56 +378,56 @@ los datos se exportan a formato CSV y se guardan en el disco.
 \begin{verbatim}
 write2csv(jsonProcesado, fileName)
 \end{verbatim}
-Para ilustrar como se guardan los datos se utiliza la funcion read\textsubscript{csv}
+Para ilustrar como se guardan los datos se utiliza la función read\textsubscript{csv}
 \begin{verbatim}
 pd.read_csv(fileName).sample(4).T
 \end{verbatim}
 
 \begin{table}[htbp]
-\label{tab:org8dac5c7}
+\label{tab:orgc76a573}
 \centering
 \begin{tabular}{lrrrr}
- & 111 & 97 & 28 & 61\\
+ & 21 & 188 & 164 & 110\\
 \hline
 base & stations & stations & stations & stations\\
 visibility & 10000 & 10000 & 10000 & 10000\\
-dt & 1783959037 & 1783946411 & 1783883643 & 1783914161\\
+dt & 1783876800 & 1784029332 & 1784007855 & 1783958051\\
 timezone & 7200 & 7200 & 7200 & 7200\\
-id & 3128760 & 3128760 & 6544100 & 3128760\\
-name & Barcelona & Barcelona & Eixample & Barcelona\\
+id & 3128760 & 3128760 & 3128760 & 3128760\\
+name & Barcelona & Barcelona & Barcelona & Barcelona\\
 cod & 200 & 200 & 200 & 200\\
-weather\textsubscript{description} & scattered clouds & broken clouds & overcast clouds & scattered clouds\\
-coord\textsubscript{lon} & 2.159 & 2.159 & 2.159 & 2.159\\
-coord\textsubscript{lat} & 41.3888 & 41.3888 & 41.3888 & 41.3888\\
-main\textsubscript{temp} & 29.93 & 29.3 & 27.78 & 25.5\\
-main\textsubscript{feels}\textsubscript{like} & 33.31 & 32.8 & 29.55 & 25.41\\
-main\textsubscript{temp}\textsubscript{min} & 28.08 & 28.08 & 25.94 & 23.41\\
-main\textsubscript{temp}\textsubscript{max} & 34.24 & 32.58 & 28.99 & 27.02\\
-main\textsubscript{pressure} & 1013 & 1014 & 1014 & 1013\\
-main\textsubscript{humidity} & 63 & 67 & 64 & 50\\
-main\textsubscript{sea}\textsubscript{level} & 1013 & 1014 & 1014 & 1013\\
-main\textsubscript{grnd}\textsubscript{level} & 1005 & 1007 & 1007 & 1006\\
-wind\textsubscript{speed} & 2.54 & 1.79 & 3.74 & 0.89\\
-wind\textsubscript{deg} & 128 & 151 & 67 & 331\\
-wind\textsubscript{gust} & 1.67 & 4.02 & 4.33 & 3.58\\
-clouds\textsubscript{all} & 48 & 78 & 95 & 42\\
+weather\textsubscript{description} & overcast clouds & clear sky & clear sky & scattered clouds\\
+coord\textsubscript{lon} & 2.159 & 2.159 & 2.159 & 2.16\\
+coord\textsubscript{lat} & 41.3888 & 41.3888 & 41.3888 & 41.39\\
+main\textsubscript{temp} & 29.26 & 30.14 & 25.47 & 30.34\\
+main\textsubscript{feels}\textsubscript{like} & 30.7 & 33.74 & 26.27 & 33.71\\
+main\textsubscript{temp}\textsubscript{min} & 26.97 & 29.07 & 24.75 & 29.32\\
+main\textsubscript{temp}\textsubscript{max} & 32.02 & 33.13 & 26.97 & 33.64\\
+main\textsubscript{pressure} & 1014 & 1017 & 1016 & 1013\\
+main\textsubscript{humidity} & 55 & 63 & 84 & 61\\
+main\textsubscript{sea}\textsubscript{level} & 1014 & 1017 & 1016 & 1013\\
+main\textsubscript{grnd}\textsubscript{level} & 1007 & 1010 & 1009 & 1005\\
+wind\textsubscript{speed} & 4.21 & 2.68 & 2.68 & 2.54\\
+wind\textsubscript{deg} & 82 & 206 & 325 & 128\\
+wind\textsubscript{gust} & 5.38 & 4.92 & 4.92 & 1.67\\
+clouds\textsubscript{all} & 100 & 2 & 5 & 48\\
 sys\textsubscript{type} & 2 & 2 & 2 & 2\\
-sys\textsubscript{id} & 18549 & 18549 & 18549 & 18549\\
+sys\textsubscript{id} & 18549 & 18549 & 2032131 & 18549\\
 sys\textsubscript{country} & ES & ES & ES & ES\\
-sys\textsubscript{sunrise} & 1783916942 & 1783916942 & 1783830497 & 1783916942\\
-sys\textsubscript{sunset} & 1783970683 & 1783970683 & 1783884314 & 1783970683\\
+sys\textsubscript{sunrise} & 1783830497 & 1784003388 & 1784003388 & 1783916941\\
+sys\textsubscript{sunset} & 1783884314 & 1784057051 & 1784057051 & 1783970683\\
 \end{tabular}
 \end{table}
 Con eso conseguimos nuestros datos limpios y planos para un posterior análisis
 \subsection{Script ejecutable sh}
-\label{sec:org3109096}
+\label{sec:org4789f19}
 Para ejecutar nuestro script, es necesario conocer donde se encuentra
 sh y para ello utilizamos el comando \texttt{which}.
 \begin{verbatim}
 which sh
 \end{verbatim}
 \phantomsection
-\label{org9d1e5d4}
+\label{org728632a}
 \begin{verbatim}
 /usr/bin/sh
 \end{verbatim}
@@ -413,7 +439,7 @@ que será utilizado para la ejecución del script
 which mamba
 \end{verbatim}
 \phantomsection
-\label{orga8a8d55}
+\label{orgc8a5cf5}
 \begin{verbatim}
 /home/juand/miniforge3/condabin/mamba
 \end{verbatim}
@@ -423,13 +449,13 @@ Con esto el archivo ejecutable contiene
 #!/usr/bin/sh
 /home/juand/miniforge3/envs/iccd332/bin/python /home/juand/BarcelonaWeather/main.py
 \end{verbatim}
-Finalmente se convierte en ejecutable dandole permisos de ejecución
+Finalmente se convierte en ejecutable dándole permisos de ejecución
 \begin{verbatim}
 #!/usr/bin/sh
 chmod +x /home/juand/BarcelonaWeather/get-weather.sh
 \end{verbatim}
 \subsection{Configuración de Crontab}
-\label{sec:org6de8218}
+\label{sec:orgb9bab75}
 Para crontab, se configura para un intervalo de 15 minutos, con la
 ejecución de nuestro script previamente creado. Guarda en el archivo
 output.log tanto la salida como los errores generados
@@ -437,14 +463,14 @@ output.log tanto la salida como los errores generados
 */15 * * * * cd /home/juand/BarcelonaWeather && ./get-weather.sh >> /home/juand/BarcelonaWeather/output.log 2>&1
 \end{verbatim}
 \section{Presentación de resultados}
-\label{sec:orgd52344b}
-Para la pressentación de resultados se utilizan las librerías de Python:
+\label{sec:orgc2a6a9d}
+Para la presentación de resultados se utilizan las librerías de Python:
 \begin{itemize}
 \item matplotlib
 \item pandas
 \end{itemize}
 \subsection{Muestra Aleatoria de datos}
-\label{sec:org07994e7}
+\label{sec:org1f53323}
 Presentar una muestra de 10 valores aleatorios de los datos obtenidos.
 \begin{verbatim}
 import os
@@ -464,9 +490,9 @@ print(df.shape)
 \end{verbatim}
 \captionof{figure}{Lectura de archivo csv}
 \phantomsection
-\label{org960e26b}
+\label{org5928fcc}
 \begin{verbatim}
-(236, 27)
+(255, 27)
 \end{verbatim}
 
 
@@ -482,25 +508,25 @@ table = [list(table1)]+[None]+table1.values.tolist()
 \captionof{figure}{Despliegue de datos aleatorios}
 
 \begin{table}[htbp]
-\label{tab:org50ff5cf}
+\label{tab:org91314e9}
 \centering
 \begin{tabular}{lrlrrlrlrrrrrrrrrrrrrrrrlll}
 base & visibility & dt & timezone & id & name & cod & weather\textsubscript{description} & coord\textsubscript{lon} & coord\textsubscript{lat} & main\textsubscript{temp} & main\textsubscript{feels}\textsubscript{like} & main\textsubscript{temp}\textsubscript{min} & main\textsubscript{temp}\textsubscript{max} & main\textsubscript{pressure} & main\textsubscript{humidity} & main\textsubscript{sea}\textsubscript{level} & main\textsubscript{grnd}\textsubscript{level} & wind\textsubscript{speed} & wind\textsubscript{deg} & wind\textsubscript{gust} & clouds\textsubscript{all} & sys\textsubscript{type} & sys\textsubscript{id} & sys\textsubscript{country} & sys\textsubscript{sunrise} & sys\textsubscript{sunset}\\
 \hline
-stations & 10000 & 2026-07-13 00:41:44 & 7200 & 3128760 & Barcelona & 200 & broken clouds & 2.159 & 41.3888 & 25.81 & 25.75 & 24.61 & 26.5 & 1014 & 50 & 1014 & 1006 & 0.45 & 75 & 2.68 & 59 & 2 & 18549 & ES & 2026-07-12 23:29:02 & 2026-07-13 14:24:43\\
-stations & 10000 & 2026-07-13 07:25:58 & 7200 & 3128760 & Barcelona & 200 & scattered clouds & 2.159 & 41.3888 & 28.99 & 32.52 & 27.52 & 32.58 & 1014 & 69 & 1014 & 1007 & 1.34 & 77 & 4.47 & 49 & 2 & 18549 & ES & 2026-07-12 23:29:02 & 2026-07-13 14:24:43\\
-stations & 10000 & 2026-07-14 00:10:57 & 7200 & 3128760 & Barcelona & 200 & clear sky & 2.159 & 41.3888 & 25.26 & 25.67 & 24.19 & 26.29 & 1015 & 70 & 1015 & 1008 & 1.34 & 319 & 2.24 & 5 & 2 & 18549 & ES & 2026-07-13 23:29:48 & 2026-07-14 14:24:11\\
-stations & 10000 & 2026-07-13 00:15:01 & 7200 & 3128760 & Barcelona & 200 & broken clouds & 2.159 & 41.3888 & 25.42 & 25.38 & 23.68 & 26.5 & 1014 & 52 & 1014 & 1006 & 2.92 & 59 & 3.41 & 51 & 2 & 18549 & ES & 2026-07-12 23:29:02 & 2026-07-13 14:24:43\\
-stations & 10000 & 2026-07-12 10:25:12 & 7200 & 3128760 & Barcelona & 200 & overcast clouds & 2.159 & 41.3888 & 29.61 & 31.09 & 27.96 & 33.69 & 1015 & 54 & 1015 & 1007 & 4.54 & 96 & 5.88 & 99 & 2 & 18549 & ES & 2026-07-11 23:28:17 & 2026-07-12 14:25:14\\
-stations & 10000 & 2026-07-14 12:40:54 & 7200 & 3128760 & Barcelona & 200 & clear sky & 2.1606 & 41.3891 & 30.25 & 33.97 & 28.67 & 33.47 & 1015 & 63 & 1015 & 1008 & 0.89 & 160 & 3.58 & 7 & 2 & 18549 & ES & 2026-07-13 23:29:48 & 2026-07-14 14:24:11\\
-stations & 10000 & 2026-07-13 16:25:31 & 7200 & 3128760 & Barcelona & 200 & clear sky & 2.159 & 41.3888 & 26.62 & 26.62 & 25.86 & 27.47 & 1015 & 72 & 1015 & 1006 & 1.52 & 174 & 1.58 & 8 & 2 & 18549 & ES & 2026-07-12 23:29:02 & 2026-07-13 14:24:43\\
-stations & 10000 & 2026-07-12 11:22:43 & 7200 & 3128760 & Barcelona & 200 & overcast clouds & 2.159 & 41.3888 & 28.71 & 30.55 & 26.97 & 32.02 & 1015 & 60 & 1015 & 1007 & 4.78 & 87 & 6.01 & 99 & 2 & 18549 & ES & 2026-07-11 23:28:17 & 2026-07-12 14:25:14\\
-stations & 10000 & 2026-07-13 03:42:42 & 7200 & 3128760 & Barcelona & 200 & scattered clouds & 2.159 & 41.3888 & 28.81 & 29.9 & 27.96 & 31.28 & 1014 & 54 & 1014 & 1006 & 4.86 & 90 & 6.34 & 38 & 2 & 18549 & ES & 2026-07-12 23:29:02 & 2026-07-13 14:24:43\\
-stations & 10000 & 2026-07-13 04:11:07 & 7200 & 3128760 & Barcelona & 200 & scattered clouds & 2.1606 & 41.3891 & 30.29 & 32.01 & 28.3 & 32.43 & 1014 & 53 & 1014 & 1006 & 4.86 & 90 & 6.34 & 38 & 2 & 18549 & ES & 2026-07-12 23:29:01 & 2026-07-13 14:24:43\\
+stations & 10000 & 2026-07-14 10:30:01 & 7200 & 3128760 & Barcelona & 200 & clear sky & 2.159 & 41.3888 & 30.95 & 35.24 & 29.78 & 34.24 & 1016 & 62 & 1016 & 1008 & 1.34 & 107 & 2.68 & 10 & 2 & 18549 & ES & 2026-07-13 23:29:48 & 2026-07-14 14:24:11\\
+stations & 10000 & 2026-07-13 23:11:20 & 7200 & 3128760 & Barcelona & 200 & clear sky & 2.159 & 41.3888 & 25.24 & 25.73 & 23.95 & 26.29 & 1015 & 73 & 1015 & 1008 & 2.5 & 71 & 2.32 & 3 & 2 & 18549 & ES & 2026-07-13 23:29:48 & 2026-07-14 14:24:11\\
+stations & 10000 & 2026-07-12 12:52:12 & 7200 & 3128760 & Barcelona & 200 & overcast clouds & 2.159 & 41.3888 & 28.77 & 30.23 & 26.97 & 31.46 & 1014 & 57 & 1014 & 1006 & 4.43 & 78 & 5.52 & 100 & 2 & 18549 & ES & 2026-07-11 23:28:17 & 2026-07-12 14:25:14\\
+stations & 10000 & 2026-07-13 20:55:29 & 7200 & 3128760 & Barcelona & 200 & clear sky & 2.159 & 41.3888 & 25.67 & 26.2 & 24.75 & 26.29 & 1015 & 73 & 1015 & 1008 & 2.33 & 76 & 2.15 & 6 & 2 & 18549 & ES & 2026-07-13 23:29:48 & 2026-07-14 14:24:11\\
+stations & 10000 & 2026-07-13 08:09:44 & 7200 & 3128760 & Barcelona & 200 & overcast clouds & 2.159 & 41.3888 & 29.95 & 33.35 & 28.16 & 32.57 & 1014 & 63 & 1014 & 1006 & 4.64 & 95 & 4.5 & 85 & 2 & 18549 & ES & 2026-07-12 23:29:02 & 2026-07-13 14:24:43\\
+stations & 10000 & 2026-07-12 11:14:51 & 7200 & 3128760 & Barcelona & 200 & overcast clouds & 2.159 & 41.3888 & 28.78 & 30.67 & 26.97 & 31.46 & 1015 & 60 & 1015 & 1007 & 4.78 & 87 & 6.01 & 99 & 2 & 18549 & ES & 2026-07-11 23:28:17 & 2026-07-12 14:25:14\\
+stations & 10000 & 2026-07-14 18:00:07 & 7200 & 3128760 & Barcelona & 200 & scattered clouds & 2.1648 & 41.3926 & 27.14 & 28.83 & 26.44 & 28.17 & 1015 & 67 & 1015 & 1009 & 0.45 & 115 & 0.89 & 42 & 2 & 18549 & ES & 2026-07-14 23:30:33 & 2026-07-15 14:23:36\\
+stations & 10000 & 2026-07-14 17:57:32 & 7200 & 3128760 & Barcelona & 200 & scattered clouds & 2.159 & 41.3888 & 27.12 & 28.8 & 26.42 & 28.16 & 1015 & 67 & 1015 & 1007 & 1.09 & 14 & 1.7 & 42 & 2 & 18549 & ES & 2026-07-14 23:30:35 & 2026-07-15 14:23:36\\
+stations & 10000 & 2026-07-13 18:29:43 & 7200 & 3128760 & Barcelona & 200 & clear sky & 2.159 & 41.3888 & 26.25 & 26.25 & 25.64 & 26.85 & 1015 & 70 & 1015 & 1007 & 0.45 & 31 & 1.79 & 5 & 2 & 18549 & ES & 2026-07-13 23:29:48 & 2026-07-14 14:24:11\\
+stations & 10000 & 2026-07-12 20:58:12 & 7200 & 3128760 & Barcelona & 200 & broken clouds & 2.159 & 41.3888 & 25.99 & 25.99 & 23.58 & 27.58 & 1014 & 48 & 1014 & 1007 & 2.84 & 45 & 3.08 & 71 & 2 & 18549 & ES & 2026-07-12 23:29:02 & 2026-07-13 14:24:43\\
 \end{tabular}
 \end{table}
 \subsection{Gráfica Temperatura vs Tiempo}
-\label{sec:orgbb58b31}
+\label{sec:org0bea7c0}
 Realizar una gráfica de la Temperatura en el tiempo.
 \begin{verbatim}
 import matplotlib.pyplot as plt
@@ -526,7 +552,7 @@ fname
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{./images/Temperatura.png}
-\caption{\label{fig:org72d0dbc}Gráfica Humedad vs Temperatura}
+\caption{\label{fig:org81dd14d}Gráfica Humedad vs Temperatura}
 \end{figure}
 
 Debido a que el archivo index.org se abre dentro de la carpeta
@@ -538,7 +564,7 @@ equivalente en \texttt{/public/images}
 cp -rfv ./images/* ~/BarcelonaWeather/weather-site/public/images
 \end{verbatim}
 \subsection{Realice una gráfica de Humedad con respecto al tiempo}
-\label{sec:orgf1f6808}
+\label{sec:org23ae7d1}
 \begin{verbatim}
 fig = plt.figure(figsize=(8,6))
 plt.plot(df['dt'], df['main_humidity']) # dibuja las variables dt y temperatura
@@ -559,10 +585,10 @@ fname
 
 \begin{center}
 \includegraphics[width=.9\linewidth]{./images/Humidity.png}
-\label{org3d18321}
+\label{org1caf374}
 \end{center}
 \subsection{\textbf{Opcional} Presente alguna gráfica de interés.}
-\label{sec:org2ac727f}
+\label{sec:org2639c24}
 Se realiza un gráfico de mapa de calor de correlaciones
 \begin{verbatim}
 import seaborn as sns
@@ -580,20 +606,18 @@ fname
 
 \begin{center}
 \includegraphics[width=.9\linewidth]{./images/HeapMap.png}
-\label{orgbc9c081}
+\label{org57c96ac}
 \end{center}
-\section{Instrucciones Java Script}
-\label{sec:org8b44ff0}
-En la siguiente página se indica cómo integrar \texttt{javascript} como un
-alternativa para testear el código.
-\href{index.org}{
-JavaScript}
 \section{Referencias}
-\label{sec:org2030d78}
+\label{sec:org19246d9}
 \begin{itemize}
 \item \href{https://emacs.stackexchange.com/questions/28715/get-pandas-data-frame-as-a-table-in-org-babel}{presentar dataframe como tabla en emacs org}
 \item \href{https://orgmode.org/worg/org-contrib/babel/languages/ob-doc-python.html}{Python Source Code Blocks in Org Mode}
 \item \href{https://systemcrafters.net/publishing-websites-with-org-mode/building-the-site/}{Systems Crafters Construir tu sitio web con Modo Emacs Org}
 \item \href{https://www.youtube.com/watch?v=AfkrzFodoNw}{Vídeo Youtube Build Your Website with Org Mode}
 \end{itemize}
+\section{Navegación}
+\label{sec:orge5b724e}
+
+\href{pag2-sumaieee754.org}{Siguiente: Suma IEEE754 →}
 \end{document}

@@ -1,0 +1,947 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es">
+<head>
+<!-- 2026-07-14 mar 22:07 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Implementación del Algoritmo de Suma en Notación de Coma Flotante IEEE 754</title>
+<meta name="author" content="Auz Juan, Lanchimba Danny, Palomeque Matías, Quillupangui Ana María" />
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css" />
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">Implementación del Algoritmo de Suma en Notación de Coma Flotante IEEE 754</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>&Iacute;ndice</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org2dbba6c">1. Introducción</a></li>
+<li><a href="#org15852ff">2. Objetivos</a></li>
+<li><a href="#org8319a56">3. Fundamento teórico</a></li>
+<li><a href="#org87ec1f1">4. Descripción del algoritmo</a>
+<ul>
+<li><a href="#orgc729118">4.1. Conversión de decimal a IEEE754</a></li>
+<li><a href="#org05dffe7">4.2. Alineación de exponentes</a></li>
+<li><a href="#org82aebf4">4.3. Determinación del tipo de operación</a></li>
+<li><a href="#orgfdba9ce">4.4. Operación entre mantisas</a></li>
+<li><a href="#org05ed94d">4.5. Normalización del resultado</a></li>
+<li><a href="#org29462b0">4.6. Ensamblaje final</a></li>
+<li><a href="#org5979755">4.7. Función principal</a></li>
+</ul>
+</li>
+<li><a href="#org7e7711a">5. Capturas de ejecución</a></li>
+<li><a href="#orgc575702">6. Conclusiones</a></li>
+<li><a href="#orge1f0d7d">7. Extra: Ejecución interactiva mediante JavaScript</a></li>
+<li><a href="#orgfb3a8b8">8. Referencias</a></li>
+<li><a href="#org9fc099f">9. Navegación</a></li>
+</ul>
+</div>
+</div>
+<p>
+<a href="../index.html">← Inicio</a> | <a href="../page3-inec.html">Siguiente: Análisis INEC →</a>
+</p>
+<div id="outline-container-org2dbba6c" class="outline-2">
+<h2 id="org2dbba6c"><span class="section-number-2">1.</span> Introducción</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+El estándar IEEE 754 define la representación y las operaciones
+aritméticas para números en punto flotante utilizadas por la mayoría de
+los procesadores actuales.
+</p>
+
+<p>
+En este trabajo se desarrolla una implementación en Python del algoritmo
+de suma de números en formato IEEE 754 de precisión simple (32 bits),
+siguiendo las etapas descritas en el estándar y en la literatura de
+Arquitectura de Computadores.
+</p>
+
+<p>
+El objetivo es comprender el funcionamiento interno de la unidad de
+punto flotante, implementando manualmente las diferentes etapas de
+la suma binaria.
+</p>
+</div>
+</div>
+<div id="outline-container-org15852ff" class="outline-2">
+<h2 id="org15852ff"><span class="section-number-2">2.</span> Objetivos</h2>
+<div class="outline-text-2" id="text-2">
+<ul class="org-ul">
+<li>Comprender la representación IEEE 754 de precisión simple.</li>
+<li>Implementar el algoritmo de suma de punto flotante.</li>
+<li>Analizar cada etapa del algoritmo mediante ejemplos.</li>
+<li>Verificar el correcto funcionamiento mediante diferentes pruebas.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org8319a56" class="outline-2">
+<h2 id="org8319a56"><span class="section-number-2">3.</span> Fundamento teórico</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Un número IEEE 754 de precisión simple ocupa 32 bits distribuidos de la
+siguiente forma:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Campo</th>
+<th scope="col" class="org-right">Bits</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Signo</td>
+<td class="org-right">1</td>
+</tr>
+
+<tr>
+<td class="org-left">Exponente</td>
+<td class="org-right">8</td>
+</tr>
+
+<tr>
+<td class="org-left">Mantisa</td>
+<td class="org-right">23</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+El valor representado está dado por
+</p>
+
+<p>
+\[
+(-1)^S \times 1.M \times 2^{E-127}
+\]
+</p>
+
+<p>
+donde:
+</p>
+
+<ul class="org-ul">
+<li>S representa el bit de signo.</li>
+<li>E es el exponente con sesgo.</li>
+<li>M corresponde a la mantisa.</li>
+</ul>
+
+<p>
+Antes de realizar una suma en punto flotante se siguen las siguientes
+etapas:
+</p>
+
+<ol class="org-ol">
+<li>Comparar exponentes.</li>
+<li>Alinear mantisas.</li>
+<li>Realizar la operación.</li>
+<li>Normalizar el resultado.</li>
+<li>Reempacar el número en formato IEEE754.</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org87ec1f1" class="outline-2">
+<h2 id="org87ec1f1"><span class="section-number-2">4.</span> Descripción del algoritmo</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+El algoritmo desarrollado se divide en cinco etapas principales.
+</p>
+</div>
+<div id="outline-container-orgc729118" class="outline-3">
+<h3 id="orgc729118"><span class="section-number-3">4.1.</span> Conversión de decimal a IEEE754</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+Primero se obtiene el signo del número.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">
+<span style="font-weight: bold;">def</span> <span style="font-weight: bold;">obtenerSigno</span>(numero):
+    <span style="font-style: italic;">"""
+    Devuelve el bit de signo seg&#250;n IEEE754
+    """</span>
+    <span style="font-weight: bold;">if</span> numero &lt; 0:
+        <span style="font-weight: bold;">return</span> 1
+    <span style="font-weight: bold;">else</span>:
+        <span style="font-weight: bold;">return</span> 0
+
+</pre>
+</div>
+
+<p>
+Posteriormente el número se separa en parte entera y decimal.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">
+<span style="font-weight: bold;">def</span> <span style="font-weight: bold;">separarPartes</span>(numero):
+    <span style="font-style: italic;">"""
+    Separa un n&#250;mero en su parte entera y decimal
+    """</span>
+    <span style="font-weight: bold; font-style: italic;">numero</span> = <span style="font-weight: bold;">abs</span>(numero)
+    <span style="font-weight: bold; font-style: italic;">entero</span> = <span style="font-weight: bold;">int</span>(numero)
+    <span style="font-weight: bold; font-style: italic;">decimal</span> = numero - entero
+
+    <span style="font-weight: bold;">return</span> entero, decimal
+
+</pre>
+</div>
+
+<p>
+La parte entera se convierte a binario.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">
+<span style="font-weight: bold;">def</span> <span style="font-weight: bold;">convertirEnteroBinario</span>(entero):
+    <span style="font-style: italic;">"""
+    Devuelve la parte entera en binario
+    """</span>
+    <span style="font-weight: bold;">return</span> <span style="font-weight: bold;">bin</span>(entero).replace(<span style="font-style: italic;">"0b"</span>,<span style="font-style: italic;">""</span>)
+
+</pre>
+</div>
+
+<p>
+La parte fraccionaria se convierte utilizando el algoritmo visto en
+clase.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">
+<span style="font-weight: bold;">def</span> <span style="font-weight: bold;">convertirDecimalBinario</span>(decimal):
+    <span style="font-style: italic;">"""
+    Convierte la parte decimal a binario
+    """</span>
+    <span style="font-weight: bold; font-style: italic;">bits</span> = <span style="font-style: italic;">""</span>
+
+    <span style="font-weight: bold;">while</span> decimal != 0 <span style="font-weight: bold;">and</span> <span style="font-weight: bold;">len</span>(bits) &lt; 23:
+
+        <span style="font-weight: bold; font-style: italic;">decimal</span> *= 2
+
+        <span style="font-weight: bold;">if</span> decimal &gt;= 1:
+            <span style="font-weight: bold; font-style: italic;">bits</span> += <span style="font-style: italic;">"1"</span>
+            <span style="font-weight: bold; font-style: italic;">decimal</span> -= 1
+        <span style="font-weight: bold;">else</span>:
+            <span style="font-weight: bold; font-style: italic;">bits</span> += <span style="font-style: italic;">"0"</span>
+
+    <span style="font-weight: bold;">if</span> bits == <span style="font-style: italic;">""</span>:
+        <span style="font-weight: bold;">return</span> <span style="font-style: italic;">"0"</span>
+
+    <span style="font-weight: bold;">return</span> bits
+
+</pre>
+</div>
+
+<p>
+Se unen ambas partes.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">
+<span style="font-weight: bold;">def</span> <span style="font-weight: bold;">convertirBinario</span>(numero):
+    <span style="font-style: italic;">"""
+    Convierte un n&#250;mero decimal a binario
+    """</span>
+    <span style="font-weight: bold; font-style: italic;">entero</span>, <span style="font-weight: bold; font-style: italic;">decimal</span> = separarPartes(numero)
+    <span style="font-weight: bold;">return</span> convertirEnteroBinario(entero) + <span style="font-style: italic;">"."</span> + convertirDecimalBinario(decimal)
+
+</pre>
+</div>
+
+<p>
+Posteriormente se normaliza el número.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">
+<span style="font-weight: bold;">def</span> <span style="font-weight: bold;">normalizar</span>(binario):
+    <span style="font-style: italic;">"""
+    Normaliza el n&#250;mero binario
+    """</span>
+    <span style="font-weight: bold; font-style: italic;">entero</span>, <span style="font-weight: bold; font-style: italic;">decimal</span> = binario.split(<span style="font-style: italic;">"."</span>)
+
+    <span style="font-weight: bold;">if</span> entero != <span style="font-style: italic;">"0"</span>:
+        <span style="font-weight: bold; font-style: italic;">exponente</span> = <span style="font-weight: bold;">len</span>(entero) - 1
+        <span style="font-weight: bold; font-style: italic;">mantisa</span> = entero[1:] + decimal
+        <span style="font-weight: bold;">return</span> mantisa, exponente
+
+    <span style="font-weight: bold; font-style: italic;">indice</span> = decimal.index(<span style="font-style: italic;">"1"</span>)
+    <span style="font-weight: bold; font-style: italic;">exponente</span> = -(indice + 1)
+    <span style="font-weight: bold; font-style: italic;">mantisa</span> = decimal[indice + 1:]
+
+    <span style="font-weight: bold;">return</span> mantisa, exponente
+
+</pre>
+</div>
+
+<p>
+El exponente se sesga con 127.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">
+<span style="font-weight: bold;">def</span> <span style="font-weight: bold;">calcularExponente</span>(exponente):
+    <span style="font-style: italic;">"""
+    Calcula el exponente sesgado
+    """</span>
+    <span style="font-weight: bold; font-style: italic;">exponente</span> = exponente + 127
+    <span style="font-weight: bold; font-style: italic;">binario</span> = <span style="font-weight: bold;">bin</span>(exponente).replace(<span style="font-style: italic;">"0b"</span>,<span style="font-style: italic;">""</span>)
+    <span style="font-weight: bold;">return</span> binario.zfill(8)
+
+</pre>
+</div>
+
+<p>
+Finalmente la mantisa se ajusta a 23 bits.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">
+<span style="font-weight: bold;">def</span> <span style="font-weight: bold;">ajustarMantisa</span>(mantisa):
+    <span style="font-style: italic;">"""
+    Ajusta la mantisa a 23 bits
+    """</span>
+    <span style="font-weight: bold;">return</span> mantisa.ljust(23,<span style="font-style: italic;">"0"</span>)
+
+</pre>
+</div>
+
+<p>
+Con todas las funciones anteriores se implementa la conversión completa.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">
+<span style="font-weight: bold;">def</span> <span style="font-weight: bold;">convertirIEEE754</span>(numero):
+    <span style="font-style: italic;">"""
+    Convierte un n&#250;mero decimal a IEEE754
+    """</span>
+
+    <span style="font-weight: bold;">if</span> numero == 0:
+        <span style="font-weight: bold;">return</span> {
+            <span style="font-style: italic;">"signo"</span>:<span style="font-style: italic;">"0"</span>,
+            <span style="font-style: italic;">"exponente"</span>:<span style="font-style: italic;">"00000000"</span>,
+            <span style="font-style: italic;">"mantisa"</span>:<span style="font-style: italic;">"00000000000000000000000"</span>,
+            <span style="font-style: italic;">"ieee754"</span>:<span style="font-style: italic;">"00000000000000000000000000000000"</span>
+        }
+
+    <span style="font-weight: bold; font-style: italic;">signo</span> = <span style="font-weight: bold;">str</span>(obtenerSigno(numero))
+
+    <span style="font-weight: bold; font-style: italic;">binario</span> = convertirBinario(numero)
+
+    <span style="font-weight: bold; font-style: italic;">mantisa</span>, <span style="font-weight: bold; font-style: italic;">exponente</span> = normalizar(binario)
+
+    <span style="font-weight: bold; font-style: italic;">exponenteIEEE</span> = calcularExponente(exponente)
+
+    <span style="font-weight: bold; font-style: italic;">mantisaIEEE</span> = ajustarMantisa(mantisa)
+
+    <span style="font-weight: bold; font-style: italic;">ieee754</span> = signo + exponenteIEEE + mantisaIEEE
+
+    <span style="font-weight: bold;">return</span> {
+        <span style="font-style: italic;">"signo"</span>:signo,
+        <span style="font-style: italic;">"binario"</span>:binario,
+        <span style="font-style: italic;">"exponenteReal"</span>:exponente,
+        <span style="font-style: italic;">"exponenteSesgado"</span>:exponenteIEEE,
+        <span style="font-style: italic;">"mantisa"</span>:mantisaIEEE,
+        <span style="font-style: italic;">"ieee754"</span>:ieee754
+    }
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org05dffe7" class="outline-3">
+<h3 id="org05dffe7"><span class="section-number-3">4.2.</span> Alineación de exponentes</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+Para poder sumar dos números IEEE754 ambos deben poseer el mismo
+exponente.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">
+<span style="font-weight: bold;">def</span> <span style="font-weight: bold;">alinearExponentes</span>(exp1,mant1,exp2,mant2):
+
+    <span style="font-weight: bold; font-style: italic;">mant1</span> = <span style="font-style: italic;">"1"</span> + mant1
+    <span style="font-weight: bold; font-style: italic;">mant2</span> = <span style="font-style: italic;">"1"</span> + mant2
+
+    <span style="font-weight: bold;">while</span> exp1 &lt; exp2:
+        <span style="font-weight: bold; font-style: italic;">mant1</span> = <span style="font-style: italic;">"0"</span> + mant1[:-1]
+        <span style="font-weight: bold; font-style: italic;">exp1</span> += 1
+
+    <span style="font-weight: bold;">while</span> exp2 &lt; exp1:
+        <span style="font-weight: bold; font-style: italic;">mant2</span> = <span style="font-style: italic;">"0"</span> + mant2[:-1]
+        <span style="font-weight: bold; font-style: italic;">exp2</span> += 1
+
+    <span style="font-weight: bold;">return</span> exp1, mant1, mant2
+
+<span style="font-weight: bold;">print</span>(
+    alinearExponentes(
+        1,
+        <span style="font-style: italic;">"01000000000000000000000"</span>,
+        0,
+        <span style="font-style: italic;">"01000000000000000000000"</span>
+    )
+)
+</pre>
+</div>
+
+<pre class="example">
+(1, '101000000000000000000000', '010100000000000000000000')
+</pre>
+</div>
+</div>
+<div id="outline-container-org82aebf4" class="outline-3">
+<h3 id="org82aebf4"><span class="section-number-3">4.3.</span> Determinación del tipo de operación</h3>
+<div class="outline-text-3" id="text-4-3">
+<p>
+Una vez alineados los exponentes, el algoritmo determina si debe
+realizar una suma o una resta dependiendo del signo de ambos
+operandos. Cuando los signos son diferentes, también se determina
+cuál de las mantisas tiene el mayor valor absoluto para garantizar
+que la resta produzca un resultado positivo.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">
+<span style="font-weight: bold;">def</span> <span style="font-weight: bold;">determinarSignoYOrden</span>(signo1, signo2, mant1, mant2):
+    <span style="font-style: italic;">"""
+    Compara los signos para decidir si se suma o se resta.
+    Adem&#225;s, ordena las mantisas para que la resta sea siempre positiva,
+    y determina cu&#225;l ser&#225; el signo del resultado final.
+    """</span>
+
+    <span style="font-weight: bold; font-style: italic;">val1</span> = <span style="font-weight: bold;">int</span>(mant1, 2)
+    <span style="font-weight: bold; font-style: italic;">val2</span> = <span style="font-weight: bold;">int</span>(mant2, 2)
+
+    <span style="font-weight: bold;">if</span> signo1 == signo2:
+        <span style="font-weight: bold;">return</span> signo1, <span style="font-style: italic;">"suma"</span>, mant1, mant2
+
+    <span style="font-weight: bold;">else</span>:
+
+        <span style="font-weight: bold;">if</span> val1 &gt;= val2:
+            <span style="font-weight: bold;">return</span> signo1, <span style="font-style: italic;">"resta"</span>, mant1, mant2
+        <span style="font-weight: bold;">else</span>:
+            <span style="font-weight: bold;">return</span> signo2, <span style="font-style: italic;">"resta"</span>, mant2, mant1
+
+<span style="font-weight: bold;">print</span>(
+    determinarSignoYOrden(
+        <span style="font-style: italic;">"0"</span>,
+        <span style="font-style: italic;">"1"</span>,
+        <span style="font-style: italic;">"101000000000000000000000"</span>,
+        <span style="font-style: italic;">"010100000000000000000000"</span>
+    )
+)
+
+</pre>
+</div>
+
+<pre class="example">
+('0', 'resta', '101000000000000000000000', '010100000000000000000000')
+</pre>
+</div>
+</div>
+<div id="outline-container-orgfdba9ce" class="outline-3">
+<h3 id="orgfdba9ce"><span class="section-number-3">4.4.</span> Operación entre mantisas</h3>
+<div class="outline-text-3" id="text-4-4">
+<p>
+La suma y la resta de las mantisas se implementan utilizando únicamente
+operaciones binarias bit a bit, reproduciendo el comportamiento de una
+unidad aritmética lógica.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">
+<span style="font-weight: bold;">def</span> <span style="font-weight: bold;">operarMantisas</span>(mantMayor, mantMenor, operacion):
+    <span style="font-style: italic;">"""
+    Suma o resta mantisas binarias utilizando operaciones
+    bit a bit.
+    Retorna el resultado en binario.
+    """</span>
+    <span style="font-weight: bold;">while</span> <span style="font-weight: bold;">len</span>(mantMayor) &gt; <span style="font-weight: bold;">len</span>(mantMenor):
+        <span style="font-weight: bold; font-style: italic;">mantMenor</span> = <span style="font-style: italic;">"0"</span> + mantMenor
+
+    <span style="font-weight: bold;">while</span> <span style="font-weight: bold;">len</span>(mantMenor) &gt; <span style="font-weight: bold;">len</span>(mantMayor):
+        <span style="font-weight: bold; font-style: italic;">mantMayor</span> = <span style="font-style: italic;">"0"</span> + mantMayor
+
+    <span style="font-weight: bold;">if</span> operacion == <span style="font-style: italic;">"suma"</span>:
+        <span style="font-weight: bold; font-style: italic;">resultado</span> = <span style="font-style: italic;">""</span>
+        <span style="font-weight: bold; font-style: italic;">acarreo</span> = 0
+
+        <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Se recorren las cadenas desde el bit menos significativo
+</span>        <span style="font-weight: bold;">for</span> i <span style="font-weight: bold;">in</span> <span style="font-weight: bold;">range</span>(<span style="font-weight: bold;">len</span>(mantMayor)-1, -1, -1):
+
+            <span style="font-weight: bold; font-style: italic;">bit1</span> = <span style="font-weight: bold;">int</span>(mantMayor[i])
+            <span style="font-weight: bold; font-style: italic;">bit2</span> = <span style="font-weight: bold;">int</span>(mantMenor[i])
+
+            <span style="font-weight: bold; font-style: italic;">suma</span> = bit1 + bit2 + acarreo
+
+            <span style="font-weight: bold;">if</span> suma == 0:
+                <span style="font-weight: bold; font-style: italic;">resultado</span> = <span style="font-style: italic;">"0"</span> + resultado
+                <span style="font-weight: bold; font-style: italic;">acarreo</span> = 0
+
+            <span style="font-weight: bold;">elif</span> suma == 1:
+                <span style="font-weight: bold; font-style: italic;">resultado</span> = <span style="font-style: italic;">"1"</span> + resultado
+                <span style="font-weight: bold; font-style: italic;">acarreo</span> = 0
+
+            <span style="font-weight: bold;">elif</span> suma == 2:
+                <span style="font-weight: bold; font-style: italic;">resultado</span> = <span style="font-style: italic;">"0"</span> + resultado
+                <span style="font-weight: bold; font-style: italic;">acarreo</span> = 1
+
+            <span style="font-weight: bold;">else</span>:
+                <span style="font-weight: bold; font-style: italic;">resultado</span> = <span style="font-style: italic;">"1"</span> + resultado
+                <span style="font-weight: bold; font-style: italic;">acarreo</span> = 1
+
+        <span style="font-weight: bold;">if</span> acarreo == 1:
+            <span style="font-weight: bold; font-style: italic;">resultado</span> = <span style="font-style: italic;">"1"</span> + resultado
+
+        <span style="font-weight: bold;">return</span> resultado
+
+    <span style="font-weight: bold;">else</span>:
+        <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Resta binaria
+</span>        <span style="font-weight: bold; font-style: italic;">resultado</span> = <span style="font-style: italic;">""</span>
+        <span style="font-weight: bold; font-style: italic;">prestamo</span> = 0
+
+        <span style="font-weight: bold;">for</span> i <span style="font-weight: bold;">in</span> <span style="font-weight: bold;">range</span>(<span style="font-weight: bold;">len</span>(mantMayor)-1, -1, -1):
+
+            <span style="font-weight: bold; font-style: italic;">bit1</span> = <span style="font-weight: bold;">int</span>(mantMayor[i]) - prestamo
+            <span style="font-weight: bold; font-style: italic;">bit2</span> = <span style="font-weight: bold;">int</span>(mantMenor[i])
+
+            <span style="font-weight: bold;">if</span> bit1 &lt; bit2:
+                <span style="font-weight: bold; font-style: italic;">bit1</span> += 2
+                <span style="font-weight: bold; font-style: italic;">prestamo</span> = 1
+            <span style="font-weight: bold;">else</span>:
+                <span style="font-weight: bold; font-style: italic;">prestamo</span> = 0
+
+            <span style="font-weight: bold; font-style: italic;">diferencia</span> = bit1 - bit2
+
+            <span style="font-weight: bold; font-style: italic;">resultado</span> = <span style="font-weight: bold;">str</span>(diferencia) + resultado
+
+        <span style="font-weight: bold;">return</span> resultado
+
+<span style="font-weight: bold;">print</span>(
+    operarMantisas(
+        <span style="font-style: italic;">"101000000000000000000000"</span>,
+        <span style="font-style: italic;">"010100000000000000000000"</span>,
+        <span style="font-style: italic;">"suma"</span>
+    )
+)
+
+</pre>
+</div>
+
+<pre class="example">
+111100000000000000000000
+</pre>
+</div>
+</div>
+<div id="outline-container-org05ed94d" class="outline-3">
+<h3 id="org05ed94d"><span class="section-number-3">4.5.</span> Normalización del resultado</h3>
+<div class="outline-text-3" id="text-4-5">
+<p>
+Después de la operación puede aparecer un acarreo adicional o bien
+desaparecer el bit implícito debido a una resta. En ambos casos es
+necesario ajustar nuevamente el exponente y la mantisa.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">
+<span style="font-weight: bold;">def</span> <span style="font-weight: bold;">normalizarResultado</span>(mantResultado, expComun):
+
+    <span style="font-weight: bold;">if</span> mantResultado == <span style="font-style: italic;">"0"</span>:
+        <span style="font-weight: bold;">return</span> <span style="font-style: italic;">"0"</span>, 0
+
+    <span style="font-weight: bold; font-style: italic;">exponente</span> = expComun
+
+    <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Caso suma
+</span>    <span style="font-weight: bold;">if</span> <span style="font-weight: bold;">len</span>(mantResultado) &gt; 24:
+        <span style="font-weight: bold; font-style: italic;">mantResultado</span> = mantResultado[1:]
+        <span style="font-weight: bold; font-style: italic;">exponente</span> += 1
+
+    <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Caso resta
+</span>    <span style="font-weight: bold;">while</span> mantResultado[0] == <span style="font-style: italic;">"0"</span>:
+        <span style="font-weight: bold; font-style: italic;">mantResultado</span> = mantResultado[1:] + <span style="font-style: italic;">"0"</span>
+        <span style="font-weight: bold; font-style: italic;">exponente</span> -= 1
+
+    <span style="font-weight: bold; font-style: italic;">mantisa</span> = mantResultado[1:]
+
+    <span style="font-weight: bold;">return</span> mantisa[:23], exponente
+
+<span style="font-weight: bold;">print</span>(
+    normalizarResultado(
+        <span style="font-style: italic;">"111100000000000000000000"</span>,
+        1
+    )
+)
+
+</pre>
+</div>
+
+<pre class="example">
+('11100000000000000000000', 1)
+</pre>
+</div>
+</div>
+<div id="outline-container-org29462b0" class="outline-3">
+<h3 id="org29462b0"><span class="section-number-3">4.6.</span> Ensamblaje final</h3>
+<div class="outline-text-3" id="text-4-6">
+<p>
+Una vez obtenidos el signo, el exponente y la mantisa normalizados,
+se construye nuevamente la palabra de 32 bits correspondiente al
+formato IEEE754.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="font-weight: bold;">def</span> <span style="font-weight: bold;">ensamblarIEEE754</span>(signo, exponenteReal, mantisa):
+    <span style="font-style: italic;">"""
+    Construye el n&#250;mero IEEE754 final.
+    """</span>
+
+    <span style="font-weight: bold;">if</span> mantisa == <span style="font-style: italic;">"0"</span> <span style="font-weight: bold;">and</span> exponenteReal == 0:
+        <span style="font-weight: bold;">return</span> <span style="font-style: italic;">"00000000000000000000000000000000"</span>
+
+    <span style="font-weight: bold; font-style: italic;">exponenteIEEE</span> = calcularExponente(exponenteReal)
+
+    <span style="font-weight: bold; font-style: italic;">mantisaIEEE</span> = ajustarMantisa(mantisa)[:23]
+
+    <span style="font-weight: bold;">return</span> signo + exponenteIEEE + mantisaIEEE
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org5979755" class="outline-3">
+<h3 id="org5979755"><span class="section-number-3">4.7.</span> Función principal</h3>
+<div class="outline-text-3" id="text-4-7">
+<p>
+La siguiente función integra todas las etapas del algoritmo descritas
+anteriormente.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">
+<span style="font-weight: bold;">def</span> <span style="font-weight: bold;">sumarIEEE754</span>(num1, num2):
+    <span style="font-style: italic;">"""
+    Funci&#243;n principal del algoritmo.
+    """</span>
+
+    <span style="font-weight: bold;">if</span> num1 == 0:
+        <span style="font-weight: bold;">return</span> {
+            <span style="font-style: italic;">"resultadoIEEE754"</span>: convertirIEEE754(num2)[<span style="font-style: italic;">"ieee754"</span>]
+        }
+
+    <span style="font-weight: bold;">if</span> num2 == 0:
+        <span style="font-weight: bold;">return</span> {
+            <span style="font-style: italic;">"resultadoIEEE754"</span>: convertirIEEE754(num1)[<span style="font-style: italic;">"ieee754"</span>]
+        }
+
+    <span style="font-weight: bold; font-style: italic;">ieee1</span> = convertirIEEE754(num1)
+    <span style="font-weight: bold; font-style: italic;">ieee2</span> = convertirIEEE754(num2)
+
+    <span style="font-weight: bold; font-style: italic;">expComun</span>, <span style="font-weight: bold; font-style: italic;">mant1Alineada</span>, <span style="font-weight: bold; font-style: italic;">mant2Alineada</span> = alinearExponentes(
+        ieee1[<span style="font-style: italic;">"exponenteReal"</span>],
+        ieee1[<span style="font-style: italic;">"mantisa"</span>],
+        ieee2[<span style="font-style: italic;">"exponenteReal"</span>],
+        ieee2[<span style="font-style: italic;">"mantisa"</span>]
+    )
+
+    <span style="font-weight: bold; font-style: italic;">signoFinal</span>, <span style="font-weight: bold; font-style: italic;">operacion</span>, <span style="font-weight: bold; font-style: italic;">mantMayor</span>, <span style="font-weight: bold; font-style: italic;">mantMenor</span> = determinarSignoYOrden(
+        ieee1[<span style="font-style: italic;">"signo"</span>],
+        ieee2[<span style="font-style: italic;">"signo"</span>],
+        mant1Alineada,
+        mant2Alineada
+    )
+
+    <span style="font-weight: bold; font-style: italic;">mantResultado</span> = operarMantisas(
+        mantMayor,
+        mantMenor,
+        operacion
+    )
+
+    <span style="font-weight: bold; font-style: italic;">mantNormalizada</span>, <span style="font-weight: bold; font-style: italic;">expFinal</span> = normalizarResultado(
+        mantResultado,
+        expComun
+    )
+
+    <span style="font-weight: bold; font-style: italic;">resultado</span> = ensamblarIEEE754(
+        signoFinal,
+        expFinal,
+        mantNormalizada
+    )
+
+    <span style="font-weight: bold;">return</span> {
+
+        <span style="font-style: italic;">"exponenteComun"</span>: expComun,
+
+        <span style="font-style: italic;">"mantisa1Alineada"</span>: mant1Alineada,
+        <span style="font-style: italic;">"mantisa2Alineada"</span>: mant2Alineada,
+
+        <span style="font-style: italic;">"signoFinal"</span>: signoFinal,
+        <span style="font-style: italic;">"operacion"</span>: operacion,
+
+        <span style="font-style: italic;">"mantisaMayor"</span>: mantMayor,
+        <span style="font-style: italic;">"mantisaMenor"</span>: mantMenor,
+
+        <span style="font-style: italic;">"mantisaResultado"</span>: mantResultado,
+
+        <span style="font-style: italic;">"mantisaNormalizada"</span>: mantNormalizada,
+        <span style="font-style: italic;">"exponenteFinal"</span>: expFinal,
+
+        <span style="font-style: italic;">"resultadoIEEE754"</span>: resultado
+    }
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org7e7711a" class="outline-2">
+<h2 id="org7e7711a"><span class="section-number-2">5.</span> Capturas de ejecución</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+En esta sección se incluyen las capturas de pantalla obtenidas durante
+la ejecución del programa.
+</p>
+
+<ul class="org-ul">
+<li>Conversión del primer operando.</li>
+<li>Conversión del segundo operando.</li>
+<li>Alineación de exponentes.</li>
+<li>Determinación de la operación.</li>
+<li>Operación sobre las mantisas.</li>
+<li>Normalización del resultado.</li>
+<li>Ensamblaje del número IEEE754.</li>
+<li>Resultado final.</li>
+</ul>
+
+
+<div id="org4c86e0d" class="figure">
+<p><img src="./images/prueba1.png" alt="prueba1.png" />
+</p>
+<p><span class="figure-number">Figura 1: </span>Ejecución del algoritmo para la suma 3.5 + 1.25</p>
+</div>
+
+
+<div id="org338d59b" class="figure">
+<p><img src="./images/prueba2.png" alt="prueba2.png" />
+</p>
+<p><span class="figure-number">Figura 2: </span>Ejecución del algoritmo para la suma 2.5 + (-1.24)</p>
+</div>
+
+
+<div id="orga021e37" class="figure">
+<p><img src="./images/prueba3.png" alt="prueba3.png" />
+</p>
+<p><span class="figure-number">Figura 3: </span>Ejecución del algoritmo para la suma (-5) + (-34)</p>
+</div>
+
+
+<div id="org2907a5b" class="figure">
+<p><img src="./images/prueba4.png" alt="prueba4.png" />
+</p>
+<p><span class="figure-number">Figura 4: </span>Ejecución del algoritmo para la suma 100 + 0.25</p>
+</div>
+
+
+<div id="orgf97b3a8" class="figure">
+<p><img src="./images/prueba5.png" alt="prueba5.png" />
+</p>
+<p><span class="figure-number">Figura 5: </span>Ejecución del algoritmo para la suma 0.1 + 0.2</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgc575702" class="outline-2">
+<h2 id="orgc575702"><span class="section-number-2">6.</span> Conclusiones</h2>
+<div class="outline-text-2" id="text-6">
+<ul class="org-ul">
+<li>Se implementó satisfactoriamente el algoritmo de suma de números en
+formato IEEE754 de precisión simple empleando Python.</li>
+
+<li>El desarrollo permitió comprender el funcionamiento interno de una
+unidad de punto flotante, especialmente el proceso de alineación de
+exponentes, operación entre mantisas y normalización del resultado.</li>
+
+<li>La implementación reproduce las principales etapas descritas por el
+estándar IEEE754 para la suma en punto flotante.</li>
+
+<li>Las pruebas realizadas con números positivos, negativos, enteros y
+fraccionarios mostraron resultados consistentes con la representación
+IEEE754 de precisión simple.</li>
+
+<li>El ejemplo al sumar 0.1 + 0.2 representa los errores que se puede acarrear
+al momento de trabajar con números muy pequeños, al obtener un valor un
+tanto diferente al 0.3 esperado. Esto sucede ya que el algoritmo trunca los
+decimales menos significativos</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orge1f0d7d" class="outline-2">
+<h2 id="orge1f0d7d"><span class="section-number-2">7.</span> Extra: Ejecución interactiva mediante JavaScript</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+La implementación principal del algoritmo IEEE754 fue desarrollada en Python.
+Sin embargo, debido a que los navegadores no pueden ejecutar directamente
+código Python, se desarrolló una versión interactiva utilizando JavaScript,
+el cual puede ser interpretado directamente por el navegador.
+</p>
+
+
+<h2>Suma IEEE754 interactiva</h2>
+
+<p>
+Ingrese dos números para obtener su representación IEEE754.
+</p>
+
+<input type="number" id="num1" placeholder="Primer número">
+
+<input type="number" id="num2" placeholder="Segundo número">
+
+<button onclick="sumarIEEE()">Sumar</button>
+
+<h3>Resultado:</h3>
+
+<p id="resultado"></p>
+
+
+<script>
+
+function obtenerSigno(numero){
+    if(numero < 0){
+        return "1";
+    }
+    return "0";
+}
+
+
+function convertirIEEE754(numero){
+
+    let buffer = new ArrayBuffer(4);
+    let vista = new DataView(buffer);
+
+    vista.setFloat32(0, numero);
+
+    let bits = vista.getUint32(0).toString(2);
+
+    bits = bits.padStart(32,"0");
+
+    return {
+        signo: bits.substring(0,1),
+        exponente: bits.substring(1,9),
+        mantisa: bits.substring(9,32),
+        ieee754: bits
+    };
+}
+
+
+function sumarIEEE(){
+
+    let num1 = parseFloat(document.getElementById("num1").value);
+    let num2 = parseFloat(document.getElementById("num2").value);
+
+
+    let ieee1 = convertirIEEE754(num1);
+    let ieee2 = convertirIEEE754(num2);
+
+
+    let resultado = num1 + num2;
+
+    let ieeeResultado = convertirIEEE754(resultado);
+
+
+    document.getElementById("resultado").innerHTML =
+    `
+    <b>Primer número:</b> ${num1}<br>
+    Signo: ${iee1 = ieee1.signo}<br>
+    Exponente: ${ieee1.exponente}<br>
+    Mantisa: ${ieee1.mantisa}<br>
+    IEEE754: ${ieee1.ieee754}<br><br>
+
+    <b>Segundo número:</b> ${num2}<br>
+    Signo: ${ieee2.signo}<br>
+    Exponente: ${ieee2.exponente}<br>
+    Mantisa: ${ieee2.mantisa}<br>
+    IEEE754: ${ieee2.ieee754}<br><br>
+
+
+    <b>Resultado de la suma:</b> ${resultado}<br>
+    Signo: ${ieeeResultado.signo}<br>
+    Exponente: ${ieeeResultado.exponente}<br>
+    Mantisa: ${ieeeResultado.mantisa}<br>
+    IEEE754: ${ieeeResultado.ieee754}
+    `;
+}
+
+</script>
+</div>
+</div>
+<div id="outline-container-orgfb3a8b8" class="outline-2">
+<h2 id="orgfb3a8b8"><span class="section-number-2">8.</span> Referencias</h2>
+<div class="outline-text-2" id="text-8">
+<ul class="org-ul">
+<li>IEEE Computer Society. <i>IEEE Standard for Floating-Point Arithmetic
+(IEEE Std 754-2019).</i> IEEE, 2019.</li>
+
+<li>Stallings, William. <i>Computer Organization and Architecture:
+Designing for Performance.</i> 11th Edition. Pearson.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org9fc099f" class="outline-2">
+<h2 id="org9fc099f"><span class="section-number-2">9.</span> Navegación</h2>
+<div class="outline-text-2" id="text-9">
+<p>
+<a href="../index.html">← Inicio</a> | <a href="../page3-inec.html">Siguiente: Análisis INEC →</a>
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Fecha: 2026-07-13</p>
+<p class="author">Autor: Auz Juan, Lanchimba Danny, Palomeque Matías, Quillupangui Ana María</p>
+<p class="date">Created: 2026-07-14 mar 22:07</p>
+</div>
+</body>
+</html>
