@@ -17,6 +17,8 @@
 
 #+cite_export:
 
+[[file:../index.org][← Inicio]] | [[file:../page3-inec.org][Siguiente: Análisis INEC →]]
+
 * Introducción
 
 El estándar IEEE 754 define la representación y las operaciones
@@ -718,3 +720,7 @@ function sumarIEEE(){
 
 - Stallings, William. /Computer Organization and Architecture:
   Designing for Performance./ 11th Edition. Pearson.
+
+* Navegación
+
+[[file:../index.org][← Inicio]] | [[file:../page3-inec.org][Siguiente: Análisis INEC →]]
