@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es">
 <head>
-<!-- 2026-07-15 Wed 18:52 -->
+<!-- 2026-07-15 mié 20:24 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Análisis de Datos de Seguridad INEC 2025-2026</title>
@@ -18,56 +18,55 @@
 <h2>&Iacute;ndice</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgaa0e7ac">1. Análisis de Datos de Seguridad INEC</a></li>
-<li><a href="#org8b8c377">2. Formulación del problema</a></li>
-<li><a href="#org3b35f7b">3. Descripción del código</a>
+<li><a href="#org0b78834">1. Análisis de Datos de Seguridad INEC</a></li>
+<li><a href="#org4938efd">2. Formulación del problema</a></li>
+<li><a href="#org5b5cc4e">3. Descripción del código</a>
 <ul>
-<li><a href="#org586e04b">3.1. Librerías utilizadas y carga inicial de datos</a></li>
+<li><a href="#orgaee1348">3.1. Librerías utilizadas y carga inicial de datos</a></li>
 </ul>
 </li>
-<li><a href="#org981d34b">4. Exploración inicial de los datos</a>
+<li><a href="#org3401ff4">4. Exploración inicial de los datos</a>
 <ul>
-<li><a href="#org95756ec">4.1. Selección del periodo de análisis</a></li>
+<li><a href="#orgd4f97ae">4.1. Selección del periodo de análisis</a></li>
 </ul>
 </li>
-<li><a href="#org506a439">5. Procesamiento de datos</a>
+<li><a href="#orgded7aa4">5. Procesamiento de datos</a>
 <ul>
-<li><a href="#org9c14eb2">5.1. Tratamiento de valores faltantes</a></li>
-<li><a href="#orgda2bc62">5.2. Transformación de datos</a></li>
+<li><a href="#org2f49e38">5.1. Tratamiento de valores faltantes</a></li>
+<li><a href="#org371d723">5.2. Transformación de datos</a></li>
 </ul>
 </li>
-<li><a href="#orgd5ce3ee">6. Análisis estadístico</a>
+<li><a href="#org7f99172">6. Análisis estadístico</a>
 <ul>
-<li><a href="#orge0d073e">6.1. Eliminación de registros agregados</a></li>
-<li><a href="#orga7c3886">6.2. Estadísticas descriptivas</a></li>
-<li><a href="#orge6f6e15">6.3. Total de femicidios por provincia</a></li>
-<li><a href="#orgff70af3">6.4. Estadísticos por provincia</a></li>
-<li><a href="#orgef856bc">6.5. Evolución mensual de femicidios</a></li>
-<li><a href="#org1339f54">6.6. Frecuencia de registros por cantidad de femicidios</a></li>
-<li><a href="#org1e5f875">6.7. Preparación de datos para visualización</a></li>
+<li><a href="#org62ed506">6.1. Eliminación de registros agregados</a></li>
+<li><a href="#org7083f05">6.2. Estadísticas descriptivas</a></li>
+<li><a href="#org410e57f">6.3. Total de femicidios por provincia</a></li>
+<li><a href="#orgb316efe">6.4. Estadísticos por provincia</a></li>
+<li><a href="#orgb5ba088">6.5. Evolución mensual de femicidios</a></li>
+<li><a href="#orga4a7660">6.6. Frecuencia de registros por cantidad de femicidios</a></li>
+<li><a href="#orgef7a086">6.7. Preparación de datos para visualización</a></li>
 </ul>
 </li>
-<li><a href="#orgfc3161d">7. Presentación de resultados</a>
+<li><a href="#orgacdb225">7. Presentación de resultados</a>
 <ul>
-<li><a href="#orgd9ec1c9">7.1. Muestra aleatoria de datos</a></li>
-<li><a href="#orgcb3da01">7.2. Provincias con mayor cantidad de femicidios registrados</a></li>
-<li><a href="#org2e2d49f">7.3. Femicidios acumulados por provincia</a></li>
-<li><a href="#orgca99e60">7.4. Evolución mensual de femicidios</a></li>
-<li><a href="#org8f9a0d7">7.5. Frecuencia de registros según cantidad de femicidios</a></li>
-<li><a href="#org7ef42be">7.6. Interpretación de los datos</a></li>
+<li><a href="#org285ba6a">7.1. Muestra aleatoria de datos</a></li>
+<li><a href="#org6d6cf3b">7.2. Provincias con mayor cantidad de femicidios registrados</a></li>
+<li><a href="#orgc5e9479">7.3. Femicidios acumulados por provincia</a></li>
+<li><a href="#org2e0aae9">7.4. Evolución mensual de femicidios</a></li>
+<li><a href="#orgefa066e">7.5. Frecuencia de registros según cantidad de femicidios</a></li>
+<li><a href="#org7a62c5d">7.6. Interpretación de los datos</a></li>
 </ul>
 </li>
-<li><a href="#orga868da2">8. Referencias</a></li>
-<li><a href="#orgf3ccc7f">9. Navegación</a></li>
+<li><a href="#org852c23c">8. Referencias</a></li>
+<li><a href="#org8d5e154">9. Navegación</a></li>
 </ul>
 </div>
 </div>
 <p>
 <a href="index.html">← Inicio</a> | <a href="ieee754/pag2-sumaieee754.html">← Suma IEEE754</a>
 </p>
-
-<div id="outline-container-orgaa0e7ac" class="outline-2">
-<h2 id="orgaa0e7ac"><span class="section-number-2">1.</span> Análisis de Datos de Seguridad INEC</h2>
+<div id="outline-container-org0b78834" class="outline-2">
+<h2 id="org0b78834"><span class="section-number-2">1.</span> Análisis de Datos de Seguridad INEC</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 Este proyecto corresponde al trabajo final de semestre de la asignatura
@@ -82,9 +81,8 @@ extracción, procesamiento, análisis y visualización de datos.
 </p>
 </div>
 </div>
-
-<div id="outline-container-org8b8c377" class="outline-2">
-<h2 id="org8b8c377"><span class="section-number-2">2.</span> Formulación del problema</h2>
+<div id="outline-container-org4938efd" class="outline-2">
+<h2 id="org4938efd"><span class="section-number-2">2.</span> Formulación del problema</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Se desea realizar un análisis estadístico utilizando información
@@ -103,20 +101,16 @@ estadísticos utilizando Python.
 </p>
 </div>
 </div>
-
-
-<div id="outline-container-org3b35f7b" class="outline-2">
-<h2 id="org3b35f7b"><span class="section-number-2">3.</span> Descripción del código</h2>
+<div id="outline-container-org5b5cc4e" class="outline-2">
+<h2 id="org5b5cc4e"><span class="section-number-2">3.</span> Descripción del código</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 En esta sección se detallan los componentes principales del código
 desarrollado y la estrategia utilizada para resolver el problema.
 </p>
 </div>
-
-
-<div id="outline-container-org586e04b" class="outline-3">
-<h3 id="org586e04b"><span class="section-number-3">3.1.</span> Librerías utilizadas y carga inicial de datos</h3>
+<div id="outline-container-orgaee1348" class="outline-3">
+<h3 id="orgaee1348"><span class="section-number-3">3.1.</span> Librerías utilizadas y carga inicial de datos</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
 Durante el procesamiento de la información se utilizan las siguientes
@@ -157,8 +151,8 @@ de femicidios por provincia proporcionada por el INEC.
 </div>
 </div>
 </div>
-<div id="outline-container-org981d34b" class="outline-2">
-<h2 id="org981d34b"><span class="section-number-2">4.</span> Exploración inicial de los datos</h2>
+<div id="outline-container-org3401ff4" class="outline-2">
+<h2 id="org3401ff4"><span class="section-number-2">4.</span> Exploración inicial de los datos</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 Antes de realizar el análisis se revisa la estructura del conjunto de datos para
@@ -174,7 +168,7 @@ identificar sus variables y características principales.
 </span>
 </pre>
 </div>
-<pre class="example" id="org9b09941">
+<pre class="example" id="org27b29a2">
 Dimensiones del conjunto de datos:
 (25, 147)
 
@@ -189,10 +183,8 @@ Primeras filas del conjunto de datos:
 [5 rows x 147 columns]
 </pre>
 </div>
-
-
-<div id="outline-container-org95756ec" class="outline-3">
-<h3 id="org95756ec"><span class="section-number-3">4.1.</span> Selección del periodo de análisis</h3>
+<div id="outline-container-orgd4f97ae" class="outline-3">
+<h3 id="orgd4f97ae"><span class="section-number-3">4.1.</span> Selección del periodo de análisis</h3>
 <div class="outline-text-3" id="text-4-1">
 <p>
 Debido a que el archivo contiene información desde el año 2014 hasta
@@ -220,7 +212,7 @@ enero 2025- febrero 2026 para el análisis.
 </pre>
 </div>
 
-<pre class="example" id="org5484953">
+<pre class="example" id="orgeedcb55">
 Dimensiones del periodo seleccionado:
 (25, 15)
 
@@ -238,11 +230,8 @@ Index(['Provincia de ocurrencia',       2025-01-01 00:00:00,
 </div>
 </div>
 </div>
-
-
-
-<div id="outline-container-org506a439" class="outline-2">
-<h2 id="org506a439"><span class="section-number-2">5.</span> Procesamiento de datos</h2>
+<div id="outline-container-orgded7aa4" class="outline-2">
+<h2 id="orgded7aa4"><span class="section-number-2">5.</span> Procesamiento de datos</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 En esta etapa se realizan las transformaciones necesarias para preparar
@@ -273,10 +262,8 @@ la información:
 [5 rows x 15 columns]
 </pre>
 </div>
-
-
-<div id="outline-container-org9c14eb2" class="outline-3">
-<h3 id="org9c14eb2"><span class="section-number-3">5.1.</span> Tratamiento de valores faltantes</h3>
+<div id="outline-container-org2f49e38" class="outline-3">
+<h3 id="org2f49e38"><span class="section-number-3">5.1.</span> Tratamiento de valores faltantes</h3>
 <div class="outline-text-3" id="text-5-1">
 <p>
 Se revisa la existencia de valores faltantes dentro del conjunto de datos
@@ -295,9 +282,8 @@ seleccionado.
 </pre>
 </div>
 </div>
-
-<div id="outline-container-orgda2bc62" class="outline-3">
-<h3 id="orgda2bc62"><span class="section-number-3">5.2.</span> Transformación de datos</h3>
+<div id="outline-container-org371d723" class="outline-3">
+<h3 id="org371d723"><span class="section-number-3">5.2.</span> Transformación de datos</h3>
 <div class="outline-text-3" id="text-5-2">
 <p>
 La información obtenida desde el Excel se encuentra en formato ancho,
@@ -328,7 +314,7 @@ representa una observación mensual.
 </pre>
 </div>
 
-<pre class="example" id="org20d031f">
+<pre class="example" id="orgced179f">
 Dimensiones del nuevo conjunto de datos:
 (350, 3)
 
@@ -343,11 +329,8 @@ Primeras filas:
 </div>
 </div>
 </div>
-
-
-
-<div id="outline-container-orgd5ce3ee" class="outline-2">
-<h2 id="orgd5ce3ee"><span class="section-number-2">6.</span> Análisis estadístico</h2>
+<div id="outline-container-org7f99172" class="outline-2">
+<h2 id="org7f99172"><span class="section-number-2">6.</span> Análisis estadístico</h2>
 <div class="outline-text-2" id="text-6">
 <p>
 El análisis se realiza utilizando el conjunto de datos transformado
@@ -355,9 +338,8 @@ El análisis se realiza utilizando el conjunto de datos transformado
 para una provincia en un mes determinado.
 </p>
 </div>
-
-<div id="outline-container-orge0d073e" class="outline-3">
-<h3 id="orge0d073e"><span class="section-number-3">6.1.</span> Eliminación de registros agregados</h3>
+<div id="outline-container-org62ed506" class="outline-3">
+<h3 id="org62ed506"><span class="section-number-3">6.1.</span> Eliminación de registros agregados</h3>
 <div class="outline-text-3" id="text-6-1">
 <p>
 El conjunto de datos contiene un registro correspondiente al Total Nacional,
@@ -384,9 +366,8 @@ Número de provincias analizadas:
 </pre>
 </div>
 </div>
-
-<div id="outline-container-orga7c3886" class="outline-3">
-<h3 id="orga7c3886"><span class="section-number-3">6.2.</span> Estadísticas descriptivas</h3>
+<div id="outline-container-org7083f05" class="outline-3">
+<h3 id="org7083f05"><span class="section-number-3">6.2.</span> Estadísticas descriptivas</h3>
 <div class="outline-text-3" id="text-6-2">
 <p>
 Se calculan medidas estadísticas descriptivas para conocer la distribución
@@ -467,9 +448,8 @@ table
 </table>
 </div>
 </div>
-
-<div id="outline-container-orge6f6e15" class="outline-3">
-<h3 id="orge6f6e15"><span class="section-number-3">6.3.</span> Total de femicidios por provincia</h3>
+<div id="outline-container-org410e57f" class="outline-3">
+<h3 id="org410e57f"><span class="section-number-3">6.3.</span> Total de femicidios por provincia</h3>
 <div class="outline-text-3" id="text-6-3">
 <p>
 Para identificar las provincias con mayor cantidad de casos durante el
@@ -489,7 +469,7 @@ periodo analizado se realiza una agrupación por provincia.
 </pre>
 </div>
 
-<pre class="example" id="org8b873a6">
+<pre class="example" id="org43e5395">
 Provincia de ocurrencia
 Pichincha                         15
 Guayas                             9
@@ -519,10 +499,8 @@ Name: Femicidios, dtype: int64
 </pre>
 </div>
 </div>
-
-
-<div id="outline-container-orgff70af3" class="outline-3">
-<h3 id="orgff70af3"><span class="section-number-3">6.4.</span> Estadísticos por provincia</h3>
+<div id="outline-container-orgb316efe" class="outline-3">
+<h3 id="orgb316efe"><span class="section-number-3">6.4.</span> Estadísticos por provincia</h3>
 <div class="outline-text-3" id="text-6-4">
 <p>
 A partir del total de femicidios registrados por provincia se calculan
@@ -604,10 +582,8 @@ table
 </table>
 </div>
 </div>
-
-
-<div id="outline-container-orgef856bc" class="outline-3">
-<h3 id="orgef856bc"><span class="section-number-3">6.5.</span> Evolución mensual de femicidios</h3>
+<div id="outline-container-orgb5ba088" class="outline-3">
+<h3 id="orgb5ba088"><span class="section-number-3">6.5.</span> Evolución mensual de femicidios</h3>
 <div class="outline-text-3" id="text-6-5">
 <p>
 Se agrupan los datos por mes para observar el comportamiento temporal
@@ -627,7 +603,7 @@ durante el periodo seleccionado.
 </pre>
 </div>
 
-<pre class="example" id="org54f4faf">
+<pre class="example" id="org8866915">
 Fecha
 2025-01-01    5
 2025-02-01    5
@@ -647,9 +623,8 @@ Name: Femicidios, dtype: int64
 </pre>
 </div>
 </div>
-
-<div id="outline-container-org1339f54" class="outline-3">
-<h3 id="org1339f54"><span class="section-number-3">6.6.</span> Frecuencia de registros por cantidad de femicidios</h3>
+<div id="outline-container-orga4a7660" class="outline-3">
+<h3 id="orga4a7660"><span class="section-number-3">6.6.</span> Frecuencia de registros por cantidad de femicidios</h3>
 <div class="outline-text-3" id="text-6-6">
 <p>
 Se analiza la frecuencia de los valores registrados para observar la
@@ -673,10 +648,8 @@ Name: count, dtype: int64
 </pre>
 </div>
 </div>
-
-
-<div id="outline-container-org1e5f875" class="outline-3">
-<h3 id="org1e5f875"><span class="section-number-3">6.7.</span> Preparación de datos para visualización</h3>
+<div id="outline-container-orgef7a086" class="outline-3">
+<h3 id="orgef7a086"><span class="section-number-3">6.7.</span> Preparación de datos para visualización</h3>
 <div class="outline-text-3" id="text-6-7">
 <p>
 Se generan estructuras resumidas que serán utilizadas posteriormente
@@ -700,9 +673,8 @@ Meses analizados: 14
 </div>
 </div>
 </div>
-
-<div id="outline-container-orgfc3161d" class="outline-2">
-<h2 id="orgfc3161d"><span class="section-number-2">7.</span> Presentación de resultados</h2>
+<div id="outline-container-orgacdb225" class="outline-2">
+<h2 id="orgacdb225"><span class="section-number-2">7.</span> Presentación de resultados</h2>
 <div class="outline-text-2" id="text-7">
 <p>
 En esta sección se presentan los principales resultados obtenidos
@@ -710,10 +682,8 @@ a partir del análisis estadístico realizado sobre los datos de
 femicidios registrados por provincia durante el periodo 2025-2026.
 </p>
 </div>
-
-
-<div id="outline-container-orgd9ec1c9" class="outline-3">
-<h3 id="orgd9ec1c9"><span class="section-number-3">7.1.</span> Muestra aleatoria de datos</h3>
+<div id="outline-container-org285ba6a" class="outline-3">
+<h3 id="org285ba6a"><span class="section-number-3">7.1.</span> Muestra aleatoria de datos</h3>
 <div class="outline-text-3" id="text-7-1">
 <p>
 Se presenta una muestra aleatoria de los datos procesados
@@ -814,9 +784,8 @@ table
 </table>
 </div>
 </div>
-
-<div id="outline-container-orgcb3da01" class="outline-3">
-<h3 id="orgcb3da01"><span class="section-number-3">7.2.</span> Provincias con mayor cantidad de femicidios registrados</h3>
+<div id="outline-container-org6d6cf3b" class="outline-3">
+<h3 id="org6d6cf3b"><span class="section-number-3">7.2.</span> Provincias con mayor cantidad de femicidios registrados</h3>
 <div class="outline-text-3" id="text-7-2">
 <div class="org-src-container">
 <pre class="src src-python">
@@ -901,9 +870,8 @@ table
 </table>
 </div>
 </div>
-
-<div id="outline-container-org2e2d49f" class="outline-3">
-<h3 id="org2e2d49f"><span class="section-number-3">7.3.</span> Femicidios acumulados por provincia</h3>
+<div id="outline-container-orgc5e9479" class="outline-3">
+<h3 id="orgc5e9479"><span class="section-number-3">7.3.</span> Femicidios acumulados por provincia</h3>
 <div class="outline-text-3" id="text-7-3">
 <p>
 La siguiente gráfica permite observar la distribución de los casos
@@ -936,15 +904,14 @@ archivo
 </div>
 
 
-<div id="org8300555" class="figure">
+<div id="orge644cfe" class="figure">
 <p><img src="images/femicidios_provincia.png" alt="femicidios_provincia.png" />
 </p>
 </div>
 </div>
 </div>
-
-<div id="outline-container-orgca99e60" class="outline-3">
-<h3 id="orgca99e60"><span class="section-number-3">7.4.</span> Evolución mensual de femicidios</h3>
+<div id="outline-container-org2e0aae9" class="outline-3">
+<h3 id="org2e0aae9"><span class="section-number-3">7.4.</span> Evolución mensual de femicidios</h3>
 <div class="outline-text-3" id="text-7-4">
 <p>
 La siguiente gráfica muestra la variación mensual de los casos registrados
@@ -989,15 +956,14 @@ archivo
 </pre>
 </div>
 
-<div id="orga0c9fd3" class="figure">
+<div id="orgcc14294" class="figure">
 <p><img src="images/evolucion_mensual_femicidios.png" alt="evolucion_mensual_femicidios.png" />
 </p>
 </div>
 </div>
 </div>
-
-<div id="outline-container-org8f9a0d7" class="outline-3">
-<h3 id="org8f9a0d7"><span class="section-number-3">7.5.</span> Frecuencia de registros según cantidad de femicidios</h3>
+<div id="outline-container-orgefa066e" class="outline-3">
+<h3 id="orgefa066e"><span class="section-number-3">7.5.</span> Frecuencia de registros según cantidad de femicidios</h3>
 <div class="outline-text-3" id="text-7-5">
 <p>
 La gráfica representa la frecuencia con la que aparecen diferentes
@@ -1031,14 +997,14 @@ archivo
 </pre>
 </div>
 
-<div id="orgb1b8717" class="figure">
+<div id="org5a3b4ac" class="figure">
 <p><img src="images/frecuencia_femicidios.png" alt="frecuencia_femicidios.png" />
 </p>
 </div>
 </div>
 </div>
-<div id="outline-container-org7ef42be" class="outline-3">
-<h3 id="org7ef42be"><span class="section-number-3">7.6.</span> Interpretación de los datos</h3>
+<div id="outline-container-org7a62c5d" class="outline-3">
+<h3 id="org7a62c5d"><span class="section-number-3">7.6.</span> Interpretación de los datos</h3>
 <div class="outline-text-3" id="text-7-6">
 <ol class="org-ol">
 <li><b><b>Interpretación de estadísticas descriptivas generales:</b></b>
@@ -1107,9 +1073,8 @@ casos.</li>
 </div>
 </div>
 </div>
-
-<div id="outline-container-orga868da2" class="outline-2">
-<h2 id="orga868da2"><span class="section-number-2">8.</span> Referencias</h2>
+<div id="outline-container-org852c23c" class="outline-2">
+<h2 id="org852c23c"><span class="section-number-2">8.</span> Referencias</h2>
 <div class="outline-text-2" id="text-8">
 <ul class="org-ul">
 <li><a href="https://orgmode.org/">Org Mode Documentation</a></li>
@@ -1119,12 +1084,11 @@ casos.</li>
 </ul>
 </div>
 </div>
-
-<div id="outline-container-orgf3ccc7f" class="outline-2">
-<h2 id="orgf3ccc7f"><span class="section-number-2">9.</span> Navegación</h2>
+<div id="outline-container-org8d5e154" class="outline-2">
+<h2 id="org8d5e154"><span class="section-number-2">9.</span> Navegación</h2>
 <div class="outline-text-2" id="text-9">
 <p>
-<a href="index.html">← Inicio</a> | <a href="ieee754/pag2-sumaieee754.html">← Suma IEEE754</a>
+<a href="index.html">← Inicio</a> | <a href="pag2-sumaieee754.html">← Suma IEEE754</a>
 </p>
 </div>
 </div>
@@ -1132,7 +1096,7 @@ casos.</li>
 <div id="postamble" class="status">
 <p class="date">Fecha: 2026-07-13</p>
 <p class="author">Autor: Auz Juan, Lanchimba Danny, Palomeque Matías, Quillupangui Ana María</p>
-<p class="date">Created: 2026-07-15 Wed 18:52</p>
+<p class="date">Created: 2026-07-15 mié 20:24</p>
 </div>
 </body>
 </html>

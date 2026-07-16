@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es">
 <head>
-<!-- 2026-07-15 Wed 18:52 -->
+<!-- 2026-07-15 mié 20:24 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Proyecto ICCD332 Arquitectura de Computadores</title>
@@ -50,37 +50,37 @@
 <h2>&Iacute;ndice</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgc558bad">1. City Weather APP</a>
+<li><a href="#org821a17e">1. City Weather APP</a>
 <ul>
-<li><a href="#orge67699b">1.1. Estructura del proyecto</a></li>
-<li><a href="#orga5efda6">1.2. Formulación del Problema</a></li>
-<li><a href="#orgc58003a">1.3. Descripción del código</a>
+<li><a href="#org7e8fc61">1.1. Estructura del proyecto</a></li>
+<li><a href="#org95c5aa4">1.2. Formulación del Problema</a></li>
+<li><a href="#orgebcac80">1.3. Descripción del código</a>
 <ul>
-<li><a href="#org95fc5cf">1.3.1. Librerías a utilizar y variables globales</a></li>
-<li><a href="#orgca0f37e">1.3.2. Recepción de los datos crudos</a></li>
-<li><a href="#org0a6ea75">1.3.3. Procesamiento de datos</a></li>
-<li><a href="#orgfaaa3b5">1.3.4. Almacenamiento en csv</a></li>
+<li><a href="#orgfa51bbe">1.3.1. Librerías a utilizar y variables globales</a></li>
+<li><a href="#org8dc09ec">1.3.2. Recepción de los datos crudos</a></li>
+<li><a href="#orgdb8b02c">1.3.3. Procesamiento de datos</a></li>
+<li><a href="#org7fbc650">1.3.4. Almacenamiento en csv</a></li>
 </ul>
 </li>
-<li><a href="#orgdcf0bf5">1.4. Script ejecutable sh</a></li>
-<li><a href="#orgc104b4c">1.5. Configuración de Crontab</a></li>
+<li><a href="#org45f87e0">1.4. Script ejecutable sh</a></li>
+<li><a href="#org824c313">1.5. Configuración de Crontab</a></li>
 </ul>
 </li>
-<li><a href="#orgb79ae74">2. Presentación de resultados</a>
+<li><a href="#org58d673a">2. Presentación de resultados</a>
 <ul>
-<li><a href="#org1b7ab25">2.1. Muestra Aleatoria de datos</a></li>
-<li><a href="#org1132ae3">2.2. Gráfica Temperatura vs Tiempo</a></li>
-<li><a href="#orgda235b6">2.3. Realice una gráfica de Humedad con respecto al tiempo</a></li>
-<li><a href="#org1cd4dd2">2.4. <b>Opcional</b> Presente alguna gráfica de interés.</a></li>
+<li><a href="#org8ce8a38">2.1. Muestra Aleatoria de datos</a></li>
+<li><a href="#orgef42a1b">2.2. Gráfica Temperatura vs Tiempo</a></li>
+<li><a href="#org0080c3b">2.3. Realice una gráfica de Humedad con respecto al tiempo</a></li>
+<li><a href="#orgecf2e4c">2.4. <b>Opcional</b> Presente alguna gráfica de interés.</a></li>
 </ul>
 </li>
-<li><a href="#orgab9a981">3. Referencias</a></li>
-<li><a href="#org7436151">4. Navegación</a></li>
+<li><a href="#org94ac898">3. Referencias</a></li>
+<li><a href="#org03f46ef">4. Navegación</a></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgc558bad" class="outline-2">
-<h2 id="orgc558bad"><span class="section-number-2">1.</span> City Weather APP</h2>
+<div id="outline-container-org821a17e" class="outline-2">
+<h2 id="org821a17e"><span class="section-number-2">1.</span> City Weather APP</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 Este es el proyecto de fin de semestre en donde se pretende demostrar
@@ -95,9 +95,8 @@ las destrezas obtenidas durante el transcurso de la asignatura de
 <li>Literate Programming</li>
 </ol>
 </div>
-
-<div id="outline-container-orge67699b" class="outline-3">
-<h3 id="orge67699b"><span class="section-number-3">1.1.</span> Estructura del proyecto</h3>
+<div id="outline-container-org7e8fc61" class="outline-3">
+<h3 id="org7e8fc61"><span class="section-number-3">1.1.</span> Estructura del proyecto</h3>
 <div class="outline-text-3" id="text-1-1">
 <p>
 Se recomienda que el proyecto se cree en el <i>home</i> del sistema
@@ -121,12 +120,14 @@ subdirectorios. Adaptar los nombres de los archivos según las ciudades
 específicas del grupo.
 </p>
 
-<pre class="example" id="org972797a">
+<pre class="example" id="org6a1a7d1">
 .
 |-- ChatCopilot.md
 |-- ChatCopilot.md~
 |-- CityTemperatureAnalysis.ipynb
 |-- clima-barcelona-hoy.csv
+|-- Datos de Seguridad Ecuador.xlsx
+|-- Datos de Seguridad Ecuador.xlsx:Zone.Identifier
 |-- get-weather.sh
 |-- get-weather.sh~
 |-- main.py
@@ -177,7 +178,7 @@ específicas del grupo.
         |-- pag2-sumaieee754.html
         `-- page3-inec.html
 
-6 directories, 48 files
+6 directories, 50 files
 </pre>
 
 <p>
@@ -191,10 +192,8 @@ funcionales para escribir y presentar el código.
 </p>
 </div>
 </div>
-
-
-<div id="outline-container-orga5efda6" class="outline-3">
-<h3 id="orga5efda6"><span class="section-number-3">1.2.</span> Formulación del Problema</h3>
+<div id="outline-container-org95c5aa4" class="outline-3">
+<h3 id="org95c5aa4"><span class="section-number-3">1.2.</span> Formulación del Problema</h3>
 <div class="outline-text-3" id="text-1-2">
 <p>
 Se desea realizar un registro climatológico de una ciudad
@@ -261,8 +260,8 @@ dirección será remitida en la contestación de la tarea</li>
 </ol>
 </div>
 </div>
-<div id="outline-container-orgc58003a" class="outline-3">
-<h3 id="orgc58003a"><span class="section-number-3">1.3.</span> Descripción del código</h3>
+<div id="outline-container-orgebcac80" class="outline-3">
+<h3 id="orgebcac80"><span class="section-number-3">1.3.</span> Descripción del código</h3>
 <div class="outline-text-3" id="text-1-3">
 <p>
 En esta sección se debe detallar segmentos importantes del código
@@ -271,8 +270,8 @@ grupo para resolver el problema. Divida su código en unidades
 funcionales para facilitar su presentación y exposición.
 </p>
 </div>
-<div id="outline-container-org95fc5cf" class="outline-4">
-<h4 id="org95fc5cf"><span class="section-number-4">1.3.1.</span> Librerías a utilizar y variables globales</h4>
+<div id="outline-container-orgfa51bbe" class="outline-4">
+<h4 id="orgfa51bbe"><span class="section-number-4">1.3.1.</span> Librerías a utilizar y variables globales</h4>
 <div class="outline-text-4" id="text-1-3-1">
 <p>
 Durante toda la recepción y transformación de los datos se utilizan
@@ -294,8 +293,8 @@ API<sub>KEY</sub>, fileName
 </div>
 </div>
 </div>
-<div id="outline-container-orgca0f37e" class="outline-4">
-<h4 id="orgca0f37e"><span class="section-number-4">1.3.2.</span> Recepción de los datos crudos</h4>
+<div id="outline-container-org8dc09ec" class="outline-4">
+<h4 id="org8dc09ec"><span class="section-number-4">1.3.2.</span> Recepción de los datos crudos</h4>
 <div class="outline-text-4" id="text-1-3-2">
 <p>
 Para conseguir los datos de la climatología de Barcelona se utiliza la
@@ -321,7 +320,7 @@ correspondientes a Barcelona conseguimos datos en el siguiente formato
 </pre>
 </div>
 
-<pre class="example" id="org8159ba9">
+<pre class="example" id="org8bc90b4">
 {
   "coord": {
     "lon": 2.159,
@@ -337,31 +336,31 @@ correspondientes a Barcelona conseguimos datos en el siguiente formato
   ],
   "base": "stations",
   "main": {
-    "temp": 26.03,
-    "feels_like": 26.03,
-    "temp_min": 24.82,
-    "temp_max": 26.97,
+    "temp": 28.29,
+    "feels_like": 30.27,
+    "temp_min": 26.73,
+    "temp_max": 29.8,
     "pressure": 1015,
-    "humidity": 71,
+    "humidity": 63,
     "sea_level": 1015,
     "grnd_level": 1008
   },
   "visibility": 10000,
   "wind": {
-    "speed": 3.3,
-    "deg": 245,
-    "gust": 3.8
+    "speed": 1.7,
+    "deg": 79,
+    "gust": 1.79
   },
   "clouds": {
-    "all": 5
+    "all": 0
   },
-  "dt": 1784084185,
+  "dt": 1784164045,
   "sys": {
     "type": 2,
     "id": 18549,
     "country": "ES",
-    "sunrise": 1784089835,
-    "sunset": 1784143416
+    "sunrise": 1784176284,
+    "sunset": 1784229780
   },
   "timezone": 7200,
   "id": 3128760,
@@ -380,8 +379,8 @@ anidado. Problema que se solucionará en el procesamiento de los datos
 </p>
 </div>
 </div>
-<div id="outline-container-org0a6ea75" class="outline-4">
-<h4 id="org0a6ea75"><span class="section-number-4">1.3.3.</span> Procesamiento de datos</h4>
+<div id="outline-container-orgdb8b02c" class="outline-4">
+<h4 id="orgdb8b02c"><span class="section-number-4">1.3.3.</span> Procesamiento de datos</h4>
 <div class="outline-text-4" id="text-1-3-3">
 <p>
 Una vez conseguido los valores en crudo, es necesario aplanarlos y
@@ -419,11 +418,11 @@ json<sub>normalize</sub>
 </pre>
 </div>
 
-<pre class="example" id="orgdfa87ca">
+<pre class="example" id="orgf178d58">
                               0
 base                   stations
 visibility                10000
-dt                   1784084185
+dt                   1784164045
 timezone                   7200
 id                      3128760
 name                  Barcelona
@@ -431,28 +430,28 @@ cod                         200
 weather_description   clear sky
 coord_lon                 2.159
 coord_lat               41.3888
-main_temp                 26.03
-main_feels_like           26.03
-main_temp_min             24.82
-main_temp_max             26.97
+main_temp                 28.29
+main_feels_like           30.27
+main_temp_min             26.73
+main_temp_max              29.8
 main_pressure              1015
-main_humidity                71
+main_humidity                63
 main_sea_level             1015
 main_grnd_level            1008
-wind_speed                  3.3
-wind_deg                    245
-wind_gust                   3.8
-clouds_all                    5
+wind_speed                  1.7
+wind_deg                     79
+wind_gust                  1.79
+clouds_all                    0
 sys_type                      2
 sys_id                    18549
 sys_country                  ES
-sys_sunrise          1784089835
-sys_sunset           1784143416
+sys_sunrise          1784176284
+sys_sunset           1784229780
 </pre>
 </div>
 </div>
-<div id="outline-container-orgfaaa3b5" class="outline-4">
-<h4 id="orgfaaa3b5"><span class="section-number-4">1.3.4.</span> Almacenamiento en csv</h4>
+<div id="outline-container-org7fbc650" class="outline-4">
+<h4 id="org7fbc650"><span class="section-number-4">1.3.4.</span> Almacenamiento en csv</h4>
 <div class="outline-text-4" id="text-1-3-4">
 <p>
 Con nuestros datos aplanados, es necesario guardarlos en un archivo
@@ -511,10 +510,10 @@ Para ilustrar como se guardan los datos se utiliza la función read<sub>csv</sub
 <thead>
 <tr>
 <th scope="col" class="org-left">&#xa0;</th>
-<th scope="col" class="org-right">27</th>
-<th scope="col" class="org-right">88</th>
-<th scope="col" class="org-right">185</th>
-<th scope="col" class="org-right">197</th>
+<th scope="col" class="org-right">70</th>
+<th scope="col" class="org-right">16</th>
+<th scope="col" class="org-right">177</th>
+<th scope="col" class="org-right">316</th>
 </tr>
 </thead>
 <tbody>
@@ -536,10 +535,10 @@ Para ilustrar como se guardan los datos se utiliza la función read<sub>csv</sub
 
 <tr>
 <td class="org-left">dt</td>
-<td class="org-right">1783882796</td>
-<td class="org-right">1783938410</td>
-<td class="org-right">1784026802</td>
-<td class="org-right">1784037421</td>
+<td class="org-right">1783922146</td>
+<td class="org-right">1783872891</td>
+<td class="org-right">1784019606</td>
+<td class="org-right">1784139722</td>
 </tr>
 
 <tr>
@@ -555,7 +554,7 @@ Para ilustrar como se guardan los datos se utiliza la función read<sub>csv</sub
 <td class="org-right">3128760</td>
 <td class="org-right">3128760</td>
 <td class="org-right">3128760</td>
-<td class="org-right">3128760</td>
+<td class="org-right">6544100</td>
 </tr>
 
 <tr>
@@ -563,7 +562,7 @@ Para ilustrar como se guardan los datos se utiliza la función read<sub>csv</sub
 <td class="org-right">Barcelona</td>
 <td class="org-right">Barcelona</td>
 <td class="org-right">Barcelona</td>
-<td class="org-right">Barcelona</td>
+<td class="org-right">Eixample</td>
 </tr>
 
 <tr>
@@ -576,58 +575,58 @@ Para ilustrar como se guardan los datos se utiliza la función read<sub>csv</sub
 
 <tr>
 <td class="org-left">weather<sub>description</sub></td>
+<td class="org-right">broken clouds</td>
 <td class="org-right">overcast clouds</td>
-<td class="org-right">scattered clouds</td>
 <td class="org-right">clear sky</td>
-<td class="org-right">few clouds</td>
+<td class="org-right">overcast clouds</td>
 </tr>
 
 <tr>
 <td class="org-left">coord<sub>lon</sub></td>
 <td class="org-right">2.159</td>
 <td class="org-right">2.159</td>
+<td class="org-right">2.1648</td>
 <td class="org-right">2.159</td>
-<td class="org-right">2.1606</td>
 </tr>
 
 <tr>
 <td class="org-left">coord<sub>lat</sub></td>
 <td class="org-right">41.3888</td>
 <td class="org-right">41.3888</td>
+<td class="org-right">41.3926</td>
 <td class="org-right">41.3888</td>
-<td class="org-right">41.3891</td>
 </tr>
 
 <tr>
 <td class="org-left">main<sub>temp</sub></td>
-<td class="org-right">28.01</td>
-<td class="org-right">30.17</td>
-<td class="org-right">30.07</td>
-<td class="org-right">30.22</td>
+<td class="org-right">25.82</td>
+<td class="org-right">28.78</td>
+<td class="org-right">29.84</td>
+<td class="org-right">32.18</td>
 </tr>
 
 <tr>
 <td class="org-left">main<sub>feels</sub><sub>like</sub></td>
-<td class="org-right">29.35</td>
-<td class="org-right">32.56</td>
-<td class="org-right">31.48</td>
-<td class="org-right">34.13</td>
+<td class="org-right">25.79</td>
+<td class="org-right">30.67</td>
+<td class="org-right">30.38</td>
+<td class="org-right">39.18</td>
 </tr>
 
 <tr>
 <td class="org-left">main<sub>temp</sub><sub>min</sub></td>
-<td class="org-right">26.41</td>
-<td class="org-right">28.81</td>
-<td class="org-right">29.37</td>
-<td class="org-right">28.71</td>
+<td class="org-right">24.55</td>
+<td class="org-right">26.97</td>
+<td class="org-right">29.28</td>
+<td class="org-right">32.05</td>
 </tr>
 
 <tr>
 <td class="org-left">main<sub>temp</sub><sub>max</sub></td>
-<td class="org-right">29.61</td>
-<td class="org-right">33.44</td>
-<td class="org-right">32.94</td>
-<td class="org-right">34.09</td>
+<td class="org-right">26.5</td>
+<td class="org-right">31.46</td>
+<td class="org-right">32.03</td>
+<td class="org-right">33.41</td>
 </tr>
 
 <tr>
@@ -635,15 +634,15 @@ Para ilustrar como se guardan los datos se utiliza la función read<sub>csv</sub
 <td class="org-right">1014</td>
 <td class="org-right">1015</td>
 <td class="org-right">1017</td>
-<td class="org-right">1016</td>
+<td class="org-right">1014</td>
 </tr>
 
 <tr>
 <td class="org-left">main<sub>humidity</sub></td>
-<td class="org-right">59</td>
-<td class="org-right">57</td>
-<td class="org-right">52</td>
-<td class="org-right">64</td>
+<td class="org-right">51</td>
+<td class="org-right">60</td>
+<td class="org-right">47</td>
+<td class="org-right">89</td>
 </tr>
 
 <tr>
@@ -651,47 +650,47 @@ Para ilustrar como se guardan los datos se utiliza la función read<sub>csv</sub
 <td class="org-right">1014</td>
 <td class="org-right">1015</td>
 <td class="org-right">1017</td>
-<td class="org-right">1016</td>
+<td class="org-right">1014</td>
 </tr>
 
 <tr>
 <td class="org-left">main<sub>grnd</sub><sub>level</sub></td>
+<td class="org-right">1006</td>
 <td class="org-right">1007</td>
+<td class="org-right">1011</td>
 <td class="org-right">1007</td>
-<td class="org-right">1010</td>
-<td class="org-right">1009</td>
 </tr>
 
 <tr>
 <td class="org-left">wind<sub>speed</sub></td>
-<td class="org-right">3.74</td>
+<td class="org-right">0.89</td>
+<td class="org-right">4.78</td>
 <td class="org-right">0.45</td>
-<td class="org-right">2.68</td>
-<td class="org-right">1.79</td>
+<td class="org-right">5.1</td>
 </tr>
 
 <tr>
 <td class="org-left">wind<sub>deg</sub></td>
-<td class="org-right">67</td>
-<td class="org-right">94</td>
-<td class="org-right">162</td>
-<td class="org-right">143</td>
+<td class="org-right">63</td>
+<td class="org-right">87</td>
+<td class="org-right">107</td>
+<td class="org-right">266</td>
 </tr>
 
 <tr>
 <td class="org-left">wind<sub>gust</sub></td>
-<td class="org-right">4.33</td>
-<td class="org-right">4.02</td>
-<td class="org-right">4.02</td>
+<td class="org-right">2.68</td>
+<td class="org-right">6.01</td>
 <td class="org-right">3.13</td>
+<td class="org-right">9.45</td>
 </tr>
 
 <tr>
 <td class="org-left">clouds<sub>all</sub></td>
-<td class="org-right">95</td>
-<td class="org-right">29</td>
-<td class="org-right">1</td>
-<td class="org-right">14</td>
+<td class="org-right">59</td>
+<td class="org-right">99</td>
+<td class="org-right">0</td>
+<td class="org-right">89</td>
 </tr>
 
 <tr>
@@ -707,7 +706,7 @@ Para ilustrar como se guardan los datos se utiliza la función read<sub>csv</sub
 <td class="org-right">18549</td>
 <td class="org-right">18549</td>
 <td class="org-right">18549</td>
-<td class="org-right">18549</td>
+<td class="org-right">2018150</td>
 </tr>
 
 <tr>
@@ -720,18 +719,26 @@ Para ilustrar como se guardan los datos se utiliza la función read<sub>csv</sub
 
 <tr>
 <td class="org-left">sys<sub>sunrise</sub></td>
-<td class="org-right">1783830497</td>
 <td class="org-right">1783916942</td>
-<td class="org-right">1784003388</td>
-<td class="org-right">1784003388</td>
+<td class="org-right">1783830497</td>
+<td class="org-right">1784003386</td>
+<td class="org-right">1784089835</td>
 </tr>
 
 <tr>
 <td class="org-left">sys<sub>sunset</sub></td>
-<td class="org-right">1783884314</td>
 <td class="org-right">1783970683</td>
-<td class="org-right">1784057051</td>
-<td class="org-right">1784057051</td>
+<td class="org-right">1783884314</td>
+<td class="org-right">1784057050</td>
+<td class="org-right">1784143416</td>
+</tr>
+
+<tr>
+<td class="org-left">rain<sub>1h</sub></td>
+<td class="org-right">nan</td>
+<td class="org-right">nan</td>
+<td class="org-right">nan</td>
+<td class="org-right">nan</td>
 </tr>
 </tbody>
 </table>
@@ -741,15 +748,15 @@ Con eso conseguimos nuestros datos limpios y planos para un posterior análisis
 </div>
 </div>
 </div>
-<div id="outline-container-orgdcf0bf5" class="outline-3">
-<h3 id="orgdcf0bf5"><span class="section-number-3">1.4.</span> Script ejecutable sh</h3>
+<div id="outline-container-org45f87e0" class="outline-3">
+<h3 id="org45f87e0"><span class="section-number-3">1.4.</span> Script ejecutable sh</h3>
 <div class="outline-text-3" id="text-1-4">
 <p>
 Para ejecutar nuestro script, es necesario conocer donde se encuentra
 sh y para ello utilizamos el comando <code>which</code>.
 </p>
 <div class="org-src-container">
-<pre class="src src-shell">which sh
+<pre class="src src-shell"><span style="font-weight: bold;">which</span> sh
 </pre>
 </div>
 <pre class="example">
@@ -762,7 +769,7 @@ que será utilizado para la ejecución del script
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell">which mamba
+<pre class="src src-shell"><span style="font-weight: bold;">which</span> mamba
 </pre>
 </div>
 <pre class="example">
@@ -787,9 +794,8 @@ Finalmente se convierte en ejecutable dándole permisos de ejecución
 </div>
 </div>
 </div>
-
-<div id="outline-container-orgc104b4c" class="outline-3">
-<h3 id="orgc104b4c"><span class="section-number-3">1.5.</span> Configuración de Crontab</h3>
+<div id="outline-container-org824c313" class="outline-3">
+<h3 id="org824c313"><span class="section-number-3">1.5.</span> Configuración de Crontab</h3>
 <div class="outline-text-3" id="text-1-5">
 <p>
 Para crontab, se configura para un intervalo de 15 minutos, con la
@@ -803,8 +809,8 @@ output.log tanto la salida como los errores generados
 </div>
 </div>
 </div>
-<div id="outline-container-orgb79ae74" class="outline-2">
-<h2 id="orgb79ae74"><span class="section-number-2">2.</span> Presentación de resultados</h2>
+<div id="outline-container-org58d673a" class="outline-2">
+<h2 id="org58d673a"><span class="section-number-2">2.</span> Presentación de resultados</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Para la presentación de resultados se utilizan las librerías de Python:
@@ -814,8 +820,8 @@ Para la presentación de resultados se utilizan las librerías de Python:
 <li>pandas</li>
 </ul>
 </div>
-<div id="outline-container-org1b7ab25" class="outline-3">
-<h3 id="org1b7ab25"><span class="section-number-3">2.1.</span> Muestra Aleatoria de datos</h3>
+<div id="outline-container-org8ce8a38" class="outline-3">
+<h3 id="org8ce8a38"><span class="section-number-3">2.1.</span> Muestra Aleatoria de datos</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 Presentar una muestra de 10 valores aleatorios de los datos obtenidos.
@@ -838,7 +844,7 @@ df.<span style="font-weight: bold; font-style: italic;">sys_sunset</span> = dfRa
 </pre>
 </div>
 <pre class="example">
-(252, 27)
+(344, 28)
 </pre>
 
 
@@ -912,6 +918,8 @@ Resultado del número de filas y columnas leídos del archivo csv
 <col  class="org-left" />
 
 <col  class="org-left" />
+
+<col  class="org-right" />
 </colgroup>
 <thead>
 <tr>
@@ -942,13 +950,262 @@ Resultado del número de filas y columnas leídos del archivo csv
 <th scope="col" class="org-left">sys<sub>country</sub></th>
 <th scope="col" class="org-left">sys<sub>sunrise</sub></th>
 <th scope="col" class="org-left">sys<sub>sunset</sub></th>
+<th scope="col" class="org-right">rain<sub>1h</sub></th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td class="org-left">stations</td>
 <td class="org-right">10000</td>
-<td class="org-left">2026-07-14 00:26:53</td>
+<td class="org-left">2026-07-12 22:58:16</td>
+<td class="org-right">7200</td>
+<td class="org-right">3128760</td>
+<td class="org-left">Barcelona</td>
+<td class="org-right">200</td>
+<td class="org-left">scattered clouds</td>
+<td class="org-right">2.159</td>
+<td class="org-right">41.3888</td>
+<td class="org-right">25.2</td>
+<td class="org-right">25.08</td>
+<td class="org-right">23.41</td>
+<td class="org-right">26.29</td>
+<td class="org-right">1013</td>
+<td class="org-right">50</td>
+<td class="org-right">1013</td>
+<td class="org-right">1006</td>
+<td class="org-right">0.89</td>
+<td class="org-right">304</td>
+<td class="org-right">4.02</td>
+<td class="org-right">42</td>
+<td class="org-right">2</td>
+<td class="org-right">18549</td>
+<td class="org-left">ES</td>
+<td class="org-left">2026-07-12 23:29:02</td>
+<td class="org-left">2026-07-13 14:24:43</td>
+<td class="org-right">nan</td>
+</tr>
+
+<tr>
+<td class="org-left">stations</td>
+<td class="org-right">10000</td>
+<td class="org-left">2026-07-14 11:11:35</td>
+<td class="org-right">7200</td>
+<td class="org-right">3128760</td>
+<td class="org-left">Barcelona</td>
+<td class="org-right">200</td>
+<td class="org-left">clear sky</td>
+<td class="org-right">2.1618</td>
+<td class="org-right">41.389</td>
+<td class="org-right">30.35</td>
+<td class="org-right">33.95</td>
+<td class="org-right">29.26</td>
+<td class="org-right">33.54</td>
+<td class="org-right">1016</td>
+<td class="org-right">62</td>
+<td class="org-right">1016</td>
+<td class="org-right">1008</td>
+<td class="org-right">1.79</td>
+<td class="org-right">176</td>
+<td class="org-right">3.58</td>
+<td class="org-right">10</td>
+<td class="org-right">2</td>
+<td class="org-right">18549</td>
+<td class="org-left">ES</td>
+<td class="org-left">2026-07-13 23:29:47</td>
+<td class="org-left">2026-07-14 14:24:10</td>
+<td class="org-right">nan</td>
+</tr>
+
+<tr>
+<td class="org-left">stations</td>
+<td class="org-right">10000</td>
+<td class="org-left">2026-07-13 11:10:37</td>
+<td class="org-right">7200</td>
+<td class="org-right">3128760</td>
+<td class="org-left">Barcelona</td>
+<td class="org-right">200</td>
+<td class="org-left">scattered clouds</td>
+<td class="org-right">2.159</td>
+<td class="org-right">41.3888</td>
+<td class="org-right">29.93</td>
+<td class="org-right">33.31</td>
+<td class="org-right">28.08</td>
+<td class="org-right">34.24</td>
+<td class="org-right">1013</td>
+<td class="org-right">63</td>
+<td class="org-right">1013</td>
+<td class="org-right">1005</td>
+<td class="org-right">2.54</td>
+<td class="org-right">128</td>
+<td class="org-right">1.67</td>
+<td class="org-right">48</td>
+<td class="org-right">2</td>
+<td class="org-right">18549</td>
+<td class="org-left">ES</td>
+<td class="org-left">2026-07-12 23:29:02</td>
+<td class="org-left">2026-07-13 14:24:43</td>
+<td class="org-right">nan</td>
+</tr>
+
+<tr>
+<td class="org-left">stations</td>
+<td class="org-right">10000</td>
+<td class="org-left">2026-07-15 18:28:57</td>
+<td class="org-right">7200</td>
+<td class="org-right">6544100</td>
+<td class="org-left">Eixample</td>
+<td class="org-right">200</td>
+<td class="org-left">broken clouds</td>
+<td class="org-right">2.159</td>
+<td class="org-right">41.3888</td>
+<td class="org-right">28.96</td>
+<td class="org-right">30.38</td>
+<td class="org-right">27.52</td>
+<td class="org-right">30.35</td>
+<td class="org-right">1015</td>
+<td class="org-right">56</td>
+<td class="org-right">1015</td>
+<td class="org-right">1008</td>
+<td class="org-right">3.34</td>
+<td class="org-right">336</td>
+<td class="org-right">4.08</td>
+<td class="org-right">83</td>
+<td class="org-right">2</td>
+<td class="org-right">18549</td>
+<td class="org-left">ES</td>
+<td class="org-left">2026-07-15 23:31:24</td>
+<td class="org-left">2026-07-16 14:23:00</td>
+<td class="org-right">nan</td>
+</tr>
+
+<tr>
+<td class="org-left">stations</td>
+<td class="org-right">10000</td>
+<td class="org-left">2026-07-14 03:37:47</td>
+<td class="org-right">7200</td>
+<td class="org-right">3128760</td>
+<td class="org-left">Barcelona</td>
+<td class="org-right">200</td>
+<td class="org-left">clear sky</td>
+<td class="org-right">2.1606</td>
+<td class="org-right">41.3891</td>
+<td class="org-right">29.78</td>
+<td class="org-right">31.52</td>
+<td class="org-right">28.71</td>
+<td class="org-right">31.5</td>
+<td class="org-right">1017</td>
+<td class="org-right">55</td>
+<td class="org-right">1017</td>
+<td class="org-right">1010</td>
+<td class="org-right">1.34</td>
+<td class="org-right">134</td>
+<td class="org-right">3.58</td>
+<td class="org-right">0</td>
+<td class="org-right">2</td>
+<td class="org-right">18549</td>
+<td class="org-left">ES</td>
+<td class="org-left">2026-07-13 23:29:48</td>
+<td class="org-left">2026-07-14 14:24:11</td>
+<td class="org-right">nan</td>
+</tr>
+
+<tr>
+<td class="org-left">stations</td>
+<td class="org-right">10000</td>
+<td class="org-left">2026-07-12 11:55:08</td>
+<td class="org-right">7200</td>
+<td class="org-right">3128760</td>
+<td class="org-left">Barcelona</td>
+<td class="org-right">200</td>
+<td class="org-left">overcast clouds</td>
+<td class="org-right">2.159</td>
+<td class="org-right">41.3888</td>
+<td class="org-right">28.84</td>
+<td class="org-right">30.77</td>
+<td class="org-right">26.97</td>
+<td class="org-right">32.02</td>
+<td class="org-right">1014</td>
+<td class="org-right">60</td>
+<td class="org-right">1014</td>
+<td class="org-right">1007</td>
+<td class="org-right">4.21</td>
+<td class="org-right">82</td>
+<td class="org-right">5.38</td>
+<td class="org-right">100</td>
+<td class="org-right">2</td>
+<td class="org-right">18549</td>
+<td class="org-left">ES</td>
+<td class="org-left">2026-07-11 23:28:17</td>
+<td class="org-left">2026-07-12 14:25:14</td>
+<td class="org-right">nan</td>
+</tr>
+
+<tr>
+<td class="org-left">stations</td>
+<td class="org-right">10000</td>
+<td class="org-left">2026-07-12 18:14:03</td>
+<td class="org-right">7200</td>
+<td class="org-right">3128760</td>
+<td class="org-left">Barcelona</td>
+<td class="org-right">200</td>
+<td class="org-left">broken clouds</td>
+<td class="org-right">2.159</td>
+<td class="org-right">41.3888</td>
+<td class="org-right">27.25</td>
+<td class="org-right">27.16</td>
+<td class="org-right">25.24</td>
+<td class="org-right">28.16</td>
+<td class="org-right">1015</td>
+<td class="org-right">42</td>
+<td class="org-right">1015</td>
+<td class="org-right">1007</td>
+<td class="org-right">0.89</td>
+<td class="org-right">28</td>
+<td class="org-right">4.02</td>
+<td class="org-right">57</td>
+<td class="org-right">2</td>
+<td class="org-right">18549</td>
+<td class="org-left">ES</td>
+<td class="org-left">2026-07-12 23:29:02</td>
+<td class="org-left">2026-07-13 14:24:43</td>
+<td class="org-right">nan</td>
+</tr>
+
+<tr>
+<td class="org-left">stations</td>
+<td class="org-right">10000</td>
+<td class="org-left">2026-07-12 17:30:02</td>
+<td class="org-right">7200</td>
+<td class="org-right">3128760</td>
+<td class="org-left">Barcelona</td>
+<td class="org-right">200</td>
+<td class="org-left">broken clouds</td>
+<td class="org-right">2.159</td>
+<td class="org-right">41.3888</td>
+<td class="org-right">27.6</td>
+<td class="org-right">27.39</td>
+<td class="org-right">25.8</td>
+<td class="org-right">28.63</td>
+<td class="org-right">1015</td>
+<td class="org-right">41</td>
+<td class="org-right">1015</td>
+<td class="org-right">1007</td>
+<td class="org-right">0.45</td>
+<td class="org-right">355</td>
+<td class="org-right">3.58</td>
+<td class="org-right">57</td>
+<td class="org-right">2</td>
+<td class="org-right">18549</td>
+<td class="org-left">ES</td>
+<td class="org-left">2026-07-12 23:29:02</td>
+<td class="org-left">2026-07-13 14:24:43</td>
+<td class="org-right">nan</td>
+</tr>
+
+<tr>
+<td class="org-left">stations</td>
+<td class="org-right">10000</td>
+<td class="org-left">2026-07-14 12:11:14</td>
 <td class="org-right">7200</td>
 <td class="org-right">3128760</td>
 <td class="org-left">Barcelona</td>
@@ -956,301 +1213,62 @@ Resultado del número de filas y columnas leídos del archivo csv
 <td class="org-left">clear sky</td>
 <td class="org-right">2.159</td>
 <td class="org-right">41.3888</td>
-<td class="org-right">25.59</td>
-<td class="org-right">26.01</td>
-<td class="org-right">24.19</td>
+<td class="org-right">30.45</td>
+<td class="org-right">33.49</td>
+<td class="org-right">29.19</td>
+<td class="org-right">33.44</td>
+<td class="org-right">1016</td>
+<td class="org-right">59</td>
+<td class="org-right">1016</td>
+<td class="org-right">1008</td>
+<td class="org-right">4.14</td>
+<td class="org-right">196</td>
+<td class="org-right">4.65</td>
+<td class="org-right">8</td>
+<td class="org-right">2</td>
+<td class="org-right">18549</td>
+<td class="org-left">ES</td>
+<td class="org-left">2026-07-13 23:29:48</td>
+<td class="org-left">2026-07-14 14:24:11</td>
+<td class="org-right">nan</td>
+</tr>
+
+<tr>
+<td class="org-left">stations</td>
+<td class="org-right">10000</td>
+<td class="org-left">2026-07-13 18:45:01</td>
+<td class="org-right">7200</td>
+<td class="org-right">3128760</td>
+<td class="org-left">Barcelona</td>
+<td class="org-right">200</td>
+<td class="org-left">clear sky</td>
+<td class="org-right">2.159</td>
+<td class="org-right">41.3888</td>
+<td class="org-right">26.25</td>
+<td class="org-right">26.25</td>
+<td class="org-right">25.64</td>
 <td class="org-right">26.85</td>
 <td class="org-right">1015</td>
-<td class="org-right">69</td>
+<td class="org-right">71</td>
 <td class="org-right">1015</td>
-<td class="org-right">1008</td>
-<td class="org-right">1.34</td>
-<td class="org-right">314</td>
-<td class="org-right">3.58</td>
+<td class="org-right">1007</td>
+<td class="org-right">0.89</td>
+<td class="org-right">28</td>
+<td class="org-right">1.79</td>
 <td class="org-right">5</td>
 <td class="org-right">2</td>
 <td class="org-right">18549</td>
 <td class="org-left">ES</td>
 <td class="org-left">2026-07-13 23:29:48</td>
 <td class="org-left">2026-07-14 14:24:11</td>
-</tr>
-
-<tr>
-<td class="org-left">stations</td>
-<td class="org-right">10000</td>
-<td class="org-left">2026-07-12 13:59:56</td>
-<td class="org-right">7200</td>
-<td class="org-right">3128760</td>
-<td class="org-left">Barcelona</td>
-<td class="org-right">200</td>
-<td class="org-left">overcast clouds</td>
-<td class="org-right">2.159</td>
-<td class="org-right">41.3888</td>
-<td class="org-right">28.01</td>
-<td class="org-right">29.35</td>
-<td class="org-right">26.41</td>
-<td class="org-right">29.61</td>
-<td class="org-right">1014</td>
-<td class="org-right">59</td>
-<td class="org-right">1014</td>
-<td class="org-right">1007</td>
-<td class="org-right">3.74</td>
-<td class="org-right">67</td>
-<td class="org-right">4.33</td>
-<td class="org-right">95</td>
-<td class="org-right">2</td>
-<td class="org-right">18549</td>
-<td class="org-left">ES</td>
-<td class="org-left">2026-07-11 23:28:17</td>
-<td class="org-left">2026-07-12 14:25:14</td>
-</tr>
-
-<tr>
-<td class="org-left">stations</td>
-<td class="org-right">10000</td>
-<td class="org-left">2026-07-12 22:15:03</td>
-<td class="org-right">7200</td>
-<td class="org-right">3128760</td>
-<td class="org-left">Barcelona</td>
-<td class="org-right">200</td>
-<td class="org-left">broken clouds</td>
-<td class="org-right">2.159</td>
-<td class="org-right">41.3888</td>
-<td class="org-right">25.55</td>
-<td class="org-right">25.47</td>
-<td class="org-right">23.68</td>
-<td class="org-right">27.02</td>
-<td class="org-right">1014</td>
-<td class="org-right">50</td>
-<td class="org-right">1014</td>
-<td class="org-right">1006</td>
-<td class="org-right">2.45</td>
-<td class="org-right">51</td>
-<td class="org-right">2.75</td>
-<td class="org-right">52</td>
-<td class="org-right">2</td>
-<td class="org-right">18549</td>
-<td class="org-left">ES</td>
-<td class="org-left">2026-07-12 23:29:02</td>
-<td class="org-left">2026-07-13 14:24:43</td>
-</tr>
-
-<tr>
-<td class="org-left">stations</td>
-<td class="org-right">10000</td>
-<td class="org-left">2026-07-12 13:25:46</td>
-<td class="org-right">7200</td>
-<td class="org-right">3128760</td>
-<td class="org-left">Barcelona</td>
-<td class="org-right">200</td>
-<td class="org-left">overcast clouds</td>
-<td class="org-right">2.159</td>
-<td class="org-right">41.3888</td>
-<td class="org-right">28.1</td>
-<td class="org-right">29.95</td>
-<td class="org-right">26.5</td>
-<td class="org-right">30.72</td>
-<td class="org-right">1014</td>
-<td class="org-right">63</td>
-<td class="org-right">1014</td>
-<td class="org-right">1006</td>
-<td class="org-right">4.43</td>
-<td class="org-right">78</td>
-<td class="org-right">5.52</td>
-<td class="org-right">100</td>
-<td class="org-right">2</td>
-<td class="org-right">18549</td>
-<td class="org-left">ES</td>
-<td class="org-left">2026-07-11 23:28:17</td>
-<td class="org-left">2026-07-12 14:25:14</td>
-</tr>
-
-<tr>
-<td class="org-left">stations</td>
-<td class="org-right">10000</td>
-<td class="org-left">2026-07-12 08:10:47</td>
-<td class="org-right">7200</td>
-<td class="org-right">6544100</td>
-<td class="org-left">Eixample</td>
-<td class="org-right">200</td>
-<td class="org-left">overcast clouds</td>
-<td class="org-right">2.159</td>
-<td class="org-right">41.3888</td>
-<td class="org-right">30.44</td>
-<td class="org-right">32.26</td>
-<td class="org-right">28.81</td>
-<td class="org-right">32.84</td>
-<td class="org-right">1015</td>
-<td class="org-right">53</td>
-<td class="org-right">1015</td>
-<td class="org-right">1008</td>
-<td class="org-right">5.16</td>
-<td class="org-right">107</td>
-<td class="org-right">6.97</td>
-<td class="org-right">100</td>
-<td class="org-right">2</td>
-<td class="org-right">18549</td>
-<td class="org-left">ES</td>
-<td class="org-left">2026-07-11 23:28:17</td>
-<td class="org-left">2026-07-12 14:25:14</td>
-</tr>
-
-<tr>
-<td class="org-left">stations</td>
-<td class="org-right">10000</td>
-<td class="org-left">2026-07-12 18:41:11</td>
-<td class="org-right">7200</td>
-<td class="org-right">3128760</td>
-<td class="org-left">Barcelona</td>
-<td class="org-right">200</td>
-<td class="org-left">broken clouds</td>
-<td class="org-right">2.159</td>
-<td class="org-right">41.3888</td>
-<td class="org-right">26.63</td>
-<td class="org-right">26.63</td>
-<td class="org-right">24.69</td>
-<td class="org-right">27.61</td>
-<td class="org-right">1014</td>
-<td class="org-right">50</td>
-<td class="org-right">1014</td>
-<td class="org-right">1007</td>
-<td class="org-right">2.98</td>
-<td class="org-right">65</td>
-<td class="org-right">3.55</td>
-<td class="org-right">52</td>
-<td class="org-right">2</td>
-<td class="org-right">2032131</td>
-<td class="org-left">ES</td>
-<td class="org-left">2026-07-12 23:29:02</td>
-<td class="org-left">2026-07-13 14:24:43</td>
-</tr>
-
-<tr>
-<td class="org-left">stations</td>
-<td class="org-right">10000</td>
-<td class="org-left">2026-07-14 18:00:07</td>
-<td class="org-right">7200</td>
-<td class="org-right">3128760</td>
-<td class="org-left">Barcelona</td>
-<td class="org-right">200</td>
-<td class="org-left">scattered clouds</td>
-<td class="org-right">2.1648</td>
-<td class="org-right">41.3926</td>
-<td class="org-right">27.14</td>
-<td class="org-right">28.83</td>
-<td class="org-right">26.44</td>
-<td class="org-right">28.17</td>
-<td class="org-right">1015</td>
-<td class="org-right">67</td>
-<td class="org-right">1015</td>
-<td class="org-right">1009</td>
-<td class="org-right">0.45</td>
-<td class="org-right">115</td>
-<td class="org-right">0.89</td>
-<td class="org-right">42</td>
-<td class="org-right">2</td>
-<td class="org-right">18549</td>
-<td class="org-left">ES</td>
-<td class="org-left">2026-07-14 23:30:33</td>
-<td class="org-left">2026-07-15 14:23:36</td>
-</tr>
-
-<tr>
-<td class="org-left">stations</td>
-<td class="org-right">10000</td>
-<td class="org-left">2026-07-13 00:00:01</td>
-<td class="org-right">7200</td>
-<td class="org-right">3128760</td>
-<td class="org-left">Barcelona</td>
-<td class="org-right">200</td>
-<td class="org-left">broken clouds</td>
-<td class="org-right">2.159</td>
-<td class="org-right">41.3888</td>
-<td class="org-right">25.37</td>
-<td class="org-right">25.32</td>
-<td class="org-right">23.44</td>
-<td class="org-right">26.77</td>
-<td class="org-right">1014</td>
-<td class="org-right">52</td>
-<td class="org-right">1014</td>
-<td class="org-right">1006</td>
-<td class="org-right">0.45</td>
-<td class="org-right">298</td>
-<td class="org-right">4.02</td>
-<td class="org-right">51</td>
-<td class="org-right">2</td>
-<td class="org-right">18549</td>
-<td class="org-left">ES</td>
-<td class="org-left">2026-07-12 23:29:02</td>
-<td class="org-left">2026-07-13 14:24:43</td>
-</tr>
-
-<tr>
-<td class="org-left">stations</td>
-<td class="org-right">10000</td>
-<td class="org-left">2026-07-12 08:58:29</td>
-<td class="org-right">7200</td>
-<td class="org-right">6544100</td>
-<td class="org-left">Eixample</td>
-<td class="org-right">200</td>
-<td class="org-left">overcast clouds</td>
-<td class="org-right">2.159</td>
-<td class="org-right">41.3888</td>
-<td class="org-right">29.86</td>
-<td class="org-right">32.19</td>
-<td class="org-right">28.08</td>
-<td class="org-right">33.13</td>
-<td class="org-right">1015</td>
-<td class="org-right">58</td>
-<td class="org-right">1015</td>
-<td class="org-right">1008</td>
-<td class="org-right">1.79</td>
-<td class="org-right">109</td>
-<td class="org-right">4.47</td>
-<td class="org-right">100</td>
-<td class="org-right">2</td>
-<td class="org-right">18549</td>
-<td class="org-left">ES</td>
-<td class="org-left">2026-07-11 23:28:17</td>
-<td class="org-left">2026-07-12 14:25:14</td>
-</tr>
-
-<tr>
-<td class="org-left">stations</td>
-<td class="org-right">10000</td>
-<td class="org-left">2026-07-14 20:55:27</td>
-<td class="org-right">7200</td>
-<td class="org-right">3128760</td>
-<td class="org-left">Barcelona</td>
-<td class="org-right">200</td>
-<td class="org-left">clear sky</td>
-<td class="org-right">2.159</td>
-<td class="org-right">41.3888</td>
-<td class="org-right">26.49</td>
-<td class="org-right">26.49</td>
-<td class="org-right">24.82</td>
-<td class="org-right">27.05</td>
-<td class="org-right">1015</td>
-<td class="org-right">68</td>
-<td class="org-right">1015</td>
-<td class="org-right">1008</td>
-<td class="org-right">3.21</td>
-<td class="org-right">247</td>
-<td class="org-right">3.5</td>
-<td class="org-right">5</td>
-<td class="org-right">2</td>
-<td class="org-right">18549</td>
-<td class="org-left">ES</td>
-<td class="org-left">2026-07-14 23:30:35</td>
-<td class="org-left">2026-07-15 14:23:36</td>
+<td class="org-right">nan</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-
-<div id="outline-container-org1132ae3" class="outline-3">
-<h3 id="org1132ae3"><span class="section-number-3">2.2.</span> Gráfica Temperatura vs Tiempo</h3>
+<div id="outline-container-orgef42a1b" class="outline-3">
+<h3 id="orgef42a1b"><span class="section-number-3">2.2.</span> Gráfica Temperatura vs Tiempo</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
 Realizar una gráfica de la Temperatura en el tiempo.
@@ -1278,7 +1296,7 @@ fname
 </div>
 
 
-<div id="org6ae9e14" class="figure">
+<div id="orgc5fef01" class="figure">
 <p><img src="./images/Temperatura.png" alt="Temperatura.png" />
 </p>
 <p><span class="figure-number">Figura 1: </span>Gráfica Humedad vs Temperatura</p>
@@ -1297,9 +1315,8 @@ equivalente en <code>/public/images</code>
 </div>
 </div>
 </div>
-
-<div id="outline-container-orgda235b6" class="outline-3">
-<h3 id="orgda235b6"><span class="section-number-3">2.3.</span> Realice una gráfica de Humedad con respecto al tiempo</h3>
+<div id="outline-container-org0080c3b" class="outline-3">
+<h3 id="org0080c3b"><span class="section-number-3">2.3.</span> Realice una gráfica de Humedad con respecto al tiempo</h3>
 <div class="outline-text-3" id="text-2-3">
 <div class="org-src-container">
 <pre class="src src-python"><span style="font-weight: bold; font-style: italic;">fig</span> = plt.figure(figsize=(8,6))
@@ -1321,15 +1338,14 @@ fname
 </div>
 
 
-<div id="org3697603" class="figure">
+<div id="orga6a4066" class="figure">
 <p><img src="./images/Humidity.png" alt="Humidity.png" />
 </p>
 </div>
 </div>
 </div>
-
-<div id="outline-container-org1cd4dd2" class="outline-3">
-<h3 id="org1cd4dd2"><span class="section-number-3">2.4.</span> <b>Opcional</b> Presente alguna gráfica de interés.</h3>
+<div id="outline-container-orgecf2e4c" class="outline-3">
+<h3 id="orgecf2e4c"><span class="section-number-3">2.4.</span> <b>Opcional</b> Presente alguna gráfica de interés.</h3>
 <div class="outline-text-3" id="text-2-4">
 <p>
 Se realiza un gráfico de mapa de calor de correlaciones
@@ -1350,16 +1366,15 @@ fname
 </div>
 
 
-<div id="orgbbedc74" class="figure">
+<div id="orgbe97a7e" class="figure">
 <p><img src="./images/HeapMap.png" alt="HeapMap.png" />
 </p>
 </div>
 </div>
 </div>
 </div>
-
-<div id="outline-container-orgab9a981" class="outline-2">
-<h2 id="orgab9a981"><span class="section-number-2">3.</span> Referencias</h2>
+<div id="outline-container-org94ac898" class="outline-2">
+<h2 id="org94ac898"><span class="section-number-2">3.</span> Referencias</h2>
 <div class="outline-text-2" id="text-3">
 <ul class="org-ul">
 <li><a href="https://emacs.stackexchange.com/questions/28715/get-pandas-data-frame-as-a-table-in-org-babel">presentar dataframe como tabla en emacs org</a></li>
@@ -1369,8 +1384,8 @@ fname
 </ul>
 </div>
 </div>
-<div id="outline-container-org7436151" class="outline-2">
-<h2 id="org7436151"><span class="section-number-2">4.</span> Navegación</h2>
+<div id="outline-container-org03f46ef" class="outline-2">
+<h2 id="org03f46ef"><span class="section-number-2">4.</span> Navegación</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 <a href="pag2-sumaieee754.html">Siguiente: Suma IEEE754 →</a>
@@ -1393,7 +1408,7 @@ de Python
 <div id="postamble" class="status">
 <p class="date">Fecha: 2026-07-11</p>
 <p class="author">Autor: Juan Auz, Lanchimba Danny, Palomeque Matías, Quillupangui Ana María</p>
-<p class="date">Created: 2026-07-15 Wed 18:52</p>
+<p class="date">Created: 2026-07-15 mié 20:24</p>
 </div>
 </body>
 </html>

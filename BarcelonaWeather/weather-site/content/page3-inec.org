@@ -705,4 +705,4 @@ archivo
 
 * Navegación
 
-[[file:index.org][← Inicio]] | [[file:ieee754/pag2-sumaieee754.org][← Suma IEEE754]]
+[[file:index.org][← Inicio]] | [[file:pag2-sumaieee754.org][← Suma IEEE754]]
