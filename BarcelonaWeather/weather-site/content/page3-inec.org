@@ -481,18 +481,18 @@ table
 #+end_src
 
 #+RESULTS:
-| Provincia de ocurrencia |      Fecha | Femicidios |
-|-------------------------+------------+------------|
-| Galápagos               | 2026-02-01 |          0 |
-| Azuay                   | 2025-10-01 |          0 |
-| Carchi                  | 2025-12-01 |          0 |
-| Santa Elena             | 2025-09-01 |          0 |
-| Manabí                  | 2025-07-01 |          0 |
-| Sucumbíos               | 2025-04-01 |          0 |
-| Galápagos               | 2025-07-01 |          0 |
-| Napo                    | 2025-11-01 |          0 |
-| Zamora Chinchipe        | 2025-10-01 |          0 |
-| Imbabura                | 2025-02-01 |          0 |
+| Provincia de ocurrencia        |      Fecha | Femicidios |
+|--------------------------------+------------+------------|
+| Santa Elena                    | 2025-11-01 |          0 |
+| Loja                           | 2025-02-01 |          0 |
+| Zamora Chinchipe               | 2026-02-01 |          0 |
+| Santa Elena                    | 2025-06-01 |          0 |
+| Azuay                          | 2025-09-01 |          1 |
+| Guayas                         | 2025-06-01 |          0 |
+| Santo Domingo de los Tsáchilas | 2025-07-01 |          0 |
+| Manabí                         | 2025-06-01 |          1 |
+| El Oro                         | 2025-02-01 |          0 |
+| Cotopaxi                       | 2025-09-01 |          0 |
 
 ** Provincias con mayor cantidad de femicidios registrados
  
@@ -556,6 +556,7 @@ archivo
 
 #+end_src
 
+
 [[file:images/femicidios_provincia.png]]
 
 ** Evolución mensual de femicidios
@@ -599,31 +600,42 @@ plt.close()
 archivo
 
 #+end_src
+
+
 file:images/evolucion_mensual_femicidios.png
 
-** Frecuencia de registros según cantidad de femicidios
 
-La gráfica representa la frecuencia con la que aparecen diferentes
-cantidades de femicidios en los registros mensuales por provincia.
+** Diez provincias con mayor número de femicidios
+
+La siguiente gráfica presenta las diez provincias que registraron la
+mayor cantidad de femicidios durante el periodo analizado, lo que
+permite identificar aquellas con mayor incidencia de casos.
+
 
 #+begin_src python :session inec :results file graphics :exports both
-#Calcula la frecuencia de cada valor: cuenta y  ordena
-frecuencia = df_largo["Femicidios"].value_counts().sort_index()
-#Crea el espacio del gráfico 
-plt.figure(figsize=(7,5))
-#Crea el gráfico de barras 
-frecuencia.plot(kind="bar")
-#Etiquetas de la gráfica 
-plt.title("Frecuencia de registros según cantidad de femicidios")
-plt.xlabel("Cantidad de femicidios")
-plt.ylabel("Número de registros")
-#Mantiene los valores del eje x horizontales 
-plt.xticks(rotation=0)
-#Ajusta el diseño 
+
+# Selecciona las diez provincias con mayor número de femicidios
+top10 = femicidios_provincia.head(10)
+
+plt.figure(figsize=(9,5)) #Crea el espacio gráfico
+
+# Crea el gráfico de barras
+top10.plot(kind="bar")
+
+# Título y etiquetas
+plt.title("Diez provincias con mayor número de femicidios (2025-2026)")
+plt.xlabel("Provincia")
+plt.ylabel("Número de femicidios")
+
+# Gira las etiquetas del eje x para facilitar la lectura
+plt.xticks(rotation=45, ha="right")
+
+# Ajusta los márgenes del gráfico
 plt.tight_layout()
-#Guarda la imagen 
-archivo="./images/frecuencia_femicidios.png"
-#Cierra el gráfico
+
+# Guarda la imagen
+archivo="./images/top10_provincias.png"
+
 plt.savefig(archivo)
 
 plt.close()
@@ -631,71 +643,40 @@ plt.close()
 archivo
 
 #+end_src
-[[file:images/frecuencia_femicidios.png]]
-** Interpretación de los datos
+
+
+[[file:images/top10_provincias.png]]
+
+
+**Interpretación de los datos**
+
 1. **Interpretación de estadísticas descriptivas generales:**
-   El análisis descriptivo realizado sobre los registros mensuales pro
-   provincia muestra que durante el periodo 2025-2026 se analizaron
-   336 observaciones, correspondientes a 24 provincias y 14 meses. El
-   promedio obtenido fue de 0.19 femicidios por provincia-mes, esto
-   indica que la ocurrencia de estos eventos dentro de una unidad
-   específica de análisis es baja.
-   La desviación estándar de 0.47 evidencia una dispersión reducida de
-   los datos alrededor del promedio. Además, los valores
-   correspondientes al primer, segundo y tercer cuartil son iguales a
-   cero, indicando que al menos el 75% de los registros mensuales por
-   provincia no demuestran casos registrados.
-   El valor máximo observado fue de 3 femicidios en una provincia
-   durante un mes determinado, mostrando que, aunque la mayoría de
-   registros presentan valores bajos, existen periodos específicos con
-   concentraciones en mayores casos. 
+   Se analizaron 336 registros correspondientes a 24 provincias
+   durante el periodo 2025-2026. El promedio fue de 0.19 femicidios
+   por provincia-mes, lo que indica una baja frecuencia de casos en
+   cada unidad de análisis. Además, la desviación estándar fue de 0.47, reflejando una
+   variabilidad moderada. Los cuartiles muestran que el 75% de los
+   registros no presentó casos, aunque en algunos meses se alcanzó un máximo de 3 femicidios en una provincia.
+
 2. **Interpretación por provincia:**
-   Al analizar la distribución acumulada por provincia se observa que
-   los registros no se distribuyen uniformemente en el territorio
-   nacional. Pichincha concentra la mayor cantidad de casos con 15
-   registros, seguida de Guayas con 9 casos y Esmeraldas con 7.
-   La diferencia entre el valor máximo y el valor mínimo evidencia una
-   variabilidad importante entre provincias. Algunas provincias no
-   registraron casos durante el periodo analizado, mientras que otras
-   presentan una mayor concentración de eventos.
-   Los estadísticos calculados por provincia muestran una media de
-   2.67 casos y una mediana de 2 casos, lo que indica que la mitad de
-   las provincias presentan valores iguales o inferiores a dos
-   registros durante periodo. 
-3. **Interpretación Temporal:**
-   El análisis temporal permite observar la evolución mensual de los
-   femicidios registrados. Durante el periodo estudiado los valores
-   mensuales presentan fluctuaciones moderadas, sin una tendencia
-   creciente o decreciente claramente definida.
-   El mayor número de casos se registró en agosto de 2025 con 7
-   femicidios, mientras que julio presentó el menor valor con 2
-   casos. Estas variaciones muestran que la ocurrencia de estos
-   eventos presenta cambios entre meses, pero debido al tamaño del
-   periodo analizado no es posible establecer una tendencia histórica.
-4. **Interpretación de la frecuencia:**
-   La distribución de la frecuencia evidencia que la mayoría de
-   observaciones corresponden a meses y provincias sin registros de
-   femicidio. De las 336 observaciones analizadas, 282 presentan un
-   valor de cero, mientras que únicamente 54 registros presentan uno o
-   más casos.
-   Este comportamiento explica por qué las medidas descriptivas
-   presentan valores bajos y demuestra que los femicidios corresponden
-   a eventos de baja frecuencia cuando se analizan individualmente por
-   provincia y mes
-5. **Conclusión General**
-   En conjunto, el análisis estadístico permitió identificar varios
-   factores relevantes en los registros de femicidios del Ecuador
-   durante el periodo 2025-2026. Los resultados muestran una
-   concentración de casos en determinadas provincias, principalmente
-   Pichincha y Guayas, mientras que gran parte de las provincias
-   presentan valores reducidos o nulos.
-   El análisis descriptivo evidencia que la mayoría de registros
-   mensuales no presentan casos, por lo que las medidas como la media
-   y los cuartiles reflejan una distribución con alta presencia de
-   valores cero. Sin embargo, los valores máximos observados muestran
-   la existencia de periodos específicos con mayor concentración de
-   casos.
-   
+   Los casos no se distribuyen de forma uniforme en el país. Pichincha
+   registró la mayor cantidad de casos (15), seguida de Guayas (9) y
+   Esmeraldas (7). En contraste, varias provincias no presentaron
+   registros durante el periodo analizado, evidenciando diferencias importantes entre territorios.
+
+3. **Interpretación temporal:**
+   Los registros mensuales presentaron variaciones a lo largo del
+   periodo, sin mostrar una tendencia creciente o decreciente. El
+   mayor número de casos se registró en agosto de 2025 con 7
+   femicidios, mientras que julio fue el mes con menor cantidad de casos, con 2.
+
+4. **Conclusión general:**
+   El análisis evidencia que los femicidios se concentraron
+   principalmente en Pichincha y Guayas,  mientras que la mayoría de
+   provincias registró pocos o ningún caso. Aunque predominan los
+   valores cero en los registros mensuales, existen meses específicos
+   con una mayor concentración de casos, lo que refleja un
+   comportamiento desigual tanto en el tiempo como entre provincias.   
 * Referencias
 
 - [[https://orgmode.org/][Org Mode Documentation]]

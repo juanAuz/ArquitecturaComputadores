@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es">
 <head>
-<!-- 2026-07-15 mié 20:24 -->
+<!-- 2026-07-16 Thu 21:19 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Implementación del Algoritmo de Suma en Notación de Coma Flotante IEEE 754</title>
@@ -50,33 +50,34 @@
 <h2>&Iacute;ndice</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org9162e3d">1. Introducción</a></li>
-<li><a href="#org7d63516">2. Objetivos</a></li>
-<li><a href="#org1ce7b1e">3. Fundamento teórico</a></li>
-<li><a href="#orga8b7585">4. Descripción del algoritmo</a>
+<li><a href="#orgc89c73c">1. Introducción</a></li>
+<li><a href="#orgbe28888">2. Objetivos</a></li>
+<li><a href="#org43e3104">3. Fundamento teórico</a></li>
+<li><a href="#org7ff322e">4. Descripción del algoritmo</a>
 <ul>
-<li><a href="#orgc8fa865">4.1. Conversión de decimal a IEEE754</a></li>
-<li><a href="#orgf254fb8">4.2. Alineación de exponentes</a></li>
-<li><a href="#org6b68650">4.3. Determinación del tipo de operación</a></li>
-<li><a href="#org3ec959e">4.4. Operación entre mantisas</a></li>
-<li><a href="#orgede1418">4.5. Normalización del resultado</a></li>
-<li><a href="#org62a8b34">4.6. Ensamblaje final</a></li>
-<li><a href="#orgf6f7336">4.7. Función principal</a></li>
+<li><a href="#orge9094b5">4.1. Conversión de decimal a IEEE754</a></li>
+<li><a href="#org2344de7">4.2. Alineación de exponentes</a></li>
+<li><a href="#org19b8964">4.3. Determinación del tipo de operación</a></li>
+<li><a href="#org8d12fe8">4.4. Operación entre mantisas</a></li>
+<li><a href="#org8f0ec3f">4.5. Normalización del resultado</a></li>
+<li><a href="#org819ad89">4.6. Ensamblaje final</a></li>
+<li><a href="#orgf6d546a">4.7. Función principal</a></li>
 </ul>
 </li>
-<li><a href="#org4cc9c50">5. Capturas de ejecución</a></li>
-<li><a href="#orgc53a939">6. Conclusiones</a></li>
-<li><a href="#orgb321286">7. Extra: Ejecución interactiva mediante JavaScript</a></li>
-<li><a href="#orgbee2190">8. Referencias</a></li>
-<li><a href="#orgb86a5fd">9. Navegación</a></li>
+<li><a href="#org00af2ad">5. Capturas de ejecución</a></li>
+<li><a href="#org69bbd04">6. Conclusiones</a></li>
+<li><a href="#orgf3939fa">7. Extra: Ejecución interactiva mediante JavaScript</a></li>
+<li><a href="#orgc1db992">8. Referencias</a></li>
+<li><a href="#org843617c">9. Navegación</a></li>
 </ul>
 </div>
 </div>
 <p>
 <a href="../index.html">← Inicio</a> | <a href="../page3-inec.html">Siguiente: Análisis INEC →</a>
 </p>
-<div id="outline-container-org9162e3d" class="outline-2">
-<h2 id="org9162e3d"><span class="section-number-2">1.</span> Introducción</h2>
+
+<div id="outline-container-orgc89c73c" class="outline-2">
+<h2 id="orgc89c73c"><span class="section-number-2">1.</span> Introducción</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 El estándar IEEE 754 define la representación y las operaciones
@@ -98,8 +99,9 @@ la suma binaria.
 </p>
 </div>
 </div>
-<div id="outline-container-org7d63516" class="outline-2">
-<h2 id="org7d63516"><span class="section-number-2">2.</span> Objetivos</h2>
+
+<div id="outline-container-orgbe28888" class="outline-2">
+<h2 id="orgbe28888"><span class="section-number-2">2.</span> Objetivos</h2>
 <div class="outline-text-2" id="text-2">
 <ul class="org-ul">
 <li>Comprender la representación IEEE 754 de precisión simple.</li>
@@ -109,8 +111,9 @@ la suma binaria.
 </ul>
 </div>
 </div>
-<div id="outline-container-org1ce7b1e" class="outline-2">
-<h2 id="org1ce7b1e"><span class="section-number-2">3.</span> Fundamento teórico</h2>
+
+<div id="outline-container-org43e3104" class="outline-2">
+<h2 id="org43e3104"><span class="section-number-2">3.</span> Fundamento teórico</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Un número IEEE 754 de precisión simple ocupa 32 bits distribuidos de la
@@ -183,15 +186,17 @@ etapas:
 </ol>
 </div>
 </div>
-<div id="outline-container-orga8b7585" class="outline-2">
-<h2 id="orga8b7585"><span class="section-number-2">4.</span> Descripción del algoritmo</h2>
+
+<div id="outline-container-org7ff322e" class="outline-2">
+<h2 id="org7ff322e"><span class="section-number-2">4.</span> Descripción del algoritmo</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 El algoritmo desarrollado se divide en cinco etapas principales.
 </p>
 </div>
-<div id="outline-container-orgc8fa865" class="outline-3">
-<h3 id="orgc8fa865"><span class="section-number-3">4.1.</span> Conversión de decimal a IEEE754</h3>
+
+<div id="outline-container-orge9094b5" class="outline-3">
+<h3 id="orge9094b5"><span class="section-number-3">4.1.</span> Conversión de decimal a IEEE754</h3>
 <div class="outline-text-3" id="text-4-1">
 <p>
 Primero se obtiene el signo del número.
@@ -394,8 +399,9 @@ Con todas las funciones anteriores se implementa la conversión completa.
 </div>
 </div>
 </div>
-<div id="outline-container-orgf254fb8" class="outline-3">
-<h3 id="orgf254fb8"><span class="section-number-3">4.2.</span> Alineación de exponentes</h3>
+
+<div id="outline-container-org2344de7" class="outline-3">
+<h3 id="org2344de7"><span class="section-number-3">4.2.</span> Alineación de exponentes</h3>
 <div class="outline-text-3" id="text-4-2">
 <p>
 Para poder sumar dos números IEEE754 ambos deben poseer el mismo
@@ -435,8 +441,9 @@ exponente.
 </pre>
 </div>
 </div>
-<div id="outline-container-org6b68650" class="outline-3">
-<h3 id="org6b68650"><span class="section-number-3">4.3.</span> Determinación del tipo de operación</h3>
+
+<div id="outline-container-org19b8964" class="outline-3">
+<h3 id="org19b8964"><span class="section-number-3">4.3.</span> Determinación del tipo de operación</h3>
 <div class="outline-text-3" id="text-4-3">
 <p>
 Una vez alineados los exponentes, el algoritmo determina si debe
@@ -485,8 +492,9 @@ que la resta produzca un resultado positivo.
 </pre>
 </div>
 </div>
-<div id="outline-container-org3ec959e" class="outline-3">
-<h3 id="org3ec959e"><span class="section-number-3">4.4.</span> Operación entre mantisas</h3>
+
+<div id="outline-container-org8d12fe8" class="outline-3">
+<h3 id="org8d12fe8"><span class="section-number-3">4.4.</span> Operación entre mantisas</h3>
 <div class="outline-text-3" id="text-4-4">
 <p>
 La suma y la resta de las mantisas se implementan utilizando únicamente
@@ -579,8 +587,9 @@ unidad aritmética lógica.
 </pre>
 </div>
 </div>
-<div id="outline-container-orgede1418" class="outline-3">
-<h3 id="orgede1418"><span class="section-number-3">4.5.</span> Normalización del resultado</h3>
+
+<div id="outline-container-org8f0ec3f" class="outline-3">
+<h3 id="org8f0ec3f"><span class="section-number-3">4.5.</span> Normalización del resultado</h3>
 <div class="outline-text-3" id="text-4-5">
 <p>
 Después de la operación puede aparecer un acarreo adicional o bien
@@ -626,8 +635,9 @@ necesario ajustar nuevamente el exponente y la mantisa.
 </pre>
 </div>
 </div>
-<div id="outline-container-org62a8b34" class="outline-3">
-<h3 id="org62a8b34"><span class="section-number-3">4.6.</span> Ensamblaje final</h3>
+
+<div id="outline-container-org819ad89" class="outline-3">
+<h3 id="org819ad89"><span class="section-number-3">4.6.</span> Ensamblaje final</h3>
 <div class="outline-text-3" id="text-4-6">
 <p>
 Una vez obtenidos el signo, el exponente y la mantisa normalizados,
@@ -653,8 +663,9 @@ formato IEEE754.
 </div>
 </div>
 </div>
-<div id="outline-container-orgf6f7336" class="outline-3">
-<h3 id="orgf6f7336"><span class="section-number-3">4.7.</span> Función principal</h3>
+
+<div id="outline-container-orgf6d546a" class="outline-3">
+<h3 id="orgf6d546a"><span class="section-number-3">4.7.</span> Función principal</h3>
 <div class="outline-text-3" id="text-4-7">
 <p>
 La siguiente función integra todas las etapas del algoritmo descritas
@@ -738,8 +749,9 @@ anteriormente.
 </div>
 </div>
 </div>
-<div id="outline-container-org4cc9c50" class="outline-2">
-<h2 id="org4cc9c50"><span class="section-number-2">5.</span> Capturas de ejecución</h2>
+
+<div id="outline-container-org00af2ad" class="outline-2">
+<h2 id="org00af2ad"><span class="section-number-2">5.</span> Capturas de ejecución</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 En esta sección se incluyen las capturas de pantalla obtenidas durante
@@ -758,43 +770,44 @@ la ejecución del programa.
 </ul>
 
 
-<div id="org7363ebf" class="figure">
+<div id="orgbed4348" class="figure">
 <p><img src="./images/prueba1.png" alt="prueba1.png" />
 </p>
 <p><span class="figure-number">Figura 1: </span>Ejecución del algoritmo para la suma 3.5 + 1.25</p>
 </div>
 
 
-<div id="org205dc17" class="figure">
+<div id="org5bf0d96" class="figure">
 <p><img src="./images/prueba2.png" alt="prueba2.png" />
 </p>
 <p><span class="figure-number">Figura 2: </span>Ejecución del algoritmo para la suma 2.5 + (-1.24)</p>
 </div>
 
 
-<div id="org487333d" class="figure">
+<div id="org904a274" class="figure">
 <p><img src="./images/prueba3.png" alt="prueba3.png" />
 </p>
 <p><span class="figure-number">Figura 3: </span>Ejecución del algoritmo para la suma (-5) + (-34)</p>
 </div>
 
 
-<div id="orgddfa4ad" class="figure">
+<div id="org13c572c" class="figure">
 <p><img src="./images/prueba4.png" alt="prueba4.png" />
 </p>
 <p><span class="figure-number">Figura 4: </span>Ejecución del algoritmo para la suma 100 + 0.25</p>
 </div>
 
 
-<div id="org25a131d" class="figure">
+<div id="orgb208e26" class="figure">
 <p><img src="./images/prueba5.png" alt="prueba5.png" />
 </p>
 <p><span class="figure-number">Figura 5: </span>Ejecución del algoritmo para la suma 0.1 + 0.2</p>
 </div>
 </div>
 </div>
-<div id="outline-container-orgc53a939" class="outline-2">
-<h2 id="orgc53a939"><span class="section-number-2">6.</span> Conclusiones</h2>
+
+<div id="outline-container-org69bbd04" class="outline-2">
+<h2 id="org69bbd04"><span class="section-number-2">6.</span> Conclusiones</h2>
 <div class="outline-text-2" id="text-6">
 <ul class="org-ul">
 <li>Se implementó satisfactoriamente el algoritmo de suma de números en
@@ -818,8 +831,9 @@ decimales menos significativos</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgb321286" class="outline-2">
-<h2 id="orgb321286"><span class="section-number-2">7.</span> Extra: Ejecución interactiva mediante JavaScript</h2>
+
+<div id="outline-container-orgf3939fa" class="outline-2">
+<h2 id="orgf3939fa"><span class="section-number-2">7.</span> Extra: Ejecución interactiva mediante JavaScript</h2>
 <div class="outline-text-2" id="text-7">
 <p>
 La implementación principal del algoritmo IEEE754 fue desarrollada en Python.
@@ -917,8 +931,8 @@ function sumarIEEE(){
 </script>
 </div>
 </div>
-<div id="outline-container-orgbee2190" class="outline-2">
-<h2 id="orgbee2190"><span class="section-number-2">8.</span> Referencias</h2>
+<div id="outline-container-orgc1db992" class="outline-2">
+<h2 id="orgc1db992"><span class="section-number-2">8.</span> Referencias</h2>
 <div class="outline-text-2" id="text-8">
 <ul class="org-ul">
 <li>IEEE Computer Society. <i>IEEE Standard for Floating-Point Arithmetic
@@ -929,8 +943,9 @@ Designing for Performance.</i> 11th Edition. Pearson.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgb86a5fd" class="outline-2">
-<h2 id="orgb86a5fd"><span class="section-number-2">9.</span> Navegación</h2>
+
+<div id="outline-container-org843617c" class="outline-2">
+<h2 id="org843617c"><span class="section-number-2">9.</span> Navegación</h2>
 <div class="outline-text-2" id="text-9">
 <p>
 <a href="../index.html">← Inicio</a> | <a href="../page3-inec.html">Siguiente: Análisis INEC →</a>
@@ -941,7 +956,7 @@ Designing for Performance.</i> 11th Edition. Pearson.</li>
 <div id="postamble" class="status">
 <p class="date">Fecha: 2026-07-13</p>
 <p class="author">Autor: Auz Juan, Lanchimba Danny, Palomeque Matías, Quillupangui Ana María</p>
-<p class="date">Created: 2026-07-15 mié 20:24</p>
+<p class="date">Created: 2026-07-16 Thu 21:19</p>
 </div>
 </body>
 </html>
